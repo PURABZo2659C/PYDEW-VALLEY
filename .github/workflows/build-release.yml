@@ -18,9 +18,9 @@ jobs:
   build-windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v6
       - name: Set up Python
-        uses: actions/setup-python@v5.3.0
+        uses: actions/setup-python@v6
         with:
           python-version: '3.13'
       - name: Install dependencies
@@ -37,7 +37,7 @@ jobs:
           }
           Copy-Item -LiteralPath $source -Destination "dist\Pydew-Valley-v$ver-windows.zip"
       - name: Upload Windows package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: windows-package
           path: APP/dist/Pydew-Valley-v*-windows.zip
@@ -47,9 +47,9 @@ jobs:
   build-macos:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v6
       - name: Set up Python
-        uses: actions/setup-python@v5.3.0
+        uses: actions/setup-python@v6
         with:
           python-version: '3.13'
       - name: Install dependencies
@@ -64,9 +64,9 @@ jobs:
           python -m PyInstaller --clean --noconfirm PydewValley.spec
           VER=$(cat build/VERSION.txt)
           test -d "dist/PydewValley.app"
-          zip -r "dist/Pydew-Valley-v${VER}-macos.zip" "dist/PydewValley.app"
+          (cd dist && zip -r "Pydew-Valley-v${VER}-macos.zip" "PydewValley.app")
       - name: Upload macOS package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: macos-package
           path: APP/dist/Pydew-Valley-v*-macos.zip
@@ -76,9 +76,9 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v6
       - name: Set up Python
-        uses: actions/setup-python@v5.3.0
+        uses: actions/setup-python@v6
         with:
           python-version: '3.13'
       - name: Install dependencies
@@ -95,10 +95,10 @@ jobs:
           python build/fix_line_endings.py
           python -m PyInstaller --clean --noconfirm PydewValley.spec
           VER=$(cat build/VERSION.txt)
-          test -d "dist/PydewValley"
-          zip -r "dist/Pydew-Valley-v${VER}-linux.zip" "dist/PydewValley"
+          test -f "dist/PydewValley"
+          (cd dist && zip "Pydew-Valley-v${VER}-linux.zip" "PydewValley")
       - name: Upload Linux package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: linux-package
           path: APP/dist/Pydew-Valley-v*-linux.zip
@@ -113,17 +113,17 @@ jobs:
       - build-linux
     steps:
       - name: Download Windows package
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: windows-package
           path: release-assets
       - name: Download macOS package
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: macos-package
           path: release-assets
       - name: Download Linux package
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: linux-package
           path: release-assets

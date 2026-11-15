@@ -129,3 +129,13 @@ else:
         icon=ICON,
         version=VERSION,
     )
+    if sys.platform == 'darwin':
+        app = BUNDLE(
+            exe,
+            name=NAME + '.app',
+            bundle_identifier='com.pydewvalley.game',
+            info_plist={
+                'NSPrincipalClass': 'NSApplication',
+                'NSHighResolutionCapable': True,
+            },
+        )
