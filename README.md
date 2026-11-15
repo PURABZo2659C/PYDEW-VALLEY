@@ -1,4 +1,5 @@
 ![title](graphics/world/logo.png)
+
 A 2D isometric farming, crafting, mining and exploration game built with Python and Pygame.
 
 Version 3.0 - Windows, macOS and Linux
@@ -13,9 +14,9 @@ page. Each release includes:
 
 | ZIP file | Platform | How to start |
 |---|---|---|
-| `Pydew-Valley-v<version>-windows.zip` | 64-bit Windows | Extract the ZIP, open the `Pydew Valley` folder and run `PydewValley.exe`. |
-| `Pydew-Valley-v<version>-macos.zip` | macOS | Extract the ZIP and open `PydewValley.app`. |
-| `Pydew-Valley-v<version>-linux.zip` | 64-bit Linux | Extract the ZIP, then run `./PydewValley` from a terminal in the extracted folder. |
+| `Pydew-Valley-v3.0-windows.zip` | 64-bit Windows | Extract the ZIP, open the `Pydew Valley` folder and run `PydewValley.exe`. |
+| `Pydew-Valley-v3.0-macos.zip` | macOS | Extract the ZIP and open `PydewValley.app`. |
+| `Pydew-Valley-v3.0-linux.zip` | 64-bit Linux | Extract the ZIP, then run `./PydewValley` from a terminal in the extracted folder. |
 
 There is no installer. Extract the download to a folder you can write to.
 On Linux, if the executable does not start because it is not marked
