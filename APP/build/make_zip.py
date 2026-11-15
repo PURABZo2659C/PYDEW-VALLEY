@@ -10,14 +10,13 @@ the game and all its data.
     `-- Pydew Valley/
          |-- PydewValley.exe
          |-- PYDEW VALLEY Documentation.html
-         |-- THIRD_PARTY_NOTICES.txt
-         |-- README.txt
 
 Run:  python build/make_zip.py
 """
 
 import io
 import os
+import re
 import shutil
 import zipfile
 
@@ -30,58 +29,6 @@ STAGE = os.path.join(BUILD_DIR, 'zipstage')
 FOLDER_NAME = 'Pydew Valley'
 EXE_NAME = 'PydewValley.exe'
 DOC_NAME = 'PYDEW VALLEY DOCUMENTATION.html'
-NOTICES_NAME = 'THIRD_PARTY_NOTICES.txt'
-README_NAME = 'README.txt'
-
-README_TEMPLATE = """PYDEW VALLEY {version}
-====================
-
-HOW TO PLAY
------------
-1. Extract this ZIP somewhere you can write to - your Desktop or
-   Documents. Do NOT put it in C:\\Program Files: the game saves your
-   progress next to the executable, and that folder is read-only for
-   normal programs.
-2. Double-click Pydew Valley\\PydewValley.exe.
-3. The first start unpacks the game into a temporary folder, so give it
-   a few seconds before the window appears.
-
-WHERE YOUR SAVE IS
-------------------
-Everything the game writes goes into the Pydew Valley folder next to
-the executable:
-
-    save.json          your world, inventory and progress
-    keybindings.json   your key bindings
-    volume.json        music and sound volume
-    Shots\\             camera screenshots you took
-    game.log           written only if something goes wrong
-
-That means the whole game is portable. Copy the folder to a USB stick
-and your world comes with it. Delete the folder and the game and all
-its data are gone.
-
-UPDATING
---------
-Unzip the new version straight over the old folder. Your save stays
-where it is, so you keep your world.
-
-TROUBLESHOOTING
----------------
-Windows may warn that the file is from the internet. Click
-"More info" and then "Run anyway".
-
-If Windows blocks the game entirely with "Windows protected your PC",
-it is Smart App Control refusing to run an unsigned program. Either
-right-click the ZIP before extracting and tick "Unblock", or install
-pydew-valley.cer (if it came with this download) into
-Trusted Root Certification Authorities.
-
-THIRD PARTY ASSETS
-------------------
-This game uses third-party art, fonts and music. The full list, with
-the authors and their licence terms, is in THIRD_PARTY_NOTICES.txt.
-"""
 
 
 def read_version():
@@ -112,19 +59,14 @@ def build():
     # The executable itself.
     shutil.copy2(exe, os.path.join(folder, EXE_NAME))
 
-    # The in-game help page and the licence notices.
+    # The in-game help page, with version substituted from VERSION.txt
     doc = find_source(os.path.join(ROOT, DOC_NAME))
     if doc:
-        shutil.copy2(doc, os.path.join(folder, DOC_NAME))
-    notices = find_source(os.path.join(APP_DIR, NOTICES_NAME),
-                          os.path.join(BUILD_DIR, NOTICES_NAME),
-                          os.path.join(ROOT, NOTICES_NAME))
-    if notices:
-        shutil.copy2(notices, os.path.join(folder, NOTICES_NAME))
-
-    # A readme for the player.
-    with open(os.path.join(folder, README_NAME), 'w', encoding='utf-8') as handle:
-        handle.write(README_TEMPLATE.format(version=version))
+        with open(doc, 'r', encoding='utf-8') as handle:
+            html = handle.read()
+        html = re.sub(r'v\d+\.\d+(?:\.\d+)?', 'v%s' % version, html)
+        with open(os.path.join(folder, DOC_NAME), 'w', encoding='utf-8') as handle:
+            handle.write(html)
 
     # Zip it. A fixed timestamp keeps the build reproducible.
     zip_name = 'Pydew Valley [v%s] Windows.zip' % version

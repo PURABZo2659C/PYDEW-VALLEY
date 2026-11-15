@@ -2390,7 +2390,7 @@ class CameraGroup(pygame.sprite.Group):
 			ctl = debug_controls
 			tm_dbg = self._debug_time_manager
 			lines = [
-				("Pydew Valley  [v2.6]", (255, 255, 100), None),
+				("Pydew Valley  [v%s]" % app_version(), (255, 255, 100), None),
 				("DEMO:", (255, 255, 100), 'demo'),
 				("", None, None),
 				(f"FPS: {int(self._last_fps)}", (200, 200, 200), None),
