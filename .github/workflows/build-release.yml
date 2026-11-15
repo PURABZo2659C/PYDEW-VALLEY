@@ -28,7 +28,7 @@ jobs:
       - name: Build Windows ZIP
         working-directory: APP
         run: |
-          build.bat all
+          .\build.bat all
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           $ver = (Get-Content build\VERSION.txt -Raw).Trim()
           $source = "dist\Pydew Valley [v$ver] Windows.zip"
