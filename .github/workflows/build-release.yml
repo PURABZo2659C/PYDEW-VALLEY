@@ -61,7 +61,7 @@ jobs:
           python build/make_version_info.py
           python build/make_icon.py
           python build/fix_line_endings.py
-          python -m PyInstaller --clean --noconfirm PydewValley.spec
+          python -m PyInstaller --clean --noconfirm --workpath "$RUNNER_TEMP/pydew-valley-pyinstaller" PydewValley.spec
           VER=$(cat build/VERSION.txt)
           test -d "dist/PydewValley.app"
           (cd dist && zip -r "Pydew-Valley-v${VER}-macos.zip" "PydewValley.app")
@@ -93,7 +93,7 @@ jobs:
           python build/make_version_info.py
           python build/make_icon.py
           python build/fix_line_endings.py
-          python -m PyInstaller --clean --noconfirm PydewValley.spec
+          python -m PyInstaller --clean --noconfirm --workpath "$RUNNER_TEMP/pydew-valley-pyinstaller" PydewValley.spec
           VER=$(cat build/VERSION.txt)
           test -f "dist/PydewValley"
           (cd dist && zip "Pydew-Valley-v${VER}-linux.zip" "PydewValley")

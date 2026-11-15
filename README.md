@@ -122,25 +122,31 @@ cd APP
 python build/make_version_info.py
 python build/make_icon.py
 python build/fix_line_endings.py
-python -m PyInstaller --clean --noconfirm PydewValley.spec
+python -m PyInstaller --clean --noconfirm --workpath "${TMPDIR:-/tmp}/pydew-valley-pyinstaller" PydewValley.spec
 ```
 
 On macOS this creates `APP\dist\PydewValley.app`; on Linux it creates
-`APP\dist\PydewValley`. To create the matching release ZIP on macOS:
+`APP\dist\PydewValley`. Create the macOS release ZIP with:
 
 ```sh
+cd APP
 VER=$(cat build/VERSION.txt)
 cd dist
 zip -r "Pydew-Valley-v${VER}-macos.zip" PydewValley.app
 ```
 
-On Linux, use:
+For Linux, use:
 
 ```sh
+cd APP
 VER=$(cat build/VERSION.txt)
 cd dist
 zip "Pydew-Valley-v${VER}-linux.zip" PydewValley
 ```
+
+The PyInstaller work files, including its HTML cross-reference report,
+are stored under the system temporary directory instead of
+`APP\build\`.
 
 The automated release workflow performs these steps and publishes all
 three platform ZIPs together.

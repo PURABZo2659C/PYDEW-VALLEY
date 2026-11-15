@@ -3,7 +3,7 @@
 
 Two builds come out of this one file:
 
-  single file   pyinstaller --clean --noconfirm PydewValley.spec
+  single file   pyinstaller --clean --noconfirm --workpath <temporary-dir> PydewValley.spec
                 -> dist/PydewValley.exe
 
   folder        set PYDEW_ONEDIR=1 first

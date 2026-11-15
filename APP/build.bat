@@ -22,6 +22,8 @@ set "APPDIR=%CD%"
 for %%I in ("%APPDIR%") do set "APPDIR=%%~fI"
 set "GAMEROOT=%APPDIR%\.."
 for %%I in ("%GAMEROOT%") do set "GAMEROOT=%%~fI"
+if not defined RUNNER_TEMP set "RUNNER_TEMP=%TEMP%"
+set "WORKPATH=%RUNNER_TEMP%\pydew-valley-pyinstaller"
 set "TARGET=%~1"
 if "%TARGET%"=="" set "TARGET=default"
 
@@ -106,7 +108,7 @@ if exist "%APPDIR%\dist\PydewValley.exe" del /q "%APPDIR%\dist\PydewValley.exe" 
 call :clean_work
 if errorlevel 1 exit /b 1
 set "PYDEW_ONEDIR="
-python -m PyInstaller --clean --noconfirm "%APPDIR%\PydewValley.spec"
+python -m PyInstaller --clean --noconfirm --workpath "%WORKPATH%" "%APPDIR%\PydewValley.spec"
 if errorlevel 1 (
     echo ERROR: the single-file build failed.
     exit /b 1
@@ -120,7 +122,7 @@ if exist "%APPDIR%\dist\PydewValley" rmdir /s /q "%APPDIR%\dist\PydewValley" 2>n
 call :clean_work
 if errorlevel 1 exit /b 1
 set "PYDEW_ONEDIR=1"
-python -m PyInstaller --clean --noconfirm "%APPDIR%\PydewValley.spec"
+python -m PyInstaller --clean --noconfirm --workpath "%WORKPATH%" "%APPDIR%\PydewValley.spec"
 if errorlevel 1 (
     echo ERROR: the folder build failed.
     exit /b 1
@@ -137,21 +139,21 @@ if errorlevel 1 (
 )
 exit /b 0
 
-REM ---- clear the PyInstaller work folder --------------------------------
+REM ---- clear the external PyInstaller work folder ----------------------
 REM Each build leaves a work folder behind and the next one cannot
 REM clear it while the file indexer still holds a handle, so it is
 REM cleared before every build rather than once at the start.
 :clean_work
 set "WORK_TRIES=0"
 :clean_work_loop
-if exist "%APPDIR%\build\PydewValley" rmdir /s /q "%APPDIR%\build\PydewValley" 2>nul
-if exist "%APPDIR%\build\PydewValley" goto clean_work_wait
+if exist "%WORKPATH%\PydewValley" rmdir /s /q "%WORKPATH%\PydewValley" 2>nul
+if exist "%WORKPATH%\PydewValley" goto clean_work_wait
 exit /b 0
 
 :clean_work_wait
 set /a WORK_TRIES+=1
 if !WORK_TRIES! GEQ 15 (
-    echo ERROR: build\PydewValley is locked by another program.
+    echo ERROR: the external PyInstaller work folder is locked by another program.
     echo        Close any running game or Explorer window on it and retry.
     exit /b 1
 )
