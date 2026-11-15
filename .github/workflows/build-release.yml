@@ -5,31 +5,20 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g. v2.6)'
+        required: true
+        default: 'v2.6'
 
 permissions:
   contents: write
 
 jobs:
-  create-release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - id: create
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: Pydew Valley ${{ github.ref_name }}
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   build-windows:
-    needs: create-release
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Show repo structure
-        run: ls -la && echo "---APP---" && ls -la APP/ 2>&1 || echo "APP folder missing!"
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -39,20 +28,30 @@ jobs:
       - name: Build Windows
         working-directory: APP
         run: build.bat all
+      - name: Create or find release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $ver = Get-Content build\VERSION.txt
+          $tag = "${{ github.event.inputs.version }}"
+          if (-not $tag -or $tag -eq "") { $tag = $ver }
+          $rel = gh release view $tag --json id 2>$null
+          if (-not $rel) {
+            gh release create $tag --name "Pydew Valley $tag" --generate-notes
+          }
+          echo "TAG=$tag" >> $env:GITHUB_ENV
       - name: Upload Windows asset
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           $ver = Get-Content build\VERSION.txt
-          gh release upload ${{ github.ref_name }} "APP/dist/Pydew Valley [v$ver] Windows.zip" --clobber
+          $tag = "${{ env.TAG }}"
+          gh release upload $tag "APP/dist/Pydew Valley [v$ver] Windows.zip" --clobber
 
   build-macos:
-    needs: create-release
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Show repo structure
-        run: ls -la && echo "---APP---" && ls -la APP/ 2>&1 || echo "APP folder missing!"
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -70,20 +69,29 @@ jobs:
           if [ -d "dist/PydewValley.app" ]; then
             zip -r "Pydew Valley [v$VER] macOS.zip" "dist/PydewValley.app"
           fi
+      - name: Create or find release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VER=$(cat build/VERSION.txt)
+          TAG="${{ github.event.inputs.version }}"
+          if [ -z "$TAG" ]; then TAG=$VER; fi
+          if ! gh release view $TAG --json id >/dev/null 2>&1; then
+            gh release create $TAG --name "Pydew Valley $TAG" --generate-notes
+          fi
+          echo "TAG=$TAG" >> $GITHUB_ENV
       - name: Upload macOS asset
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           VER=$(cat build/VERSION.txt)
-          gh release upload ${{ github.ref_name }} "APP/dist/Pydew Valley [v$VER] macOS.zip" --clobber
+          TAG="${{ env.TAG }}"
+          gh release upload $TAG "APP/dist/Pydew Valley [v$VER] macOS.zip" --clobber
 
   build-linux:
-    needs: create-release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Show repo structure
-        run: ls -la && echo "---APP---" && ls -la APP/ 2>&1 || echo "APP folder missing!"
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -101,9 +109,21 @@ jobs:
           if [ -d "dist/PydewValley" ]; then
             zip -r "Pydew Valley [v$VER] Linux.zip" "dist/PydewValley"
           fi
+      - name: Create or find release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VER=$(cat build/VERSION.txt)
+          TAG="${{ github.event.inputs.version }}"
+          if [ -z "$TAG" ]; then TAG=$VER; fi
+          if ! gh release view $TAG --json id >/dev/null 2>&1; then
+            gh release create $TAG --name "Pydew Valley $TAG" --generate-notes
+          fi
+          echo "TAG=$TAG" >> $GITHUB_ENV
       - name: Upload Linux asset
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           VER=$(cat build/VERSION.txt)
-          gh release upload ${{ github.ref_name }} "APP/dist/Pydew Valley [v$VER] Linux.zip" --clobber
+          TAG="${{ env.TAG }}"
+          gh release upload $TAG "APP/dist/Pydew Valley [v$VER] Linux.zip" --clobber
