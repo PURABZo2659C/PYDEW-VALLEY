@@ -25,10 +25,10 @@ jobs:
           python-version: '3.13'
       - name: Install dependencies
         run: pip install --upgrade pip pygame numpy pytmx opencv-python pyinstaller
-      - name: Build Windows
+      - name: Build Windows (.exe + ZIP)
         working-directory: APP
         run: build.bat all
-      - name: Create or find release
+      - name: Upload Windows asset
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -40,13 +40,6 @@ jobs:
           if (-not $rel) {
             gh release create $tag --name "Pydew Valley $tag" --generate-notes
           }
-          echo "TAG=$tag" >> $env:GITHUB_ENV
-      - name: Upload Windows asset
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          $ver = Get-Content build\VERSION.txt -Raw
-          $tag = "${{ env.TAG }}"
           gh release upload $tag "APP/dist/Pydew Valley [v$ver] Windows.zip" --clobber
 
   build-macos:
