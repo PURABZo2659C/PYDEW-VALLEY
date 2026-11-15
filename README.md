@@ -2,41 +2,57 @@
 
 A Stardew Valley-inspired farming game written in Python with Pygame.
 
-Version **2.6** - Windows.
+Version **2.6** - Windows, macOS and Linux
 
 ![title](graphics/world/logo.png)
 
 ---
 
-## Playing it
+## Download and play
 
-The game ships as a single ZIP. Unzip it somewhere you can write to
-(your Desktop, not `C:\Program Files`) and double-click
-`Pydew Valley\PydewValley.exe`. There is no installer and nothing is
-written outside that folder - the save, the settings, the screenshots
-and the log all sit next to the executable.
+Download the ZIP for your operating system from the project's
+[GitHub Releases](https://github.com/PURABZo2659C/PYDEW-VALLEY/releases)
+page. Each release includes:
 
-```
-Pydew Valley\
-├── PydewValley.exe                    the game
-├── PYDEW VALLEY DOCUMENTATION.html    the in-game help page
-├── THIRD_PARTY_NOTICES.txt            asset credits and licences
-├── README.txt
-├── save.json                          your world, inventory and progress
-├── keybindings.json                   your key bindings
-├── volume.json                        music and sound volume
-├── Shots\                             camera screenshots
-└── game.log                           written only if something goes wrong
-```
+| ZIP file | Platform | How to start |
+|---|---|---|
+| `Pydew-Valley-v<version>-windows.zip` | 64-bit Windows | Extract the ZIP, open the `Pydew Valley` folder and run `PydewValley.exe`. |
+| `Pydew-Valley-v<version>-macos.zip` | macOS | Extract the ZIP and open `PydewValley.app`. |
+| `Pydew-Valley-v<version>-linux.zip` | 64-bit Linux | Extract the ZIP, then run `./PydewValley` from a terminal in the extracted folder. |
 
-Copy the folder to a USB stick and your world comes with it. Delete the
-folder and the game and all its data are gone.
+There is no installer. Extract the download to a folder you can write to.
+On Linux, if the executable does not start because it is not marked
+executable, run `chmod +x PydewValley` first. The Linux build targets
+64-bit systems and needs a graphical desktop with SDL-compatible
+libraries.
 
-The game always opens full screen and stretches to the resolution of
-your display.
+The game opens full screen and stretches to your display resolution. The
+in-game help page is available from the **HELP** button on the title
+screen.
 
-The in-game help page is opened from the **HELP** button on the title
-screen, and the same file is in the folder above.
+### Saves and settings
+
+The game stores `save.json`, `keybindings.json`, `volume.json`,
+screenshots and (if needed) `game.log` next to the game executable.
+Keep the extracted game in a folder where your account has write
+permission. To back up progress, close the game and copy `save.json`;
+to move your settings too, also copy `keybindings.json` and
+`volume.json`. When updating, back up these files before replacing the
+old game files.
+
+The Windows ZIP also includes `README.txt`, the HTML help page and
+`THIRD_PARTY_NOTICES.txt`. The macOS and Linux packages contain their
+respective PyInstaller app/executable bundles.
+
+### Platform notes
+
+- **Windows:** Windows may show a security warning for an unsigned
+  download. Only run software you trust.
+- **macOS:** If Gatekeeper blocks the app because it is from an
+  unidentified developer, use macOS **Privacy & Security** settings to
+  review and allow it only if you trust this download.
+- **Linux:** Run the executable from its extracted folder so it can
+  access its bundled files and write its save data.
 
 ### Controls
 
@@ -70,24 +86,64 @@ data\        the starting map
 APP\         build tooling - build.bat, the PyInstaller spec, scripts
 ```
 
-Requirements: **Python 3.11+** with `pygame`, `numpy`, `pytmx` and
-`opencv-python` installed.
+Requirements for building: **Python 3.11+** with `pygame`, `numpy`,
+`pytmx`, `opencv-python`, `PyInstaller` and `Pillow` installed. Build
+each platform on that platform; PyInstaller does not cross-compile.
 
 ```
 pip install pygame numpy pytmx opencv-python
+pip install pyinstaller pillow
 ```
+
+### Build Windows
+
+Run these commands in **Command Prompt** from the repository root:
 
 ```
 cd APP
-build.bat              # the exe and the ZIP
-build.bat exe          # only the single-file executable
-build.bat zip          # only the ZIP
-build.bat folder       # only the folder build
-build.bat all          # everything
+build.bat              REM executable and ZIP
+build.bat exe          REM executable only
+build.bat zip          REM ZIP only
+build.bat folder       REM folder build only
+build.bat all          REM all outputs
 ```
 
-The result is `APP\dist\Pydew Valley [v2.6] Windows.zip` - one file,
-about 111 MB, containing everything a player needs.
+The Windows package is written to
+`APP\dist\Pydew Valley [v<version>] Windows.zip`.
+
+### Build macOS and Linux
+
+On the target OS, install the build dependencies above, then run these
+commands from the repository root. On Linux, also install SDL2
+development files (for Ubuntu: `sudo apt-get install libsdl2-dev`).
+
+```sh
+cd APP
+python build/make_version_info.py
+python build/make_icon.py
+python build/fix_line_endings.py
+python -m PyInstaller --clean --noconfirm PydewValley.spec
+```
+
+On macOS this creates `APP\dist\PydewValley.app`; on Linux it creates
+`APP\dist\PydewValley`. To create the matching release ZIP on macOS:
+
+```sh
+VER=$(cat build/VERSION.txt)
+cd dist
+zip -r "Pydew-Valley-v${VER}-macos.zip" PydewValley.app
+```
+
+On Linux, use:
+
+```sh
+VER=$(cat build/VERSION.txt)
+cd dist
+zip "Pydew-Valley-v${VER}-linux.zip" PydewValley
+```
+
+The automated release workflow performs these steps and publishes all
+three platform ZIPs together.
 
 The version number comes from `APP\build\VERSION.txt`. That one file is
 the single source of truth: the exe's file properties, the ZIP name and
@@ -96,12 +152,13 @@ version.
 
 GitHub Actions builds Windows, macOS and Linux ZIPs for each release.
 Push a `v*` tag or run **Build and Release** from the Actions tab with a
-release tag such as `v2.6`; the workflow creates one GitHub Release with
-all three platform ZIPs attached.
+release tag such as `v2.6`. Wait for all platform jobs to finish; the
+workflow then creates or updates one GitHub Release with all three ZIPs
+attached. The version comes from `APP\build\VERSION.txt`; use a
+corresponding tag when publishing a release.
 
-`APP\DISTRIBUTING.md` covers the rest - how to share the game, the
-Windows Smart App Control problem and how to sign the executable so
-that it is not blocked on other people's machines.
+`APP\DISTRIBUTING.md` has additional Windows distribution notes,
+including Smart App Control and code signing.
 
 ---
 
