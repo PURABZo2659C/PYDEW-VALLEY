@@ -94,6 +94,11 @@ the single source of truth: the exe's file properties, the ZIP name and
 the credits screen all read it. Bump it and rebuild to publish a new
 version.
 
+GitHub Actions builds Windows, macOS and Linux ZIPs for each release.
+Push a `v*` tag or run **Build and Release** from the Actions tab with a
+release tag such as `v2.6`; the workflow creates one GitHub Release with
+all three platform ZIPs attached.
+
 `APP\DISTRIBUTING.md` covers the rest - how to share the game, the
 Windows Smart App Control problem and how to sign the executable so
 that it is not blocked on other people's machines.

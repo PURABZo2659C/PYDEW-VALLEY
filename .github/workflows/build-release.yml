@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version tag (e.g. v2.6)'
+        description: 'Release tag (e.g. v2.6)'
         required: true
         default: 'v2.6'
 
@@ -24,23 +24,25 @@ jobs:
         with:
           python-version: '3.13'
       - name: Install dependencies
-        run: pip install --upgrade pip pygame numpy pytmx opencv-python pyinstaller
-      - name: Build Windows (.exe + ZIP)
+        run: pip install --upgrade pip pygame numpy pytmx opencv-python pyinstaller pillow
+      - name: Build Windows ZIP
         working-directory: APP
-        run: build.bat all
-      - name: Upload Windows asset
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          $ver = Get-Content build\VERSION.txt -Raw
-          $tag = "${{ github.event.inputs.version }}"
-          if (-not $tag -or $tag -eq "") { $tag = "${{ github.ref_name }}" }
-          if (-not $tag -or $tag -eq "") { $tag = $ver }
-          $rel = gh release view $tag --json id 2>$null
-          if (-not $rel) {
-            gh release create $tag --name "Pydew Valley $tag" --generate-notes
+          build.bat all
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $ver = (Get-Content build\VERSION.txt -Raw).Trim()
+          $source = "dist\Pydew Valley [v$ver] Windows.zip"
+          if (-not (Test-Path -LiteralPath $source)) {
+            throw "Windows ZIP was not created: $source"
           }
-          gh release upload $tag "APP/dist/Pydew Valley [v$ver] Windows.zip" --clobber
+          Copy-Item -LiteralPath $source -Destination "dist\Pydew-Valley-v$ver-windows.zip"
+      - name: Upload Windows package
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-package
+          path: APP/dist/Pydew-Valley-v*-windows.zip
+          if-no-files-found: error
+          retention-days: 1
 
   build-macos:
     runs-on: macos-latest
@@ -51,37 +53,25 @@ jobs:
         with:
           python-version: '3.13'
       - name: Install dependencies
-        run: pip install --upgrade pip pygame numpy pytmx opencv-python pyinstaller
-      - name: Build macOS app bundle
+        run: pip install --upgrade pip pygame numpy pytmx opencv-python pyinstaller pillow
+      - name: Build macOS ZIP
         working-directory: APP
         run: |
+          set -euo pipefail
           python build/make_version_info.py
           python build/make_icon.py
           python build/fix_line_endings.py
           python -m PyInstaller --clean --noconfirm PydewValley.spec
           VER=$(cat build/VERSION.txt)
-          if [ -d "dist/PydewValley.app" ]; then
-            zip -r "Pydew Valley [v$VER] macOS.zip" "dist/PydewValley.app"
-          fi
-      - name: Create or find release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          VER=$(cat build/VERSION.txt)
-          TAG="${{ github.event.inputs.version }}"
-          if [ -z "$TAG" ]; then TAG="${{ github.ref_name }}"; fi
-          if [ -z "$TAG" ]; then TAG=$VER; fi
-          if ! gh release view $TAG --json id >/dev/null 2>&1; then
-            gh release create $TAG --name "Pydew Valley $TAG" --generate-notes
-          fi
-          echo "TAG=$TAG" >> $GITHUB_ENV
-      - name: Upload macOS asset
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          VER=$(cat build/VERSION.txt)
-          TAG="${{ env.TAG }}"
-          gh release upload $TAG "APP/dist/Pydew Valley [v$VER] macOS.zip" --clobber
+          test -d "dist/PydewValley.app"
+          zip -r "dist/Pydew-Valley-v${VER}-macos.zip" "dist/PydewValley.app"
+      - name: Upload macOS package
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-package
+          path: APP/dist/Pydew-Valley-v*-macos.zip
+          if-no-files-found: error
+          retention-days: 1
 
   build-linux:
     runs-on: ubuntu-latest
@@ -92,34 +82,66 @@ jobs:
         with:
           python-version: '3.13'
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y libsdl2-dev && pip install --upgrade pip pygame numpy pytmx opencv-python pyinstaller
-      - name: Build Linux app dir
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev
+          pip install --upgrade pip pygame numpy pytmx opencv-python pyinstaller pillow
+      - name: Build Linux ZIP
         working-directory: APP
         run: |
+          set -euo pipefail
           python build/make_version_info.py
           python build/make_icon.py
           python build/fix_line_endings.py
           python -m PyInstaller --clean --noconfirm PydewValley.spec
           VER=$(cat build/VERSION.txt)
-          if [ -d "dist/PydewValley" ]; then
-            zip -r "Pydew Valley [v$VER] Linux.zip" "dist/PydewValley"
-          fi
-      - name: Create or find release
+          test -d "dist/PydewValley"
+          zip -r "dist/Pydew-Valley-v${VER}-linux.zip" "dist/PydewValley"
+      - name: Upload Linux package
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-package
+          path: APP/dist/Pydew-Valley-v*-linux.zip
+          if-no-files-found: error
+          retention-days: 1
+
+  publish-release:
+    runs-on: ubuntu-latest
+    needs:
+      - build-windows
+      - build-macos
+      - build-linux
+    steps:
+      - name: Download Windows package
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-package
+          path: release-assets
+      - name: Download macOS package
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-package
+          path: release-assets
+      - name: Download Linux package
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-package
+          path: release-assets
+      - name: Create release and upload packages
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ inputs.version || github.ref_name }}
         run: |
-          VER=$(cat build/VERSION.txt)
-          TAG="${{ github.event.inputs.version }}"
-          if [ -z "$TAG" ]; then TAG="${{ github.ref_name }}"; fi
-          if [ -z "$TAG" ]; then TAG=$VER; fi
-          if ! gh release view $TAG --json id >/dev/null 2>&1; then
-            gh release create $TAG --name "Pydew Valley $TAG" --generate-notes
+          set -euo pipefail
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Updating release $RELEASE_TAG"
+          else
+            gh release create "$RELEASE_TAG" \
+              --repo "$GITHUB_REPOSITORY" \
+              --target "$GITHUB_SHA" \
+              --title "Pydew Valley $RELEASE_TAG" \
+              --generate-notes
           fi
-          echo "TAG=$TAG" >> $GITHUB_ENV
-      - name: Upload Linux asset
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          VER=$(cat build/VERSION.txt)
-          TAG="${{ env.TAG }}"
-          gh release upload $TAG "APP/dist/Pydew Valley [v$VER] Linux.zip" --clobber
+          gh release upload "$RELEASE_TAG" release-assets/*.zip \
+            --repo "$GITHUB_REPOSITORY" \
+            --clobber
