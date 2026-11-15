@@ -54,9 +54,9 @@ class Plant(pygame.sprite.Sprite):
 		self.grow_speed = GROW_SPEED[plant_type]
 		self.harvestable = False
 
-		# Transparent rows under each frame's visible art (tomato sprouts
-		# float up to 26px otherwise). The renderer lifts by foot_pad so the
-		# VISIBLE art bottom lands exactly on the tile diamond center.
+		# Transparent rows under each frame's visible art (tomato sprouts float
+		# up to 26px otherwise). The renderer lifts by foot_pad so the VISIBLE art
+		# bottom lands on the tile diamond center.
 		self._pads = [visible_bottom_pad(f) for f in self.frames]
 		self.foot_pad = 0
 		# 'center' anchor: image CENTER sits on the tile diamond center
@@ -149,9 +149,8 @@ class SoilLayer:
 
 	def _load_soil_surfs(self):
 		"""Tilled-soil frames keyed by edge-variant tile_type.
-
-		There is no dedicated soil folder anymore: the single farm patch
-		tile (graphics/world/farm_patch.png) is reused for every variant.
+		There is no dedicated soil folder: the single farm patch tile is reused
+		for every variant.
 		"""
 		keys = ('o', 'x', 'r', 'l', 'lr', 'b', 't', 'tb', 'tr', 'tl',
 				'br', 'bl', 'tbr', 'tbl', 'lrb', 'lrt')
@@ -166,12 +165,7 @@ class SoilLayer:
 
 	def _load_water_surfs(self):
 		"""Watered-soil overlay frame (single PNG, no folder).
-
-		The asset is authored like the other ground tiles: a 128x128 box
-		whose diamond face fills rows 0..64, so it blits flush on the
-		tile topleft, covering the diamond region of the farm patch.
-		WaterTile centers on the tile diamond center, which lands the
-		overlay over the tile's top face.
+		Authored like the other ground tiles, so it blits flush on the tile.
 		"""
 		try:
 			water = pygame.image.load(asset_path('graphics', 'world', 'soil_water.png')).convert_alpha()

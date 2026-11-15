@@ -1,0 +1,114 @@
+PYDEW VALLEY - THIRD PARTY NOTICES
+=================================
+
+This game bundles the third-party assets listed below. Each entry names the
+author, the source and the licence terms that apply.
+
+
+--------------------------------------------------------------------------
+SPRITE / UI / EXTRA ASSET PACKS - "Sprout Lands"
+--------------------------------------------------------------------------
+Made by : Cup Nooble
+Source : https://cupnooble.itch.io/sprout-lands-asset-pack
+Licence: Free "Basic Pack". Non-commercial projects only. The asset pack
+         itself may not be redistributed (even modified), but projects
+         made with the assets may be redistributed freely. Credit to
+         Cup Nooble is required - this file and the in-game credits
+         screen provide that credit.
+
+Used for: every character, biome, tree, prop, cave, village, item icon
+          and HUD element in the game.
+
+
+--------------------------------------------------------------------------
+FONT - pixelFont-7-8x14-sproutLands.ttf
+--------------------------------------------------------------------------
+Made by : Cup Nooble (Sprout Lands)
+Licence: free for personal and commercial use.
+
+Used for: the credits screen text.
+
+
+--------------------------------------------------------------------------
+FONT - Monocraft (ui.ttf)
+--------------------------------------------------------------------------
+Made by : Idrees Hassan / Idrees Inc
+Source : https://github.com/IdreesInc/Monocraft
+Licence: SIL Open Font License 1.1 - free for personal and commercial
+         use, including embedding in a game and redistributing it. The
+         full licence text is in font/Monocraft-OFL.txt and is shipped
+         alongside the font.
+
+Note   : the author describes it as emulating the typeface used in the
+         Minecraft UI, without including any font files or assets from
+         the original game.
+
+Used for: all in-game interface text.
+
+
+--------------------------------------------------------------------------
+MUSIC - title screen track
+--------------------------------------------------------------------------
+By     : Yoiyami
+Licence: CC0 (public domain dedication) - free to use, modify and
+         redistribute, no permission needed.
+
+Used for: the title screen menu music (audio/Title_background.wav).
+
+
+--------------------------------------------------------------------------
+MUSIC - "8bit attempt" and the sound effects
+--------------------------------------------------------------------------
+By     : Daniel Stephens
+Licence: free to use with credit.
+
+Note   : these files (music.mp3, axe.mp3, hoe.wav, plant.wav,
+         success.wav, water.mp3) are inherited from the Clear Code
+         project described below - they are the same files, byte for
+         byte.
+
+Used for: the in-game background music, and the tool, planting and
+          watering sounds.
+
+
+--------------------------------------------------------------------------
+THE CLEAR CODE PROJECT - "PyDew Valley"
+--------------------------------------------------------------------------
+Made by : Clear Code (Giovanni/pythonprogramming)
+Source : YouTube tutorial "Creating a Stardew Valley-inspired game in
+          Python and Pygame"
+          https://www.youtube.com/watch?v=T4IX36sP_0c
+          Project files:
+          https://github.com/clear-code-projects/PyDew-Valley
+
+Note   : this game started from that tutorial and grew well beyond it.
+          The name, the original module layout, the starting TMX map
+          and the audio files come from there; the tile sets that came
+          with it were dropped because the world is generated in code
+          and they are never drawn.
+
+Used for: the game's foundation - the project this one grew out of.
+
+
+--------------------------------------------------------------------------
+CODE
+--------------------------------------------------------------------------
+All game code was written for this project and is not derived from
+third-party source code, with the exception of timer.py which is
+unchanged from the Clear Code project above.
+
+Built with: Python, Pygame, PyTMX, NumPy, OpenCV.
+
+Pygame, PyTMX, NumPy and OpenCV are used under their own licences
+(respectively: LGPL, BSD, BSD and Apache 2.0) and are not included as
+source in this distribution.
+
+
+--------------------------------------------------------------------------
+TRADEMARKS - "INSPIRED BY" row on the credits screen
+--------------------------------------------------------------------------
+The credits screen shows the logos of the games that inspired this
+project: Minecraft (Mojang AB / Microsoft), Stardew Valley
+(ConcernedApe), Mine Mogul, and Isocore. The logos are the property of
+their respective owners and are used here only to identify the games
+that inspired this project.

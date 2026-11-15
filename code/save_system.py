@@ -120,9 +120,9 @@ def _build_save_data(level):
 			getattr(player, 'seed_inventory', {}),
 			getattr(player, 'hotbar', []))
 
-	# DEMO ON replaces the bag with a test kit; a save written while
-	# it is on stores the PRE-DEMO snapshot instead, so debug stock
-	# never overwrites the player's real items.
+	# DEMO ON replaces the bag with a test kit; a save written while it is on
+	# stores the PRE-DEMO snapshot, so debug stock never overwrites the real
+	# items.
 	snap = getattr(level, '_demo_inv_snapshot', None)
 	if snap is not None:
 		inv_data = [[stack[0], int(stack[1])] if stack else None
@@ -132,9 +132,8 @@ def _build_save_data(level):
 
 	return {
 		'version': SAVE_VERSION,
-		# The world this save was generated from: loading replays it
-		# exactly (terrain, villages, caves, props). Saves written
-		# before seeds existed fall back to the legacy WORLD_SEED.
+		# The world this save was generated from: loading replays it exactly.
+		# Saves written before seeds existed fall back to the legacy seed.
 		'world_seed': int(getattr(level, 'world_seed', WORLD_SEED)),
 		'player': {
 			'pos': [player.pos.x, player.pos.y],
@@ -147,9 +146,8 @@ def _build_save_data(level):
 			'selected_seed': player.selected_seed,
 			'hotbar_index': player.hotbar_index,
 			'water_bucket_amount': player.water_bucket_amount,
-			# Seconds LEFT on each effect, not an absolute expiry:
-			# the countdown freezes while the game is closed and
-			# resumes from this value on load (Player.restore_potion_effects).
+			# Seconds LEFT on each effect, not an absolute expiry: the countdown
+			# freezes while the game is closed.
 			'potion_effects': {
 				effect: round(float(player.potion_remaining(effect)), 3)
 				for effect in player.potion_effects
@@ -179,9 +177,8 @@ def _build_save_data(level):
 			'year': level.time_manager.year,
 			'total_minutes': level.time_manager.total_minutes,
 		},
-		# Tutorial progress: the exact step to resume at, so instructions
-		# for tasks the player has NOT done come back after a
-		# save/quit/continue (Level._resume_tutorial_step).
+		# Tutorial progress: the step to resume at, so instructions for tasks
+		# the player has NOT done come back after a save/quit/continue.
 		'tutorial_step': int(getattr(level, 'tutorial_step', 0)),
 		'scene': getattr(level, 'scene', 'overworld'),
 		'return_pos': (list(level.return_pos)
@@ -241,12 +238,8 @@ def save_exists():
 
 def delete_save():
 	"""Remove the save file and its backup.
-
-	Returns True once the files are really gone. Another copy of the
-	game can hold save.json open, and a failed delete would leave the
-	old save behind - so a "new game" would silently start on top of
-	the world the player was trying to leave. Retry a few times before
-	giving up.
+	Another copy of the game can hold save.json open, and a failed delete
+	would leave the old save behind. Retries a few times.
 	"""
 	for _attempt in range(5):
 		for path in (SAVE_PATH, _backup_path(), SAVE_PATH + '.tmp'):

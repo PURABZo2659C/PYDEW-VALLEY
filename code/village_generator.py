@@ -1,17 +1,7 @@
 """Villages: procedurally placed settlements of homes around a green.
-
-Sites come from the same jittered-grid sampling the cave entrances use:
-one deterministic site per VILLAGE_SECTOR_SIZE-tile sector, inset by a
-dead zone, kept clear of the starting farm. Each site is a fixed layout
-— the art from graphics/Village/ bottom-anchored on tile anchors, dirt
-paths routed from the centre green to every door, and wandering
-villagers from graphics/character/Villagers/.
-
-Villages stream like chunks: loaded when the player is near, unloaded
-(and their sprites recycled) when far. While a village is loaded the
-world generator forces its core flat + dry and reserves its tiles from
-props, and overlapping chunks are re-generated, so a layout always sits
-on clean grass no matter what the terrain noise claims underneath.
+One deterministic site per sector, inset by a dead zone and kept clear of
+the starting farm. Villages stream like chunks; while loaded the world
+generator forces the core flat + dry and reserves its tiles from props.
 """
 import os
 import math
@@ -29,25 +19,21 @@ from world_generator import white_noise, _det_hash, TILES_PER_CHUNK
 
 
 # Village art (background-cleaned, cropped, NATIVE size) is shared across
-# Level instances (day resets and trips back to the title screen reuse it):
-# keyed by source file name, value (surface, sole pad) — None when the file
-# is missing.
+# Level instances, keyed by source file name: (surface, sole pad), or None
+# when the file is missing.
 _VILLAGE_ASSET_CACHE = {}
 # Safe upper bound (Chebyshev tiles from the site centre) for a village's
-# land/reserve rectangle. Buildings ring the centre at most 7 tiles out,
-# blocks add the art half-width, paths/NPC zones stay inside 9 tiles, and
-# the land/reserve margins add 3 each, so ~20 is the true maximum; 40
-# leaves generous headroom. Used to skip full layout builds for far-away
-# sectors when only "is this tile covered?" is asked.
+# land/reserve rectangle: buildings ring the centre at most 7 tiles out,
+# paths/NPC zones stay inside 9, margins add 3 each, so ~20 is the true
+# maximum (40 leaves headroom). Used to skip layout builds for far sectors.
 _VILLAGE_AREA_MAX_RADIUS = 40
 _VILLAGE_BASE_FILES = {
 	key: fname for key, fname, _tiles, _anchor in VILLAGE_BUILDINGS
 }
 
-# Per-structure collision masks authored in graphics/world/Collisions/.
-# These are used INSTEAD OF the village art's own alpha for the ground
-# footprint the engine blocks on, so collision matches the shape the
-# artist painted rather than whatever the shading/reflection left opaque.
+# Per-structure collision masks from graphics/world/Collisions/. Used
+# INSTEAD of the village art's own alpha for the blocked ground footprint,
+# so collision matches the shape the artist painted.
 _VILLAGE_COLLISION_FILES = {
 	'town_hall': 'Town Hall_collision.png',
 	'bakery': 'Bakery_collision.png',
@@ -65,10 +51,10 @@ def tile_center(gx, gy):
 
 
 def _collision_asset(assets, key):
-	"""The surface a house's ground footprint is measured from: the
-	authored collision mask in graphics/world/Collisions when this
-	structure has one (red-on-transparent, the artist's intended
-	outline), otherwise the house art itself. Both are (surf, pad)."""
+	"""The surface a house's ground footprint is measured from: the authored
+	collision mask in graphics/world/Collisions when there is one, otherwise
+	the house art itself. Both are (surf, pad).
+	"""
 	cname = _VILLAGE_COLLISION_FILES.get(key)
 	asset = assets.get(cname) if cname else None
 	if not asset or not asset[0]:
@@ -79,18 +65,10 @@ def _collision_asset(assets, key):
 
 
 def _block_rect(wx, wy, scaled):
-	"""Layout reservation box for a house: the art's bounding square
-	snapped OUTWARD to whole tile boundaries.
-
-	This is the GROUND THE LAYOUT KEEPS CLEAR (props, paths, villager
-	spawn checks) — not the collision. Collision follows the art's true
-	ground footprint (support.ground_footprint_tiles, built per run in
-	_load), which is a sheared shape no rectangle can express; the
-	square stays the conservative, cheap stand-in the layout needs.
-
-	The art spans [wx - scaled, wx + half] in world space plus half a
-	tile of margin, so the box covers [wx - scaled - half, wx + half)
-	and is then grown to the enclosing tiles."""
+	"""The collision rect for one structure.
+	From the authored collision mask when there is one, else the art's own
+	alpha, merged into one run rect per row.
+	"""
 	half = TILE_SIZE // 2
 	x0 = (wx - scaled - half) // TILE_SIZE
 	y0 = (wy - scaled - half) // TILE_SIZE
@@ -126,10 +104,10 @@ class Building(Generic):
 
 
 class Villager(Generic):
-	"""Wandering village NPC: 4-direction walk cycle, grounded on the
-	tile diamond like the player. Walks tile-to-tile along a BFS route
-	that dodges building blockers, trees/rocks and water, so villagers
-	never cut through a house or a lake."""
+	"""Wandering village NPC: 4-direction walk cycle, grounded on the tile
+	diamond like the player. Walks a BFS route that dodges building blockers,
+	trees/rocks and water.
+	"""
 
 	def __init__(self, name, pos, animations, zone, world_gen, seed, groups,
 	             home_pos=None, collision_sprites=None):
@@ -369,9 +347,7 @@ class VillageGenerator:
 		self.heart_placed = False
 		self._ensure_assets()
 
-	# ─────────────────────────────────────────────────────────
-	# STREAMING
-	# ─────────────────────────────────────────────────────────
+	# ---- STREAMING ----
 
 	def update(self, player_pos):
 		"""Load villages near the player, recycle the ones left behind.
@@ -429,9 +405,7 @@ class VillageGenerator:
 				sprite.rect = sprite.image.get_rect(center=center)
 				sprite.foot_pad = art[1]
 
-	# ─────────────────────────────────────────────────────────
-	# WORLD-GENERATOR INTERFACE
-	# ─────────────────────────────────────────────────────────
+	# ---- WORLD-GENERATOR INTERFACE ----
 
 	def reserved_tiles_for_chunk(self, cx, cy):
 		"""Tiles of this chunk too close to (or inside) a village site —
@@ -453,9 +427,8 @@ class VillageGenerator:
 				center = self._sector_village_center(sx, sy)
 				if center is None:
 					continue
-				# Nearest-point distance from the site centre to this
-				# chunk: past the land/reserve bound the layout cannot
-				# reach the chunk, so skip the expensive build.
+				# Nearest-point distance from the site centre to this chunk: past the
+				# land/reserve bound the layout cannot reach it, so skip the build.
 				dx = max(tx0 - center[0], 0, center[0] - tx1)
 				dy = max(ty0 - center[1], 0, center[1] - ty1)
 				if max(dx, dy) > _VILLAGE_AREA_MAX_RADIUS:
@@ -529,15 +502,13 @@ class VillageGenerator:
 					return True
 		return False
 
-	# ─────────────────────────────────────────────────────────
-	# SITE SAMPLING + LAYOUT (pure functions of the site tile)
-	# ─────────────────────────────────────────────────────────
+	# ---- SITE SAMPLING + LAYOUT (pure functions of the site tile) ----
 
 	def _sector_village(self, sx, sy):
-		"""The sector's village spec, or None. Scans stride-ordered
-		candidates in the dead zone; the only rejection rule is the
-		starting-farm clearance (the village overrides the terrain
-		anyway, so no ground-quality filtering is needed)."""
+		"""The sector's village spec, or None.
+		Scans stride-ordered candidates in the dead zone; the only rejection rule
+		is the starting-farm clearance.
+		"""
 		key = (sx, sy)
 		if key in self._sector_cache:
 			return self._sector_cache[key]
@@ -547,13 +518,10 @@ class VillageGenerator:
 		return spec
 
 	def _sector_village_center(self, sx, sy):
-		"""The sector's chosen site centre, or None.
-
-		Split from _sector_village so the cave-entrance scan can rule
-		out distant sectors without paying for a full layout build: the
-		centre is a cheap deterministic stride walk, the layout is ~1.5
-		ms. Both paths use the same candidates, so the centre always
-		matches the spec _build_layout would produce."""
+		"""The village site tile for a sector.
+		One site per sector, inset from the borders so villages keep a minimum
+		distance from each other.
+		"""
 		key = (sx, sy)
 		if key in self._sector_center_cache:
 			return self._sector_center_cache[key]
@@ -562,12 +530,8 @@ class VillageGenerator:
 		span = VILLAGE_SECTOR_SIZE - 2 * margin
 		if span > 0:
 			total = span * span
-			# The legacy WORLD_SEED keeps the original walk so an
-			# existing save never sees its village move; every freshly
-			# rolled seed rotates the start, so each new world settles
-			# its villages on different tiles (53 coprime with span²,
-			# so the visit order is still a full cycle and the
-			# start-farm clearance is checked per roll).
+			# The legacy WORLD_SEED keeps the original walk so an existing save never
+			# sees its village move; every freshly rolled seed rotates the start.
 			start = (0 if self.seed == WORLD_SEED else
 			         _det_hash(sx, sy, 'village-site', self.seed) % total)
 			for i in range(min(total, 12)):
@@ -599,26 +563,19 @@ class VillageGenerator:
 		          for key, fname, tiles, _anchor in VILLAGE_BUILDINGS}
 
 		def art_tiles(key):
-			"""On-screen width of this house's art, in tiles.
-
-			Art is drawn at its NATIVE size (nothing is scaled), so the
-			footprint has to follow the file's real width — not the
-			configured target, which was tuned for the older, larger
-			art and would leave invisible walls standing in open ground.
-			Width only: _block_tiles boxes the layout reservation square
-			on the art width (collision follows the art's real
-			footprint, see foot_of)."""
+			"""How many tiles a village building's art covers.
+			Measured from the art file itself: it renders at its native size, so the
+			fallback width column is only used for a missing file.
+			"""
 			art = self._assets.get(_VILLAGE_BASE_FILES.get(key))
 			if art and art[0]:
 				return art[0].get_width() / TILE_SIZE
 			return config[key][1]   # missing file: configured fallback
 
 		def foot_of(key, x, y):
-			"""Every whole ground tile this house covers — the
-			collision footprint (collision.structure_footprint) of
-			its authored collision mask when there is one, and, with
-			the clearance ring, the ground the layout must keep clear
-			so props never spawn under a roof either."""
+			"""The bottom-anchored foot of a village structure's art.
+			Village art is drawn bottom-centred on its anchor tile's diamond centre.
+			"""
 			asset = _collision_asset(self._assets, key)
 			if not asset:
 				return set()
@@ -671,9 +628,9 @@ class VillageGenerator:
 					return False
 			return True
 
-		# Start from the canonical layout (verified conflict-free), then
-		# accept per-building jitter only while routes + footprints stay
-		# clean. Deterministic: same site = same layout, always.
+		# Start from the canonical layout (verified conflict-free), then accept
+		# per-building jitter only while routes + footprints stay clean.
+		# Deterministic: same site = same layout, always.
 		jitters = {key: (0, 0) for key in anchors}
 		for key, _file, _tiles, _anchor in VILLAGE_BUILDINGS:
 			jx = rng.randint(-VILLAGE_ANCHOR_JITTER, VILLAGE_ANCHOR_JITTER)
@@ -690,10 +647,9 @@ class VillageGenerator:
 		foots = foots_of(jitters)
 		path_tiles = routes_of(jitters)
 
-		# Reserved tiles only include the parts that must stay clear of
-		# natural props: building footprints, paths, and the plaza. The open
-		# ground between/around houses stays farmable and can grow
-		# trees/bushes/rocks/flowers.
+		# Reserved tiles only cover what must stay clear of natural props:
+		# building footprints, paths and the plaza. The open ground between the
+		# houses stays farmable.
 		reserve_tiles = set(path_tiles)
 		for bx0, by0, bx1, by1 in blocks:
 			for x in range(bx0, bx1 + 1):
@@ -705,9 +661,9 @@ class VillageGenerator:
 			for x in range(bx0 - clr, bx1 + clr + 1):
 				for y in range(by0 - clr, by1 + clr + 1):
 					reserve_tiles.add((x, y))
-		# ...plus the art's true footprint (the collision shape) with
-		# the same clearance, so nothing spawns on ground a house
-		# covers — including the tiles its height hides behind it.
+		# ...plus the art's true footprint (the collision shape) with the same
+		# clearance, so nothing spawns on ground a house covers - including the
+		# tiles its height hides behind.
 		clr = VILLAGE_BUILDING_CLEARANCE
 		for foot in foots.values():
 			for tx, ty in foot:
@@ -732,9 +688,8 @@ class VillageGenerator:
 				'tiles': art_tiles(key),
 				'anchor': (anchors[key][0] + jx, anchors[key][1] + jy),
 				'block': blocks[len(buildings)],
-				# every whole tile the art covers = the collision shape
-				# (support.ground_footprint_tiles), used by the tests
-				# and kept clear of props/paths
+				# Every whole tile the art covers = the collision shape
+				# (support.ground_footprint_tiles); kept clear of props and paths.
 				'foot': frozenset(foots[key]),
 			})
 
@@ -752,10 +707,9 @@ class VillageGenerator:
 		for name, home, zone in VILLAGERS:
 			zx0, zy0, zx1, zy1 = zone
 			spawn = (cx + (zx0 + zx1) // 2, cy + (zy0 + zy1) // 2)
-			# The zone centre can sit under a neighbouring building
-			# (the original zones overlapped the town hall/lumber
-			# footprints). Spawn on the nearest free tile instead of
-			# inside a wall; the walk AI also refuses those tiles.
+			# The zone centre can sit under a neighbouring building, so spawn on the
+			# nearest free tile instead of inside a wall. The walk AI refuses
+			# those tiles too.
 			def inside_block(tile):
 				if any(bx0 <= tile[0] <= bx1 and by0 <= tile[1] <= by1
 				       for bx0, by0, bx1, by1 in blocks):
@@ -781,10 +735,9 @@ class VillageGenerator:
 				'seed': _det_hash(cx, cy, 'villager', name, self.seed),
 			})
 
-		# Flattened land rect: everything the layout touches (plaza,
-		# blocks, paths, road, NPC zones) plus a margin. While loaded,
-		# these tiles are forced to dry grass so the village sits on
-		# clean ground and villagers never target water.
+		# Flattened land rect: everything the layout touches (plaza, blocks,
+		# paths, road, NPC zones) plus a margin. While loaded these tiles are
+		# forced to dry grass, so villagers never target water.
 		pa = plaza_cfg['tiles']
 		plaza_span = math.ceil(pa)
 		xs = [plaza_anchor[0] - plaza_span, plaza_anchor[0]]
@@ -885,9 +838,7 @@ class VillageGenerator:
 					best_d = d
 		return best
 
-	# ─────────────────────────────────────────────────────────
-	# LOAD / UNLOAD (sprite lifetime)
-	# ─────────────────────────────────────────────────────────
+	# ---- LOAD / UNLOAD (sprite lifetime) ----
 
 	def _building_art(self, key):
 		base = _VILLAGE_BASE_FILES.get(key)
@@ -908,10 +859,9 @@ class VillageGenerator:
 		        for y in range(ly0, ly1 + 1)}
 		paths = spec['path_tiles']
 		self.world_gen.add_village_land(land, paths)
-		# Chunks generated before the village came into range may hold
-		# props on what is now the layout: drop them so the next updates
-		# re-create them with the village reservation active (and the
-		# ground forced flat + dry).
+		# Chunks generated before the village came into range may hold props on
+		# what is now the layout: drop them so the next update re-creates them
+		# with the village reservation active.
 		self.world_gen.invalidate_chunks_in_rect(*spec['reserve_rect'])
 
 		for b in spec['buildings']:
@@ -922,17 +872,11 @@ class VillageGenerator:
 			sprites.append(Building(pos, art[0], [self.all_sprites],
 			                        foot_pad=art[1],
 			                        building_key=b['key']))
-			# Invisible blockers in the collision group only: the
-			# house's TRUE ground footprint — every whole tile the
-			# authored collision mask covers (graphics/world/
-			# Collisions/<house>_collision.png, else the art),
-			# merged into one run rect per row. That is the river-bank
-			# rule applied to a building: the player stops on the tile
-			# line exactly at the house's visible outline and the
-			# ground the roof hides behind stays solid. The doorstep
-			# tile anchor+(1, 1) is always dropped back out so every
-			# door (and the town-hall quest trigger) keeps a walkable
-			# tile in front of it.
+			# Invisible blockers in the collision group only: every whole tile the
+			# Invisible blockers in the collision group only: every whole tile the
+			# authored collision mask covers, merged into one run rect per row. The
+			# river-bank rule applied to a building - the player stops exactly at the
+			# visible outline. The doorstep tile anchor+(1,1) is dropped back out.
 			wx = int(pos.x)
 			wy = int(pos.y)
 			src = _collision_asset(self._assets, b['key']) or art
@@ -992,15 +936,12 @@ class VillageGenerator:
 		# its natural state (props re-spawn, shallow water comes back).
 		self.world_gen.invalidate_chunks_in_rect(*rec['spec']['reserve_rect'])
 
-	# ─────────────────────────────────────────────────────────
-	# ASSETS
-	# ─────────────────────────────────────────────────────────
+	# ---- ASSETS ----
 
 	def _ensure_assets(self):
-		"""Load every village art file once per process (module cache),
-		at its NATIVE pixel size — nothing is scaled up or down, so the
-		houses render exactly as drawn. Runs at Level setup: ~1.5s the
-		first time, then free."""
+		"""Load every village art file once per process, at its NATIVE pixel size -
+		nothing is scaled, so the houses render exactly as drawn.
+		"""
 		files = [fname for _key, fname, _tiles, _anchor in VILLAGE_BUILDINGS]
 		for fname in VILLAGE_BUILDING_AFTER.values():
 			if fname not in files:
@@ -1022,12 +963,9 @@ class VillageGenerator:
 			self._assets[cname] = _VILLAGE_ASSET_CACHE[cname]
 
 	def _process_art(self, path):
-		"""Clean the source art (AI-scale grids / alpha noise) and crop to
-		the visible bounds — then leave it EXACTLY as it is drawn.
-
-		No upscaling, no downscaling: the art keeps its native pixel
-		size, so every source pixel reaches the screen untouched and the
-		pixel-art edges stay hard instead of being smeared by a resampler."""
+		"""Clean a village art file: strip the background and crop to the art.
+		Shared across Level instances, keyed by source file name.
+		"""
 		try:
 			surf = pygame.image.load(path).convert_alpha()
 		except (pygame.error, FileNotFoundError):

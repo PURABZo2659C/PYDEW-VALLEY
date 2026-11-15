@@ -1,7 +1,7 @@
 import os
 
 import pygame
-from settings import asset_path, app_version
+from settings import asset_path, app_version, ui_scale
 
 
 class CreditsScreen:
@@ -64,8 +64,7 @@ class CreditsScreen:
 		return logos
 
 	def _scale(self):
-		sw, sh = self.display_surface.get_size()
-		return max(0.55, min(sw / 1525.0, sh / 860.0))
+		return max(0.55, ui_scale())
 
 	def _font(self, size, bold=False):
 		size = max(8, int(size))

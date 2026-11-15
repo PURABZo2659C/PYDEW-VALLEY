@@ -1,0 +1,102 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: create
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Pydew Valley ${{ github.ref_name }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-windows:
+    needs: create-release
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install dependencies
+        run: pip install --upgrade pip pygame numpy pytmx opencv-python pyinstaller
+      - name: Build Windows
+        working-directory: APP
+        run: build.bat all
+      - name: Upload Windows asset
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $ver = Get-Content build\VERSION.txt
+          gh release upload ${{ github.ref_name }} "APP/dist/Pydew Valley [v$ver] Windows.zip" --clobber
+
+  build-macos:
+    needs: create-release
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install dependencies
+        run: pip install --upgrade pip pygame numpy pytmx opencv-python pyinstaller
+      - name: Build macOS app bundle
+        working-directory: APP
+        run: |
+          python build/make_version_info.py
+          python build/make_icon.py
+          python build/fix_line_endings.py
+          python -m PyInstaller --clean --noconfirm PydewValley.spec
+          VER=$(cat build/VERSION.txt)
+          if [ -d "dist/PydewValley.app" ]; then
+            zip -r "Pydew Valley [v$VER] macOS.zip" "dist/PydewValley.app"
+          fi
+      - name: Upload macOS asset
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VER=$(cat build/VERSION.txt)
+          gh release upload ${{ github.ref_name }} "APP/dist/Pydew Valley [v$VER] macOS.zip" --clobber
+
+  build-linux:
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libsdl2-dev && pip install --upgrade pip pygame numpy pytmx opencv-python pyinstaller
+      - name: Build Linux app dir
+        working-directory: APP
+        run: |
+          python build/make_version_info.py
+          python build/make_icon.py
+          python build/fix_line_endings.py
+          python -m PyInstaller --clean --noconfirm PydewValley.spec
+          VER=$(cat build/VERSION.txt)
+          if [ -d "dist/PydewValley" ]; then
+            zip -r "Pydew Valley [v$VER] Linux.zip" "dist/PydewValley"
+          fi
+      - name: Upload Linux asset
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VER=$(cat build/VERSION.txt)
+          gh release upload ${{ github.ref_name }} "APP/dist/Pydew Valley [v$VER] Linux.zip" --clobber

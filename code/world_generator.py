@@ -11,18 +11,14 @@ from collision import (structure_footprint, structure_blockers,
                        occluded_stand_tiles)
 from random import Random, choice
 
-# -------------------------------------------------------------
-# CHUNK / TILE CONSTANTS
-# -------------------------------------------------------------
+# ---- CHUNK / TILE CONSTANTS ----
 CHUNK_SIZE = 1024
 CHUNK_RADIUS = 3
 TILE = 128
 TILES_PER_CHUNK = CHUNK_SIZE // TILE
 EDGE_BLEND = 64
 
-# -------------------------------------------------------------
-# PERLIN NOISE IMPLEMENTATION
-# -------------------------------------------------------------
+# ---- PERLIN NOISE IMPLEMENTATION ----
 
 class PerlinNoise:
     """2D Perlin noise using gradient vectors and Hermite interpolation.
@@ -88,12 +84,8 @@ class PerlinNoise:
 
     def noise_grid(self, x, y):
         """Vectorized ``noise`` for numpy coordinate arrays.
-
-        Same arithmetic, same operation order as the scalar path, so the
-        produced values are bit-identical (worlds stay deterministic and
-        existing saves keep their terrain). Chunk generation samples the
-        noise layers over a whole tile block at once; the scalar loop
-        spent most of its time in Python-level gradient lookups.
+        Same arithmetic and operation order as the scalar path, so the values are
+        bit-identical and existing saves keep their terrain.
         """
         x = np.asarray(x, dtype=float)
         y = np.asarray(y, dtype=float)
@@ -124,10 +116,8 @@ class PerlinNoise:
     def fractal_grid(self, x, y, octaves=4, persistence=0.5,
                      lacunarity=2.0, scale=1.0):
         """Vectorized ``fractal`` over numpy coordinate arrays.
-
-        All octaves are sampled in one noise_grid call (one numpy pass
-        instead of one per octave) and folded in the same order as the
-        scalar loop, keeping values bit-identical.
+        All octaves are sampled in one noise_grid call and folded in the same
+        order as the scalar loop, keeping values bit-identical.
         """
         x = np.asarray(x, dtype=float)
         y = np.asarray(y, dtype=float)
@@ -153,9 +143,7 @@ class PerlinNoise:
         return ((total / max_amp + 1.0) * 0.5).reshape(shape)
 
 
-# -------------------------------------------------------------
-# DETERMINISTIC WHITE NOISE
-# -------------------------------------------------------------
+# ---- DETERMINISTIC WHITE NOISE ----
 
 def white_noise(x, y, seed=0):
     """Deterministic white noise. Same (x,y,seed) always returns same [0,1] value.
@@ -167,9 +155,8 @@ def white_noise(x, y, seed=0):
 
 def white_noise_grid(x, y, seed=0):
     """Vectorized ``white_noise`` over numpy integer arrays.
-
-    The 32-bit masks make the numpy arithmetic wrap exactly like the
-    Python version, so values match bit for bit.
+    The 32-bit masks make the numpy arithmetic wrap exactly like the Python
+    version, so values match bit for bit.
     """
     x = np.asarray(x, dtype=np.int64)
     y = np.asarray(y, dtype=np.int64)
@@ -190,9 +177,7 @@ def _det_hash(*args):
     return h
 
 
-# -------------------------------------------------------------
-# COORDINATE HELPERS
-# -------------------------------------------------------------
+# ---- COORDINATE HELPERS ----
 
 def grid_to_iso(gx, gy):
     """Convert grid coordinates to isometric screen coordinates"""
@@ -215,9 +200,7 @@ def grid_to_world(gx, gy):
     return gx * TILE, gy * TILE
 
 
-# -------------------------------------------------------------
-# TERRAIN TYPE CONSTANTS
-# -------------------------------------------------------------
+# ---- TERRAIN TYPE CONSTANTS ----
 
 WATER_COLOR = (60, 130, 190)
 
@@ -226,10 +209,10 @@ _PATH_ART_CACHE = None
 
 
 def _load_path_art():
-    """Village path art pieces (graphics/world/Path*.png): slab runs
-    straight along each grid axis, a full 4-way cross and its four
-    quarter slabs. Loaded once per process; None when any file is
-    missing so callers can fall back to procedural tiles."""
+    """Village path art pieces (graphics/world/Path*.png): slab runs along each
+    grid axis, a 4-way cross and its four quarter slabs. None when any file
+    is missing, so callers can fall back to procedural tiles.
+    """
     global _PATH_ART_CACHE
     if _PATH_ART_CACHE is not None:
         return _PATH_ART_CACHE or None
@@ -294,9 +277,7 @@ def _load_path_art():
     return art
 
 
-# -------------------------------------------------------------
-# WORLD GENERATOR
-# -------------------------------------------------------------
+# ---- WORLD GENERATOR ----
 
 class WorldGenerator:
     def __init__(self, all_sprites, collision_sprites, tree_sprites, rock_sprites,
@@ -320,27 +301,24 @@ class WorldGenerator:
         # None. One stage runs per frame (see _advance_staged_chunk).
         self._staged_chunk = None
         # World seed: every terrain/prop/village decision below is a pure
-        # function of it. Level rolls a fresh one for each NEW GAME and
-        # stores it in the save; None keeps the legacy fixed seed.
+        # function of it. Level rolls a fresh one per NEW GAME and stores it in
+        # the save; None keeps the legacy fixed seed.
         self.seed = WORLD_SEED if seed is None else seed
-        # Persistent tree state: felled natural trees stay felled, and
-        # planted-tree tiles are never repopulated by chunk generation.
-        # Both survive world_gen.reset() (day changes / chunk streaming).
+        # Persistent tree state: felled natural trees stay felled and planted-tree
+        # tiles are never repopulated. Survives reset() (day changes, streaming).
         self.removed_tree_ids = set()
         self.removed_debris_ids = set()
         self.removed_rock_ids = set()
         self.planted_tiles = set()
-        # Bushes reroll every 5 in-game days. The nonce feeds the bush
-        # placement hash so the layout moves; trees/logs/rocks keep their
-        # fixed seeds and never reroll.
+        # Bushes reroll every 5 in-game days. The nonce feeds the bush placement
+        # hash; trees/logs/rocks keep their fixed seeds and never reroll.
         self.bush_refresh_nonce = 0
         self._bush_days = 0
         self.player = None
 
-        # Village streaming hooks: Level assigns the VillageGenerator
-        # right after construction. It registers forced-land tiles and
-        # path overlays here, and consults reserved tiles while chunks
-        # generate (see _reserved_tiles_for_chunk).
+        # Village streaming hooks: Level assigns the VillageGenerator right after
+        # construction. It registers forced-land tiles and path overlays here,
+        # and is consulted for reserved tiles while chunks generate.
         self.village_gen = None
         self._village_land = set()
         self._path_tiles = set()
@@ -348,9 +326,8 @@ class WorldGenerator:
         # Terrain cache: eliminates redundant Perlin evaluations
         self._terrain_cache = {}
         self._biome_cache = {}
-        # Raw noise memo (pure functions of (gx, gy)). Chunk generation
-        # prewarms a whole tile block at once with the vectorized
-        # PerlinNoise.fractal_grid; get_terrain_type then reads dicts.
+        # Raw noise memo (pure functions of (gx, gy)). Chunk generation prewarms
+        # a whole tile block at once; get_terrain_type then reads the dicts.
         self._lake_cache = {}
         self._river_cache = {}
         self._moisture_cache = {}
@@ -358,8 +335,8 @@ class WorldGenerator:
         # (cx, cy) -> placable-tile list, shared by all chunk placers
         self._non_water_cache = {}
         # (cx,cy) -> [(gx, gy, deco_surf)] water decos (lily pads etc.),
-        # precomputed with the same per-chunk rng the old chunk bake used
-        # so placements stay deterministic across sessions.
+        # precomputed with the same per-chunk rng so placements stay
+        # deterministic across sessions.
         self._water_deco_cache = {}
         self._farm_patch_cache = {}  # (cx,cy) -> set of (tx, ty) farm-patched tiles
         # Tilled+watered tiles, rendered through the same per-tile overlay
@@ -409,27 +386,20 @@ class WorldGenerator:
         # Water frames (isometric)
         self.iso_water_frames = self._load_iso_water_frames()
 
-        # The ONE cave-entry art (Cave_Entry.png), at ORIGINAL size (no
-        # trim, no rescale). Every doorway uses it - the second file
-        # (Cave_Entry1.png) used to be rolled per doorway for variety.
+        # The ONE cave-entry art (Cave_Entry.png), at ORIGINAL size. Every
+        # doorway uses it - a second file used to be rolled per doorway.
         self.entrance_surf = self._load_entrance_surf('Cave_Entry.png')
-        # Authored collision mask for the cave doorway (see
-        # graphics/world/Collisions/Cave_collision.png): when present it
-        # is the source of truth for the doorway footprint, so the
-        # blocked tiles track the artist's intended outline instead of
-        # whatever the shading left opaque in the art.
+        # Authored collision mask for the cave doorway
+        # (graphics/world/Collisions/Cave_collision.png): when present it is the
+        # source of truth, so the blocked tiles track the artist's outline.
         self.entrance_collision_surf = self._load_entrance_collision_surf(
             'Cave_collision.png')
         foot_surf = (self.entrance_collision_surf
                      if self.entrance_collision_surf is not None
                      else self.entrance_surf)
-        # Ground footprint of the doorway (see
-        # support.ground_footprint_tiles): the whole tiles the rock
-        # covers, so the player can walk right up to its visible
-        # outline. The authored mask gives the base; the drawn art adds
-        # every tile its tall rock tops would paint a player over
-        # (front/doorway tiles stay free by the depth gate). Warmed
-        # here; each door only pays a translation.
+        # Ground footprint of the doorway (support.ground_footprint_tiles): the
+        # whole tiles the rock covers, so the player can walk right up to its
+        # visible outline. Warmed here; each door only pays a translation.
         self._entrance_foot = self._entrance_footprint_for(
             foot_surf, self.entrance_surf)
 
@@ -479,10 +449,10 @@ class WorldGenerator:
         return pool[idx % len(pool)]
 
     def _path_pieces_at(self, gx, gy):
-        """Overlay pieces for one village path tile, picked by the
-        path's angle: the straight slab piece of its grid axis, the
-        curated quarter slabs for two-way corners and the full cross
-        where three or more route tiles meet."""
+        """Overlay pieces for one village path tile, picked by the path's angle: the
+        straight slab of its grid axis, quarter slabs for corners, the full cross
+        where three or more route tiles meet.
+        """
         paths = self._path_tiles
         nx = (gx - 1, gy) in paths
         px = (gx + 1, gy) in paths
@@ -532,15 +502,11 @@ class WorldGenerator:
             return None
 
     def _entrance_footprint_for(self, surf, art=None):
-        """Mask footprint of the doorway UNION the tiles where the drawn
-        art would paint over a standing player (collision.occluded_stand_tiles).
-
-        The authored mask (Cave_collision.png) is the source of truth for
-        the rock's base, but it is shorter than Cave_Entry.png and misses
-        the tall rock tops — those overhang ground further back where a
-        player standing on it would be hidden behind the structure.
-        The art-based pass closes that gap while its depth gate keeps the
-        doorway/front side free."""
+        """Mask footprint of the doorway UNION the tiles where the drawn art would
+        paint over a standing player (collision.occluded_stand_tiles). The
+        authored mask is the source of truth for the rock's base but it is
+        shorter than the art, so the art-based pass closes that gap.
+        """
         foot = set()
         if surf is not None:
             pad = visible_bottom_pad(surf) + TILE_SIZE // 16
@@ -579,9 +545,8 @@ class WorldGenerator:
             trees = [s]
         assets['trees'] = trees
 
-        # Fruit tree art (fruit is baked into the sprite). Kept separate
-        # from trees so ordinary trees never pick it up.
-        # entry: (surf, chance, drop_item) or None
+        # Fruit tree art (fruit baked into the sprite), kept separate from trees
+        # so ordinary trees never pick it up. entry: (surf, chance, drop_item).
         fruit = cfg['fruit_tree']
         assets['fruit_tree'] = (load(fruit[0]), fruit[1], fruit[2]) if fruit else None
 
@@ -624,11 +589,9 @@ class WorldGenerator:
             if surf:
                 assets['bushes'].append((surf, drops, weight))
 
-        # Isometric ground-tile pool - full cubes (grass top + baked
-        # side faces, ground deco prebaked into the art). cfg['ground']
-        # is a folder of numbered variant tiles (picked deterministically
-        # per tile at draw time) or a single file; if neither loads, one
-        # procedural diamond keeps every consumer working.
+        # Isometric ground-tile pool - full cubes (grass top + baked side faces,
+        # ground deco prebaked in). cfg['ground'] is a folder of numbered variant
+        # tiles or a single file; a procedural diamond is the fallback.
         assets['ground'] = []
         ground_path = asset_path(*base, cfg['ground'])
         if os.path.isdir(ground_path):
@@ -659,9 +622,9 @@ class WorldGenerator:
             self._draw_iso_tile(g, (145, 195, 75))
             assets['ground'].append(g)
 
-        # Water decoration tiles (lily pads, reeds, ice floes - any of
-        # the per-biome filename variants). Sheets are horizontal strips
-        # of 64x64 cells, one or two rows.
+        # Water decoration tiles (lily pads, reeds, ice floes - any of the
+        # per-biome filename variants). Sheets are horizontal strips of 64x64
+        # cells, one or two rows.
         assets['water_deco'] = []
         for path in sorted(glob.glob(asset_path(*base, cfg['water_deco_glob']))):
             try:
@@ -680,8 +643,8 @@ class WorldGenerator:
                         assets['water_deco'].append(cell)
 
         # Frozen water surface (e.g. Snowy_Pine ice). Scaled to the exact
-        # water-tile footprint and drawn at the water tile's position -
-        # it is a water level, never raised to ground level.
+        # water-tile footprint and drawn at the water tile's position - a water
+        # level, never raised to ground level.
         assets['ice'] = None
         ice = load(cfg.get('ice_tile'))
         if ice:
@@ -732,16 +695,13 @@ class WorldGenerator:
         ]
         pygame.draw.polygon(surf, color, points)
 
-    # ---------------------------------------------------------
-    # FLAT TERRAIN (lakes + rivers; everything else is land)
-    # ---------------------------------------------------------
+    # ---- FLAT TERRAIN (lakes + rivers; everything else is land) ----
 
     def _lake_at(self, gx, gy):
         """Blobby lake basins: the high tail of a low-frequency noise.
-        Memoized per tile - this noise is sampled a dozen-plus times per
-        visible tile across the movement rules, the painter, chunk
-        placement and the shore scan; without the cache every one of
-        those just re-ran the fractal (profiled 4-6x waste)."""
+        Memoized per tile - this noise is sampled a dozen-plus times per visible
+        tile, so without the cache every one of those re-ran the fractal.
+        """
         key = (gx, gy)
         cache = self._lake_cache
         hit = cache.get(key)
@@ -757,11 +717,10 @@ class WorldGenerator:
         return hit
 
     def _river_at(self, gx, gy):
-        """Long winding rivers as contour bands of one low-frequency
-        noise: |value - level| < half-width marks a river tile. Perlin
-        contour lines read as connected meandering rivers spanning the
-        whole map; the width is dithered per tile for natural banks.
-        Memoized per tile like _lake_at."""
+        """Long winding rivers as contour bands of one low-frequency noise:
+        |value - level| < half-width marks a river tile. Perlin contour lines read
+        as connected meandering rivers. Memoized per tile like _lake_at.
+        """
         key = (gx, gy)
         cache = self._river_cache
         hit = cache.get(key)
@@ -825,12 +784,8 @@ class WorldGenerator:
 
     def _prewarm_water_rect(self, x0, y0, x1, y1):
         """Vectorized lake/river masks over an inclusive tile rect.
-
-        Fills ``_lake_cache``/``_river_cache`` for any tile still missing
-        and returns ``(lake, river)`` as bool arrays indexed
-        ``[gx - x0, gy - y0]``. ``get_terrain_type`` maps exactly these
-        two masks to 'water', so every scalar lookup inside the rect
-        afterwards is a dict hit.
+        Fills the caches for any tile still missing and returns (lake, river) as
+        bool arrays indexed [gx - x0, gy - y0].
         """
         xs = np.arange(x0, x1 + 1, dtype=float)
         ys = np.arange(y0, y1 + 1, dtype=float)
@@ -873,14 +828,9 @@ class WorldGenerator:
 
     def _prewarm_chunk_terrain(self, cx, cy):
         """Sample this chunk's noise fields with numpy, in one block.
-
-        ``get_terrain_type`` reads lake/river noise up to two tiles away
-        (the shore wet-grass ring) plus moisture/detail of the tile
-        itself, so a cold chunk used to run roughly a thousand scalar
-        Perlin fractals (18-20 ms, the remaining streaming hitch). The
-        vectorized sampler produces bit-identical values and only fills
-        cache entries that are still missing, so terrain, villages and
-        saved worlds are unchanged.
+        get_terrain_type reads lake/river noise up to two tiles away plus the
+        tile's own moisture, so a cold chunk used to run ~1000 scalar Perlin
+        fractals. The vectorized sampler produces bit-identical values.
         """
         span = TILES_PER_CHUNK
         margin = 3
@@ -970,9 +920,8 @@ class WorldGenerator:
         if key in self._terrain_cache:
             return self._terrain_cache[key]
 
-        # Village cores force flat dry grassland while a village is
-        # loaded. Deliberately NOT cached: unloading must restore the
-        # noisy terrain underneath.
+        # Village cores force flat dry grassland while a village is loaded.
+        # Deliberately NOT cached: unloading must restore the terrain below.
         if self._village_land and key in self._village_land:
             return 'grass'
 
@@ -1014,15 +963,13 @@ class WorldGenerator:
         self._terrain_cache[key] = result
         return result
 
-    # ---------------------------------------------------------
-    # BIOME DETERMINATION (low-frequency Perlin blobs)
-    # ---------------------------------------------------------
+    # ---- BIOME DETERMINATION (low-frequency Perlin blobs) ----
 
     def biome_at(self, gx, gy):
-        """Minecraft-style biome for a tile: a separate low-frequency noise
-        is mapped to BIOME_BANDS, giving large contiguous regions. Inside a
-        thin band at each threshold the choice is dithered with white noise
-        for a speckled transition. Deterministic in (gx, gy, WORLD_SEED)."""
+        """Minecraft-style biome for a tile: a separate low-frequency noise is mapped
+        to BIOME_BANDS, giving large contiguous regions. Inside a thin band at
+        each threshold the choice is dithered with white noise.
+        """
         key = (gx, gy)
         if key in self._biome_cache:
             return self._biome_cache[key]
@@ -1069,20 +1016,15 @@ class WorldGenerator:
         gy = int(wy) // TILE
         return self.is_water_at(gx, gy)
 
-    # ---------------------------------------------------------
-    # VILLAGE HOOKS (registered by the VillageGenerator)
-    # ---------------------------------------------------------
+    # ---- VILLAGE HOOKS (registered by the VillageGenerator) ----
 
     def add_village_land(self, land_tiles, path_tiles):
         """Force dry flat grassland on these tiles and draw dirt-path
         overlays over these tiles until remove_village_land is called."""
         self._village_land.update(land_tiles)
         self._path_tiles.update(path_tiles)
-        # Drop any terrain answers cached before the village arrived (the
-        # tile under a village may have been queried as 'water' while the
-        # player approached) - a stale cache entry would mask the land
-        # override and the regenerated chunks would bake water under the
-        # village.
+        # Drop terrain answers cached before the village arrived - a stale entry
+        # would mask the land override and bake water under the village.
         for key in land_tiles:
             self._terrain_cache.pop(key, None)
         for key in path_tiles:
@@ -1092,9 +1034,8 @@ class WorldGenerator:
         """Undo add_village_land (the terrain noise re-appears)."""
         self._village_land.difference_update(land_tiles)
         self._path_tiles.difference_update(path_tiles)
-        # Nothing should be cached for these tiles while the land was
-        # active (the override bypasses the cache); pop defensively so the
-        # noisy terrain underneath is recomputed on the next query.
+        # Nothing should be cached for these tiles while the land was active;
+        # pop defensively so the terrain below is recomputed.
         for key in land_tiles:
             self._terrain_cache.pop(key, None)
 
@@ -1113,16 +1054,12 @@ class WorldGenerator:
                     self._non_water_cache.pop(key, None)
                     self._ground_maps_dirty = True
 
-    # ---------------------------------------------------------
-    # TILE SELECTION (Perlin structure + White noise variation)
-    # ---------------------------------------------------------
+    # ---- TILE SELECTION (Perlin structure + White noise variation) ----
 
     def _ground_variant(self, gx, gy, count):
         """Deterministic per-tile index into a biome's ground-tile pool.
-
-        The last tile (39) is the plain, deco-free tile: it wins ~50% of
-        tiles so the baked deco on 0..38 reads as a natural accent instead
-        of uniform noise; the remaining 50% spread over the decorated set.
+        The last tile is the plain, deco-free one: it wins ~50% of tiles so the
+        baked deco reads as a natural accent instead of uniform noise.
         """
         if count <= 1:
             return 0
@@ -1139,9 +1076,7 @@ class WorldGenerator:
         pool = self.biome_assets[self.biome_at(gx, gy)]['ground']
         return pool[self._ground_variant(gx, gy, len(pool))]
 
-    # ---------------------------------------------------------
-    # CHUNK SURFACE RENDERING (flat top-down fallback bake)
-    # ---------------------------------------------------------
+    # ---- CHUNK SURFACE RENDERING (flat top-down fallback bake) ----
 
     def _make_chunk_surface(self, cx, cy, isometric=False, water_frame_idx=0):
         """Flat top-down chunk surface (non-isometric fallback bake)."""
@@ -1166,10 +1101,8 @@ class WorldGenerator:
 
     def _is_water_interior(self, gx, gy):
         """True when all 4 grid neighbors are also water.
-
-        Water deco cells are 64px squares on a 128x64 diamond; their
-        corners poke past the diamond into these neighbor tiles, so only
-        interior tiles can hold deco without it hanging over the shore.
+        Water deco cells are 64px squares on a 128x64 diamond; their corners poke
+        past the diamond, so only interior tiles can hold deco.
         """
         for dx, dy in ((-1, 0), (1, 0), (0, -1), (0, 1)):
             if not self.is_water_at(gx + dx, gy + dy):
@@ -1177,17 +1110,9 @@ class WorldGenerator:
         return True
 
     def _land_top_cube(self, biome, gidx):
-        """This tile's ground art, used AS-IS.
-
-        Every ground variant is already a full iso cube (top diamond +
-        baked side faces, deco prebaked), so there is no base surface to
-        composite onto any more - the Below_ground.png cube and its
-        procedural fallback are gone (plan item 7). The pool entries are
-        already cached by _load_biome_assets, so no per-variant cache is
-        needed either.
-
-        Returns None only if the biome has no ground pool at all; the
-        caller then skips the tile instead of drawing a bare cube.
+        """The isometric ground cube for a tile.
+        Picks a variant from the biome's ground pool (or a procedural diamond when
+        the pool is empty) with the tile's depth key.
         """
         pool = self.biome_assets.get(biome, {}).get('ground')
         if not pool:
@@ -1195,10 +1120,10 @@ class WorldGenerator:
         return pool[gidx % len(pool)]
 
     def _precompute_water_decos(self, cx, cy):
-        """Deterministic water-deco placement for a chunk (lily pads,
-        reeds, ice floes). Uses the same per-chunk rng stream and
-        back-to-front tile order as the old chunk-surface bake, so
-        placements are identical to what it used to draw."""
+        """Deterministic water-deco placement for a chunk (lily pads, reeds, ice
+        floes). Uses the same per-chunk rng stream and tile order as the old
+        chunk-surface bake, so placements are identical.
+        """
         if not any(ba.get('water_deco') for ba in self.biome_assets.values()):
             return
         deco_rng = Random(_det_hash(cx, cy, 'water_deco'))
@@ -1235,23 +1160,9 @@ class WorldGenerator:
         return b
 
     def iter_ground_entries(self, sw, sh, ox, oy):
-        """Yield (sort_key, rank, surf, dx, dy, src_rect) for every
-        visible ground piece; Level.custom_draw merges these with sprites
-        into one painter's pass.
-
-        FLAT world: every tile is a single surface on the z=0 plane -
-        a ground cube (top + baked sides) or a water diamond. The liquid
-        art sits 32px sunk in its box (WATER_SUNK_OFFSET), reading as a
-        recessed plane under the land cubes.
-
-        sort_key[0] = x_px + y_px is the isometric view depth of this
-        projection (view axis (1,1) in pixel units): larger = closer to
-        the camera = drawn later. rank orders pieces sharing a depth:
-        0 water/land tiles, 0.5 ice, 0.7 water deco, 2 farm patch (the
-        caller ranks sprites 3). Flat overlays add OVERLAY_LIFT (must
-        stay < 128: the next tile row is +128 and its top face has to
-        paint over shared overlay strips) and sprites SPRITE_LIFT so
-        they win over coplanar tops.
+        """Yield the ground pieces of a chunk, in painter order.
+        Each entry is (gx, gy, surface, depth, rank, level, z). The cave has lava
+        and no water decos, the overworld has farms, paths and water overlays.
         """
         half_w = ISO_TILE_WIDTH // 2   # 64
         half_h = ISO_TILE_HEIGHT // 2  # 32
@@ -1346,16 +1257,13 @@ class WorldGenerator:
                 biome_name = biome_at(gx, gy)
                 gpool = gpools[biome_name]
                 if gpool:
-                    # ground art IS the tile now (full cube, no base to
-                    # composite onto) - _land_top_cube hands back the
-                    # pool entry directly
+                    # Ground art IS the tile now (full cube, no base to composite onto).
                     top_cube = land_top_cube(
                         biome_name, self._ground_variant(gx, gy, len(gpool)))
                     yield (ray, 0.0, top_cube, dx, dy, bounds(top_cube))
 
-                # Village dirt path: chunky slab pieces picked by the
-                # path's angle, above the ground cube (rank 1.5) but
-                # below farm patches (rank 2) - tilling still wins.
+                # Village dirt path: chunky slab pieces picked by the path's angle, above
+                # the ground cube (rank 1.5) but below farm patches (rank 2).
                 if self._path_tiles and (gx, gy) in self._path_tiles:
                     for psurf in self._path_pieces_at(gx, gy):
                         yield (ray + OVERLAY_LIFT, 1.5, psurf,
@@ -1373,25 +1281,20 @@ class WorldGenerator:
                            dx, dy, bounds(soilw))
 
 
-    # ---------------------------------------------------------
-    # OBJECT PLACEMENT (noise-based natural clustering)
-    # ---------------------------------------------------------
+    # ---- OBJECT PLACEMENT (noise-based natural clustering) ----
 
     def _is_near_water(self, gx, gy, radius=1):
-        """Check if a grid position has lake/river water within radius
-        tiles. Uses the raw water noises, NOT is_water_at/get_terrain_type
-        - those route back into get_terrain_type's shore band which calls
-        this helper, and an in-flight tile is not yet cached, so the loop
-        would recurse forever (RecursionError)."""
+        """Check if a grid position has lake/river water within radius tiles.
+        Uses the raw water noises, NOT is_water_at/get_terrain_type - those route
+        back into get_terrain_type's shore band.
+        """
         for dx in range(-radius, radius + 1):
             for dy in range(-radius, radius + 1):
                 if self._lake_at(gx + dx, gy + dy) or self._river_at(gx + dx, gy + dy):
                     return True
         return False
 
-    # ---------------------------------------------------------
-    # CAVE ENTRANCES (jittered grid sampling with a dead zone)
-    # ---------------------------------------------------------
+    # ---- CAVE ENTRANCES (jittered grid sampling with a dead zone) ----
 
     def _sector_entrance(self, sx, sy):
         """One deterministic entrance position per sector, inset from the
@@ -1411,19 +1314,16 @@ class WorldGenerator:
         if span > 0:
             gx0 = sx * CAVE_SECTOR_SIZE + margin
             gy0 = sy * CAVE_SECTOR_SIZE + margin
-            # Warm the lake/river noise for the whole scan (plus the
-            # 5x6 doorway footprint) in one vectorized pass. Without
-            # this the stride walk sampled cold Perlin for every
-            # candidate footprint - the last multi-ms streaming spike.
+            # Warm the lake/river noise for the whole scan (plus the 5x6 doorway
+            # footprint) in one vectorized pass - without it the stride walk sampled
+            # cold Perlin for every candidate footprint.
             self._prewarm_water_rect(gx0 - 2, gy0 - 2,
                                      gx0 + span + 1,
                                      gy0 + span + 2)
             total = span * span
-            # The legacy WORLD_SEED keeps the original walk so an
-            # existing save never sees a cave door move; every freshly
-            # rolled seed rotates where the stride starts, which puts
-            # each new world's doors on different tiles. The walk stays
-            # a full cycle either way (17 is coprime with span²).
+            # The legacy WORLD_SEED keeps the original walk so an existing save
+            # never sees a cave door move; every freshly rolled seed rotates where
+            # the stride starts. The walk stays a full cycle either way.
             start = (0 if self.seed == WORLD_SEED else
                      _det_hash(sx, sy, 'entrance', self.seed) % total)
             for i in range(total):
@@ -1444,10 +1344,8 @@ class WorldGenerator:
         inside a settlement."""
         for dx in range(-2, 3):
             for dy in range(-2, 4):
-                # Raw water noise (get_terrain_type maps exactly these
-                # to 'water'); village-land tiles are handled by the
-                # settlement check below, so no terrain classification
-                # is needed here.
+                # Raw water noise (get_terrain_type maps exactly these to 'water');
+                # village-land tiles are handled by the settlement check below.
                 if (self._lake_at(gx + dx, gy + dy)
                         or self._river_at(gx + dx, gy + dy)):
                     return False
@@ -1512,12 +1410,9 @@ class WorldGenerator:
             surf = self.entrance_surf
             if surf is None:
                 continue
-            # Rect stays CENTRED on the door tile so the depth-sort line
-            # is the tile centre; the art is dropped onto the tile's
-            # south half visually via foot_pad (= sole padding + half a
-            # tile-diamond height). z sits one notch below 'main', so on
-            # a depth tie the player at the door always draws in front,
-            # whatever order the chunk reloads sprites in.
+            # Rect stays CENTRED on the door tile so the depth-sort line is the tile
+            # centre; foot_pad drops the art onto the south half. z sits one notch
+            # below 'main', so on a depth tie the player at the door draws in front.
             wx = gx * TILE + TILE // 2
             wy = gy * TILE + TILE // 2
             spr = Generic(
@@ -1528,38 +1423,23 @@ class WorldGenerator:
             # TILE_SIZE//4 world px deep == TILE_SIZE//16 screen px down
             spr.foot_pad = visible_bottom_pad(surf) + TILE_SIZE // 16
             sprites.append(spr)
-            # Trigger: the doorway's whole front apron (the mound's ink
-            # spreads ~2.5 tiles around the door tile, the door itself
-            # drawn west of centre, so the walkable front runs from the
-            # west flank to the open east side). The ENTER prompt shows
-            # while the player stands anywhere in front of the door -
-            # never from far around the sides/back.
+            # Trigger: the doorway's whole front apron (the mound's ink spreads ~2.5
+            # tiles around the door tile, the door drawn west of centre). The ENTER
+            # prompt shows while the player stands in front - never from the sides.
             trig = Interaction((wx - 320, wy - 192), (640, 448),
                                self.interaction_sprites, 'CaveEntrance')
             sprites.append(trig)
             self._add_entrance_blockers(sprites, wx, wy)
 
     def _add_entrance_blockers(self, sprites, wx, wy):
-        """Invisible collision wall on the doorway art's GROUND
-        FOOTPRINT - the exact whole tiles the rock covers
-        (support.ground_footprint_tiles: every opaque art pixel
-        projected back onto the ground).
+        """        Wall off the ground a player standing there would be painted over by
+        the cave doorway art.
 
-        Two rules follow, both matching a river bank:
-
-        * the wall stops at the art's VISIBLE outline, so the player can
-          walk right up to the rock instead of being stopped a sprite's
-          width away in open ground (the old occlusion bands dilated the
-          footprint by the character box - that was the gap you could
-          see in front of the entrance);
-        * every tile is a solid 128x128 box, so there is no ragged
-          art-pixel rim to slip through - you stop on the tile line.
-
-        Neighbouring tiles in a row merge into one run rect. The front
-        apron keeps whatever tiles the art does not cover, so the ENTER
-        zone stays reachable. Blockers live outside the camera group
-        (nothing to draw) and ride the chunk sprite list, so unloading
-        cleans them up."""
+        Same rule as the river bank: the structure's own depth key covers the
+        back side, and the coverage test keeps a roof edge that only clips the
+        air from turning open ground into a wall. The doorway's front apron
+        stays walkable.
+        """
         foot = self._entrance_foot
         has_surf = (self.entrance_collision_surf is not None
                     or self.entrance_surf is not None)
@@ -1633,19 +1513,17 @@ class WorldGenerator:
             self._generate_chunk_stage(sprites, cx, cy, stage)
         return sprites
 
-    # Enough stages that no single frame pays more than ~2 ms of chunk
-    # work: noise prewarm+water, shared tile scan, trees, other props,
-    # water deco. One stage per frame keeps a chunk-ring crossing off
-    # the 16.7 ms budget entirely (nine new chunks = 45 frames, while
-    # the outer ring only turns into draw-range after ~150 frames).
+    # Enough stages that no single frame pays more than ~2 ms of chunk work:
+    # noise prewarm+water, shared tile scan, trees, other props, water deco.
+    # One stage per frame keeps a chunk-ring crossing off the 16.7 ms budget.
     _CHUNK_STAGES = 5
 
     def _generate_chunk_stage(self, sprites, cx, cy, stage):
         """Run one slice of a chunk build, appending to `sprites`."""
         if stage == 0:
-            # Sample the noise layers for the whole chunk + shore border
-            # in one vectorized pass before any per-tile terrain query;
-            # then create the water walls and cave doorway.
+            # Sample the noise layers for the whole chunk + shore border in one
+            # vectorized pass before any per-tile query; then the water walls and
+            # cave doorway.
             self._prewarm_chunk_terrain(cx, cy)
             self._place_water_colliders(sprites, cx, cy)
             self._place_cave_entrances(sprites, cx, cy)
@@ -1696,22 +1574,11 @@ class WorldGenerator:
         self.update(player_pos, isometric, staggered=False)
 
     def _prop_density(self, gx, gy, kind):
-        """Should a natural prop of this kind spawn on this tile?
+        """        Chance that a tile gets a natural prop of a given kind.
 
-        Two independent fields multiply into one chance:
-
-        * white noise gives every tile its own roll, so the EXPECTED
-          density is the same on every tile of the map. That is what
-          keeps the ground equally dressed beside the village and a
-          hundred tiles from it - no bare stretches, no walls of trees,
-          whatever the terrain noise is doing underneath.
-        * a slow value-noise band bends only the LOCAL average, by at
-          most -PROP_DENSITY_RELIEF, so the scatter still clumps the
-          way real vegetation does. Its mean is 0.5, so folding it in
-          leaves the map-wide average exactly `base`.
-
-        Cheap on purpose: the white-noise roll is a single integer hash
-        and turns away ~95% of tiles before the noise lookup runs.
+        Blends a low-frequency noise field with a per-tile roll, so props clump
+        naturally instead of sprinkling evenly. The noise is sampled on the
+        chunk's tile grid, so the answer only depends on the tile.
         """
         base, seed = PROP_DENSITY[kind]
         w = white_noise(gx, gy, seed)
@@ -1731,10 +1598,9 @@ class WorldGenerator:
         rng = Random(_det_hash(cx, cy, 'trees'))
         tiles = self._get_non_water_tiles(cx, cy)
 
-        # Widest canopy + margin. Trees also check against trees already
-        # placed in NEIGHBOURING chunks (self.tree_sprites) so canopies
-        # never overlap across a chunk boundary - within-chunk spacing
-        # alone left border trees touching.
+        # Widest canopy + margin. Trees also check against trees in NEIGHBOURING
+        # chunks (self.tree_sprites), so canopies never overlap across a chunk
+        # boundary.
         SPACING = 180
         NEIGHBOUR_SPACING = 160
 
@@ -1819,9 +1685,8 @@ class WorldGenerator:
             if any(abs(s.rect.centerx - wx) < spacing and
                    abs(s.rect.centery - wy) < spacing for s in sprites):
                 continue
-            # Trees have wide canopies: keep debris a proper distance from
-            # any tree (incl. neighbour chunks) so a log/stump never sits
-            # under a canopy. Debris shares tree_sprites with trees.
+            # Trees have wide canopies: keep debris away from any tree (including
+            # neighbour chunks) so a log/stump never sits under a canopy.
             TREE_SPACING = 150
             if any(abs(t.rect.centerx - wx) < TREE_SPACING and
                    abs(t.rect.centery - wy) < TREE_SPACING
@@ -1989,9 +1854,7 @@ class WorldGenerator:
             sprites.append(p)
             return
 
-    # ---------------------------------------------------------
-    # TREE PERSISTENCE
-    # ---------------------------------------------------------
+    # ---- TREE PERSISTENCE ----
 
     def _planted_near(self, gx, gy, radius=0):
         """True when a planted tree owns this tile or a nearby tile."""
@@ -2038,15 +1901,9 @@ class WorldGenerator:
         return [list(i) for i in sorted(self.removed_rock_ids)]
 
     def apply_removed_debris(self, ids):
-        """Restore the removed-debris set and prune any already-generated
-        copies.
-
-        NOTE: debris (cut logs / stumps) is represented by `Tree` sprites
-        that are registered in `tree_sprites` and carry a `tree_id` (same
-        as full trees), NOT a separate `debris_sprites` group. Iterating
-        `tree_sprites` here is therefore intentional and correct. If debris
-        is ever migrated to its own sprite group, this loop and the
-        `_place_debris`/collision/draw paths must be updated together.
+        """Apply the list of debris the player removed back to the world.
+        Felled trees and chopped debris must stay gone across a save/load, so
+        the removed set is applied before the chunk is rebuilt.
         """
         self.removed_debris_ids = {tuple(i) for i in ids or ()}
         for tree in list(self.tree_sprites.sprites()):
@@ -2074,9 +1931,7 @@ class WorldGenerator:
         surfs = self.tree_surfs_for_sapling(item)
         return surfs[-1] if surfs else None
 
-    # ---------------------------------------------------------
-    # CHUNK LIFECYCLE
-    # ---------------------------------------------------------
+    # ---- CHUNK LIFECYCLE ----
 
     def _remove_chunk(self, key):
         """Remove all sprites belonging to a chunk."""
@@ -2120,9 +1975,9 @@ class WorldGenerator:
                     display_surface.blit(chunk_surf, (draw_x, draw_y))
             return
 
-        # Isometric: per-tile ground is emitted by iter_ground_entries and
-        # drawn in Level.custom_draw's unified painter pass (interleaved
-        # with sprites). Only the black backdrop is painted here.
+        # Isometric: per-tile ground is emitted by iter_ground_entries and drawn
+        # in Level.custom_draw's unified painter pass. Only the black backdrop
+        # is painted here.
 
     def update(self, player_pos, isometric=True, staggered=True):
         """Update chunks around the player. Runtime calls are staggered
@@ -2135,11 +1990,9 @@ class WorldGenerator:
             for dy in range(-gen_radius, gen_radius + 1):
                 needed.add((pcx + dx, pcy + dy))
 
-        # Remove distant chunks. The farm-patch and soil-water caches are
-        # NOT pruned: they hold player-owned garden overlays (tilled/
-        # watered tiles), which must survive chunk unloading until the
-        # soil layer itself changes them - losing them made tilled tiles
-        # vanish when walking away from the farm and coming back.
+        # Remove distant chunks. The farm-patch and soil-water caches are NOT
+        # pruned: they hold player-owned garden overlays, which must survive
+        # unloading until the soil layer itself changes them.
         for key in [k for k in self.active_chunks if k not in needed]:
             self._remove_chunk(key)
             del self.active_chunks[key]
@@ -2171,9 +2024,8 @@ class WorldGenerator:
                     self._chunk_surfs[key] = [self._make_chunk_surface(cx, cy, False)]
                 self.active_chunks[key] = self._generate_chunk(cx, cy)
         else:
-            # One stage per frame. Chunks are completed in distance
-            # order, so cross-chunk spacing decisions see the same
-            # neighbours as the old one-chunk-per-frame fill.
+            # One stage per frame. Chunks are completed in distance order, so
+            # cross-chunk spacing decisions see the same neighbours as before.
             if self._staged_chunk is None and missing:
                 self._start_staged_chunk(missing[0])
                 if not isometric:
@@ -2183,10 +2035,9 @@ class WorldGenerator:
             if self._staged_chunk is not None:
                 self._advance_staged_chunk()
 
-        # The placed-tile scan and noise memos grow with visited tiles /
-        # generated chunks; they are pure math and placement proxies (no
-        # live sprite state), so wholesale clears are always safe - do
-        # them when huge instead of burning memory forever.
+        # The placed-tile scan and noise memos grow with visited tiles and
+        # generated chunks; they are pure math and placement proxies (no live
+        # sprite state), so wholesale clears are always safe.
         if len(self._lake_cache) > 400_000:
             self._lake_cache.clear()
         if len(self._river_cache) > 400_000:
@@ -2227,14 +2078,9 @@ class WorldGenerator:
         return True
 
     def reset(self):
-        """Reset all world generation state.
-
-        The garden overlays (_farm_patch_cache / _soil_water_cache) are
-        part of the player's farm, held in the soil layer's grid - they
-        survive day resets; only the water layer is intentionally
-        cleared (rain re-watering re-marks it). Tree persistence sets
-        (removed_tree_ids / planted_tiles) also survive: chopped trees
-        never regrow on their own.
+        """Reset the procedural world for a new day or a scene swap.
+        Clears the noise and placement caches and re-seeds the props, but keeps
+        the tree persistence state so felled trees stay felled.
         """
         for key in list(self.active_chunks.keys()):
             self._remove_chunk(key)
@@ -2279,9 +2125,8 @@ class WorldGenerator:
         if self._farm_patch_iso is None:
             try:
                 farm_patch = pygame.image.load(asset_path('graphics', 'world', 'farm_patch.png')).convert_alpha()
-                # The art is authored like the other ground tiles: a
-                # 128x128 box whose diamond face fills rows 0..64, so it
-                # blits flush on the tile topleft with no crop.
+                # The art is authored like the other ground tiles: a 128x128 box whose
+                # diamond face fills rows 0..64, so it blits flush with no crop.
                 self._farm_patch_iso = pygame.transform.scale(
                     farm_patch, (ISO_TILE_WIDTH, ISO_TILE_WIDTH))
             except Exception as exc:  # missing art: patch fallback, but say why

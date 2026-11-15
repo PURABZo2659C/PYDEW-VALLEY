@@ -8,21 +8,8 @@ from sprites import Rock, Ore, Crate, Pot
 
 
 class CaveGenerator:
-	"""Terrain for the cave world space — a FLAT plane.
-
-	The cave keeps its lava ocean (everything not land is lava — no
-	black void anywhere), generated from one Perlin shape layer: land
-	stays where the value lies inside a band symmetric around 0.5,
-	winding cave corridors at ~50/50. The band is calibrated from the
-	noise's own quantiles so the split is deterministic. There are no
-	elevation levels: every tile is a single ground cube or lava tile
-	on the same plane (lava art sunk 32px, reading as a fluid plane
-	under the land tops). The fixed exit sit sits on flat land near
-	the top-left of the world.
-
-	Duck-typed like WorldGenerator (iter_ground_entries / draw_ground /
-	height_at / biome_at / is_water_at ...) so CameraGroup.custom_draw
-	and the shared movement rules work unchanged.
+	"""Terrain for the cave world space - a FLAT plane where everything that
+	is not land is lava. Land comes from one Perlin band around 0.5.
 	"""
 
 	def __init__(self, all_sprites=None, collision_sprites=None,
@@ -36,7 +23,7 @@ class CaveGenerator:
 		self.decor_sprites = decor_sprites if decor_sprites is not None else pygame.sprite.Group()
 		self.seed = WORLD_SEED if seed is None else seed
 		# Kept for interface parity with WorldGenerator (the cave has no
-		# chunk-placed sprites yet — ground is emitted per tile on demand).
+		# chunk-placed sprites yet - ground is emitted per tile on demand).
 		self.active_chunks = {}
 
 		self.perlin_shape = PerlinNoise(seed=self.seed + 900)
@@ -47,21 +34,18 @@ class CaveGenerator:
 		self._surf_bounds = {}
 
 		# Cave props (rocks / ore veins / decorations): session state.
-		# Placement is deterministic per tile, so leaving and returning
-		# restores the same veins — except the ones the player mined.
+		# Deterministic per tile; the ones the player mined stay mined.
 		self._placed = {}        # (gx, gy) -> sprite (alive, in groups)
 		self._mined = set()      # tiles whose prop was destroyed
 		self._prop_center = None
-		# Incremented on every cave entry so ores/rocks/decor roll a fresh
-		# layout instead of replaying the same deterministic tiles.
+		# Incremented on every cave entry so ores/rocks/decor roll a fresh layout
+		# instead of replaying the same deterministic tiles.
 		self._entry_nonce = 0
 
 		self._load_assets()
 		self._calibrate_band()
 
-	# ─────────────────────────────────────────────────────────
-	# ASSETS
-	# ─────────────────────────────────────────────────────────
+	# ---- ASSETS ----
 
 	def _load_assets(self):
 		self.ground_pool = self._load_ground_pool()
@@ -88,16 +72,13 @@ class CaveGenerator:
 		return out
 
 	def _load_prop_assets(self):
-		"""Prop art pools: ore veins keyed by item name (graphics/Caves/
-		Ores — one file per CAVE_ORES row), plus the rock and decoration
-		pools. Decorations keep their file names: 'loaded' crates and
-		shelves can yield an ore, anything named 'pot' is a punch
-		pickup. Missing folders just leave empty pools (props are then
-		skipped safely)."""
+		"""Ore vein art keyed by item name, plus the rock and decoration pools.
+		'loaded' crates can yield an ore, 'pot' is a punch pickup.
+		"""
 		self.ore_surfs = dict(self._load_folder_named('Caves', 'Ores'))
 		self.rock_surfs = [s for _n, s in self._load_folder_named('Caves', 'Rocks')]
-		# 'double crates' (the small empty crate pair) is retired —
-		# filtered out so the art file stays but never spawns.
+		# 'double crates' (the small empty crate pair) is retired - filtered out
+		# so the art file stays but never spawns.
 		self.decor_entries = [e for e in
 			self._load_folder_named('Caves', 'decorations')
 			if e[0] != 'double crates']
@@ -147,9 +128,7 @@ class CaveGenerator:
 		                             (hw, ISO_TILE_HEIGHT), (0, hh)])
 		return s
 
-	# ─────────────────────────────────────────────────────────
-	# SHAPE BAND (50% land / 50% lava, calibrated from quantiles)
-	# ─────────────────────────────────────────────────────────
+	# ---- SHAPE BAND (50% land / 50% lava, calibrated from quantiles) ----
 
 	def _shape_value(self, gx, gy):
 		return self.perlin_shape.fractal(
@@ -160,10 +139,9 @@ class CaveGenerator:
 			scale=CAVE_NOISE_SCALE)
 
 	def _calibrate_band(self):
-		"""Land stays where the shape value lies inside [p25, p75] of the
-		noise's distribution — by construction ~50% of tiles, symmetric
-		around 0.5 like the reference's two thresholds. Sampled on a fixed
-		grid, so it is deterministic for WORLD_SEED."""
+		"""Land stays where the shape value lies inside [p25, p75] of the noise's
+		distribution - by construction ~50% of tiles, symmetric around 0.5.
+		"""
 		samples = []
 		for gy in range(0, 96, 2):
 			for gx in range(0, 96, 2):
@@ -213,9 +191,7 @@ class CaveGenerator:
 	def is_point_in_water(self, wx, wy):
 		return self.is_water_at(int(wx) // TILE_SIZE, int(wy) // TILE_SIZE)
 
-	# ─────────────────────────────────────────────────────────
-	# DEBUG-PANEL / SNOW-CHECK SHIMS
-	# ─────────────────────────────────────────────────────────
+	# ---- DEBUG-PANEL / SNOW-CHECK SHIMS ----
 
 	def get_terrain_type(self, gx, gy):
 		if self._is_lava_shape(gx, gy):
@@ -225,19 +201,12 @@ class CaveGenerator:
 	def biome_at(self, gx, gy):
 		return 'Cave'
 
-	# ─────────────────────────────────────────────────────────
-	# GROUND TILES
-	# ─────────────────────────────────────────────────────────
+	# ---- GROUND TILES ----
 
 	def _ground_variant(self, gx, gy):
 		"""Deterministic per-tile index into the cave ground pool.
-
-		Blue-noise separation: a tile is decorated only when its roll is
-		the strict local maximum among itself and its 4 edge neighbours,
-		so no two decorated tiles ever share an edge. The rule settles
-		at ~20% decorated / 80% the plain last tile on its own — rubble
-		stays a sparse accent instead of the congested clumps independent
-		per-tile rolls produce.
+		Blue-noise: a tile is decorated only when its roll beats its 4
+		neighbours, so no two decorated tiles share an edge.
 		"""
 		count = len(self.ground_pool)
 		if count <= 1:
@@ -260,13 +229,8 @@ class CaveGenerator:
 
 	def _top_cube(self, gidx):
 		"""This tile's cave ground art, used AS-IS.
-
-		Every cave ground variant is already a full iso cube (top
-		diamond + baked side faces), so there is no base surface to
-		composite onto any more — the Below_ground.png cube and its
-		procedural fallback are gone (plan item 7). Pool entries are
-		already cached by _load_ground_pool, so no per-variant cache
-		is needed either.
+		Every variant is already a full iso cube, so there is no base to composite
+		onto.
 		"""
 		return self.ground_pool[gidx % len(self.ground_pool)]
 
@@ -280,16 +244,12 @@ class CaveGenerator:
 			self._surf_bounds[surf] = b
 		return b
 
-	# ─────────────────────────────────────────────────────────
-	# RENDERING (same contract as WorldGenerator's iso ground pass)
-	# ─────────────────────────────────────────────────────────
+	# ---- RENDERING (same contract as WorldGenerator's iso ground pass) ----
 
 	def iter_ground_entries(self, sw, sh, ox, oy):
-		"""Yield (sort_key, rank, surf, dx, dy, src_rect) for every
-		visible cave ground piece — lava tiles and cave ground cubes —
-		for Level.custom_draw's unified painter pass. FLAT plane: every
-		tile is a single surface; the lava art pitches down its box
-		(WATER_SUNK_OFFSET) so the lava reads as a recessed fluid plane."""
+		"""Yield every visible cave ground piece for the painter pass.
+		The lava art pitches down its box so it reads as a recessed plane.
+		"""
 		half_w = ISO_TILE_WIDTH // 2
 		half_h = ISO_TILE_HEIGHT // 2
 		pad = ISO_TILE_WIDTH
@@ -324,10 +284,8 @@ class CaveGenerator:
 				ray = v * 128 + 128
 
 				if is_lava(gx, gy):
-					# The lava fill, drawn raw and hollow — the art sits
-					# sunk in its box, like the overworld's water plane.
-					# Each tile runs its own phase (deterministic per
-					# tile) so the ocean bubbles without lockstep pulses.
+					# Lava fill drawn raw and hollow, like the overworld's water plane.
+					# Each tile runs its own phase, so the ocean bubbles out of lockstep.
 					if dy >= sh or dy + pad <= 0:
 						continue
 					key = (gx, gy)
@@ -351,16 +309,12 @@ class CaveGenerator:
 		iter_ground_entries in Level.custom_draw's painter pass."""
 		display_surface.fill((0, 0, 0))
 
-	# ─────────────────────────────────────────────────────────
-	# PROPS (rocks, ore veins, decorations)
-	# ─────────────────────────────────────────────────────────
+	# ---- PROPS (rocks, ore veins, decorations) ----
 
 	def update(self, player_pos, isometric=True):
-		"""Stream cave props around the player: place every prop inside
-		the keep radius that is neither placed nor mined yet, despawn
-		props left far behind. Placement is deterministic per tile, so
-		scrolling back restores the same veins — mined tiles stay bare.
-		Runs only when the player changes tile."""
+		"""Stream cave props around the player: place what is inside the keep
+		radius and not yet placed or mined, despawn what is left far behind.
+		"""
 		pgx = int(player_pos.x) // TILE_SIZE
 		pgy = int(player_pos.y) // TILE_SIZE
 		if (pgx, pgy) == self._prop_center:
@@ -426,10 +380,10 @@ class CaveGenerator:
 		return None
 
 	def _ore_for_depth(self, depth, t):
-		"""Weighted ore pick for a tile `depth` tiles from the exit — a
-		rare ore's weight fades in across its ramp (CAVE_ORES), so coal
-		and copper dominate near the lift and gems only appear far
-		out. `t` is the caller's deterministic roll in [0, 1)."""
+		"""Weighted ore pick for a tile `depth` tiles from the exit. A rare ore's
+		weight fades in across its ramp, so coal and copper dominate near the
+		lift and gems only appear far out. `t` is the caller's roll in [0, 1).
+		"""
 		weights = []
 		total = 0.0
 		for item, w_near, w_deep, d0, d1, _hits, _lo, _hi in CAVE_ORES:
@@ -469,8 +423,8 @@ class CaveGenerator:
 				pos = (wx, wy), surf = self.rock_surfs[arg],
 				groups = [self.all_sprites, self.collision_sprites, self.prop_sprites],
 				player_add = self.player_add)
-		# Decorations: solid scenery. Crates/shelves are cut with the axe
-		# (loaded ones can yield an ore); pots are punched for pickup.
+		# Decorations: solid scenery. Crates/shelves are cut with the axe (loaded
+		# ones can yield an ore); pots are punched for pickup.
 		stem, surf = self.decor_entries[arg]
 		groups = [self.all_sprites, self.collision_sprites, self.decor_sprites]
 		if 'pot' in stem:
@@ -483,18 +437,14 @@ class CaveGenerator:
 			player_add = self.player_add,
 			health = CAVE_CRATE_HEALTH, loaded = loaded)
 
-	# ─────────────────────────────────────────────────────────
-	# LIFECYCLE (interface parity; no chunk sprites yet)
-	# ─────────────────────────────────────────────────────────
+	# ---- LIFECYCLE (interface parity; no chunk sprites yet) ----
 
 	def init(self, player_pos, isometric=True):
 		pass
 
 	def reset_props(self):
-		"""Cave entry reset: clear mined state and reroll prop placement.
-
-		Called by Level when swapping into the cave so every visit has a
-		fresh set of ores, rocks and decorations.
+		"""Cave entry reset: clear mined state and reroll prop placement, so every
+		visit has a fresh set of ores, rocks and decorations.
 		"""
 		for spr in list(self._placed.values()):
 			try:

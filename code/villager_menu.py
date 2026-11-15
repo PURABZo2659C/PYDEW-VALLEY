@@ -6,11 +6,9 @@ import input_manager
 
 
 class VillagerMenu:
-	"""Villager trade window: the crafting menu's design with a blank
-	Villagers.png panel and the villager's name drawn where the baked
-	CRAFTING title sits. Buy and Sell tabs filter the offers; villagers
-	with refining trades get a third Smelt tab. Trade rows reuse the
-	crafting entry art, and each click completes one trade."""
+	"""The villager trade panel: portrait, trade offers and coin count, with
+	buy / sell / barter.
+	"""
 
 	def __init__(self, player, close_menu):
 		self.player = player
@@ -76,11 +74,8 @@ class VillagerMenu:
 		self.timer = Timer(50)
 		self._clip_rect = pygame.Rect(0, 0, 0, 0)
 
-		# Baking reference: crafting.png is 635x940 and its baked title
-		# glyphs fill (109,36)-(526,125), with a two-tone underline at
-		# (108,136,420,22) / (113,141,410,11). Villagers.png shares the
-		# same panel, so the name + underline are drawn with the same
-		# geometry, scaled into the menu rect.
+		# Baking reference: the title glyphs fill (109,36)-(526,125) with a
+		# two-tone underline at (108,136,420,22) / (113,141,410,11).
 		self._src_w, self._src_h = 635, 940
 		self._glyph_x0, self._glyph_y0 = 109, 36
 		self._glyph_x1, self._glyph_y1 = 526, 125
@@ -140,12 +135,8 @@ class VillagerMenu:
 		return None
 
 	def _resolve_key(self, item):
-		"""Return the actual inventory key matching item case-insensitively.
-
-		Crafting and trade rows both use lowercase keys now ('bread'), so
-		this only matters for old saves that still hold a mixed-case slot
-		before Inventory.load normalises it - kept as a safety net so a
-		sell row can never grey out over a casing mismatch.
+		"""The key that stands for an offer in the offer list.
+		Stable across a rebuild, so a click maps back to the right offer.
 		"""
 		key = self._seed_key(item) or item
 		if self.player.inventory.count(key):
@@ -206,8 +197,6 @@ class VillagerMenu:
 				play_error()
 				return False
 		# Add the reward first: a full bag must not eat the gem/coin costs.
-		# Barter/refine output is fresh loot too, so it goes to the
-		# hotbar first (Player.add_loot).
 		if self.player.add_loot(reward_item, 1) != 0:
 			play_error()
 			self._show_inventory_full()
@@ -553,9 +542,8 @@ class VillagerMenu:
 			price_x = text_x
 			price_y = entry_y + int(42 * scale)
 			if mode in ('sell', 'buy'):
-				# "Buy for [coin] 4" — label, then the coin, then the
-				# amount; the icon sits BETWEEN them, never after the
-				# price (and never as a 'Coins' suffix).
+				# "Buy for [coin] 4" - label, coin, amount; the icon sits BETWEEN
+				# them, never after the price.
 				label = 'Sell for' if mode == 'sell' else 'Buy for'
 				label_surf = self.font.render(label, False, color)
 				amount_surf = self.font.render(str(price), False, color)

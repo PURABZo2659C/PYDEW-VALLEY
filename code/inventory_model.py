@@ -16,9 +16,8 @@ LEGACY_SEED_ALIASES = {
 	'tomato': 'tomato_seed',
 }
 
-# Older saves (and pre-fix crafting) stored 'Bread'; the key is lowercase
-# everywhere now, so slots are normalised on load instead of relying on
-# case-insensitive lookups scattered through the UI.
+# Older saves stored 'Bread'; keys are lowercase everywhere now, so
+# slots are normalised on load.
 LEGACY_ITEM_ALIASES = {
 	'Bread': 'bread',
 }
@@ -157,10 +156,8 @@ class Inventory:
 
 	def can_add(self, item, amount=1):
 		"""True when `amount` more of `item` would fit in the bag.
-
-		Mirrors add_to_range(): matching stacks are filled first, then
-		empty slots. Used to refuse an action before its source (tree,
-		crop, bush) is consumed."""
+		Used to refuse an action before its source is consumed.
+		"""
 		limit = stack_limit(item)
 		remaining = int(amount)
 		if remaining <= 0:

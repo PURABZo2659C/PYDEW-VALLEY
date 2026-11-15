@@ -182,9 +182,8 @@ class SettingsMenu:
 					self._rebind_key(event.key)
 					return
 			if event.type == pygame.MOUSEBUTTONDOWN:
-				# While waiting for a rebind, a mouse button (left/middle/
-				# right) becomes the new binding. The close button stays a
-				# cancel (mouse analog of ESC), and the wheel keeps scrolling.
+				# While waiting for a rebind, a mouse button becomes the new
+				# binding. The close button stays a cancel, the wheel still scrolls.
 				if self._rebinding_wait and event.button in (1, 2, 3):
 					code = input_manager.mouse_button_code(event.button)
 					if code is not None and not self.close_rect.collidepoint(mx, my):
@@ -381,10 +380,10 @@ class SettingsMenu:
 
 	def _draw_volume_bar(self, row_rect, bar_size, font, label, volume,
 	                     control_type, scale, target_surf=None):
-		"""Draw one volume row with fixed columns so MUSIC and SFX are
-		perfectly symmetrical: labels right-aligned in one column, the
-		percentage in a fixed right column, and the bar filling the whole
-		space between them (long, never a short centered stub)."""
+		"""Draw one volume row with fixed columns so MUSIC and SFX are perfectly
+		symmetrical: labels right-aligned, the percentage in a fixed right column,
+		and the bar filling the whole space between them.
+		"""
 		if target_surf is None:
 			target_surf = self.display_surface
 

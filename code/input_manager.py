@@ -52,9 +52,8 @@ BINDING_INFO = {
 	'pause': ('MENU', 'Open Pause Menu'),
 }
 
-# Mouse buttons CAN be bound to actions. They are encoded as NEGATIVE
-# ints so they never collide with pygame key codes (all non-negative);
-# the value is just -(event.button): 1=left, 2=middle, 3=right.
+# Mouse buttons can be bound. They are encoded as NEGATIVE ints so
+# they never collide with pygame key codes: -(event.button).
 MOUSE_LEFT = -1
 MOUSE_MIDDLE = -2
 MOUSE_RIGHT = -3

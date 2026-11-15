@@ -1,16 +1,7 @@
 """Entry point for the packaged Windows build.
-
-PyInstaller's windowed bootloader gives the process no console, so
-sys.stdout and sys.stderr are None and every print() inside the game
-goes nowhere. This module:
-
-  * redirects stdout/stderr into a log file next to the save,
-  * makes sure the writable user-data folder exists,
-  * turns an unhandled crash into a readable log entry plus a native
-    Windows message box, instead of the app vanishing without a trace.
-
-Running the game from source is unaffected - `python code/main.py` still
-behaves exactly as before.
+PyInstaller's windowed bootloader gives the process no console, so this
+redirects stdout/stderr into a log file and turns a crash into a log
+entry plus a message box.
 """
 
 import os
@@ -45,10 +36,7 @@ def _open_log(directory):
 
 def _redirect_output(directory):
 	"""Send stdout/stderr to the log file when there is no console.
-
-	A frozen windowed build has sys.stdout set to None, so print() calls
-	are silently dropped. Pointing them at a file turns them into a
-	usable diagnostic trail.
+	A frozen windowed build has sys.stdout set to None, so print() is lost.
 	"""
 	if not getattr(sys, 'frozen', False):
 		return None

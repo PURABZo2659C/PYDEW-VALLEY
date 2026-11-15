@@ -1,0 +1,3006 @@
+([('PYDEW VALLEY DOCUMENTATION.html',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\PYDEW VALLEY '
+   'DOCUMENTATION.html',
+   'DATA'),
+  ('PydewValley.exe',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\APP\\build\\PydewValley\\PydewValley.exe',
+   'EXECUTABLE'),
+  ('SDL2.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\SDL2.dll',
+   'BINARY'),
+  ('SDL2_image.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\SDL2_image.dll',
+   'BINARY'),
+  ('SDL2_mixer.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\SDL2_mixer.dll',
+   'BINARY'),
+  ('SDL2_ttf.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\SDL2_ttf.dll',
+   'BINARY'),
+  ('THIRD_PARTY_NOTICES.txt',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\APP\\THIRD_PARTY_NOTICES.txt',
+   'DATA'),
+  ('VCRUNTIME140.dll',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\VCRUNTIME140.dll',
+   'BINARY'),
+  ('VCRUNTIME140_1.dll',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\VCRUNTIME140_1.dll',
+   'BINARY'),
+  ('VERSION.txt',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\APP\\build\\VERSION.txt',
+   'DATA'),
+  ('_asyncio.pyd',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\_asyncio.pyd',
+   'EXTENSION'),
+  ('_bz2.pyd',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\_bz2.pyd',
+   'EXTENSION'),
+  ('_ctypes.pyd',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\_ctypes.pyd',
+   'EXTENSION'),
+  ('_decimal.pyd',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\_decimal.pyd',
+   'EXTENSION'),
+  ('_elementtree.pyd',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\_elementtree.pyd',
+   'EXTENSION'),
+  ('_hashlib.pyd',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\_hashlib.pyd',
+   'EXTENSION'),
+  ('_lzma.pyd',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\_lzma.pyd',
+   'EXTENSION'),
+  ('_multiprocessing.pyd',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\_multiprocessing.pyd',
+   'EXTENSION'),
+  ('_overlapped.pyd',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\_overlapped.pyd',
+   'EXTENSION'),
+  ('_queue.pyd',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\_queue.pyd',
+   'EXTENSION'),
+  ('_socket.pyd',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\_socket.pyd',
+   'EXTENSION'),
+  ('_ssl.pyd',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\_ssl.pyd',
+   'EXTENSION'),
+  ('_wmi.pyd',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\_wmi.pyd',
+   'EXTENSION'),
+  ('audio\\Title_background.wav',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\audio\\Title_background.wav',
+   'DATA'),
+  ('audio\\axe.mp3',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\audio\\axe.mp3',
+   'DATA'),
+  ('audio\\buttons click.mp3',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\audio\\buttons click.mp3',
+   'DATA'),
+  ('audio\\error.mp3',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\audio\\error.mp3',
+   'DATA'),
+  ('audio\\hoe.wav',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\audio\\hoe.wav',
+   'DATA'),
+  ('audio\\music.mp3',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\audio\\music.mp3',
+   'DATA'),
+  ('audio\\plant.wav',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\audio\\plant.wav',
+   'DATA'),
+  ('audio\\success.wav',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\audio\\success.wav',
+   'DATA'),
+  ('audio\\water.mp3',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\audio\\water.mp3',
+   'DATA'),
+  ('base_library.zip',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\APP\\build\\PydewValley\\base_library.zip',
+   'DATA'),
+  ('charset_normalizer\\cd.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\charset_normalizer\\cd.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('charset_normalizer\\md.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\charset_normalizer\\md.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('cv2\\__init__.py',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\cv2\\__init__.py',
+   'DATA'),
+  ('cv2\\config-3.py',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\cv2\\config-3.py',
+   'DATA'),
+  ('cv2\\config.py',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\cv2\\config.py',
+   'DATA'),
+  ('cv2\\cv2.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\cv2\\cv2.pyd',
+   'EXTENSION'),
+  ('cv2\\data\\__init__.py',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\cv2\\data\\__init__.py',
+   'DATA'),
+  ('cv2\\load_config_py3.py',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\cv2\\load_config_py3.py',
+   'DATA'),
+  ('cv2\\mat_wrapper\\__init__.py',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\cv2\\mat_wrapper\\__init__.py',
+   'DATA'),
+  ('cv2\\misc\\__init__.py',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\cv2\\misc\\__init__.py',
+   'DATA'),
+  ('cv2\\misc\\version.py',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\cv2\\misc\\version.py',
+   'DATA'),
+  ('cv2\\opencv_videoio_ffmpeg500_64.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\cv2\\opencv_videoio_ffmpeg500_64.dll',
+   'BINARY'),
+  ('cv2\\typing\\__init__.py',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\cv2\\typing\\__init__.py',
+   'DATA'),
+  ('cv2\\utils\\__init__.py',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\cv2\\utils\\__init__.py',
+   'DATA'),
+  ('cv2\\version.py',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\cv2\\version.py',
+   'DATA'),
+  ('data\\map.tmx',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\data\\map.tmx',
+   'DATA'),
+  ('font\\Monocraft-OFL.txt',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\font\\Monocraft-OFL.txt',
+   'DATA'),
+  ('font\\pixelFont-7-8x14-sproutLands.ttf',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\font\\pixelFont-7-8x14-sproutLands.ttf',
+   'DATA'),
+  ('font\\ui.ttf',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\font\\ui.ttf',
+   'DATA'),
+  ('freetype.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\freetype.dll',
+   'BINARY'),
+  ('graphics\\.gitignore',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\.gitignore',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\BirchStump_large.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\BirchStump_large.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\BirchStump_medium.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\BirchStump_medium.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\Birch_Forest_Water_Decorations.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\Birch_Forest_Water_Decorations.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\Birch_bush.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\Birch_bush.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\Birch_flower1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\Birch_flower1.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\Birch_flower2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\Birch_flower2.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\Birchtree_large.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\Birchtree_large.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\Birchtree_log.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\Birchtree_log.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\Birchtree_medium.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\Birchtree_medium.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\Birchtree_orange.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\Birchtree_orange.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\Birchtree_small.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\Birchtree_small.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\0.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\1.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\10.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\10.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\11.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\11.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\12.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\12.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\13.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\13.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\14.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\14.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\15.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\15.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\16.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\16.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\17.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\17.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\18.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\18.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\19.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\19.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\2.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\20.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\20.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\21.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\21.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\22.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\22.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\23.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\23.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\24.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\24.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\25.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\25.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\26.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\26.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\27.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\27.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\28.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\28.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\29.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\29.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\3.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\30.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\30.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\31.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\31.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\32.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\32.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\33.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\33.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\34.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\34.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\35.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\35.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\36.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\36.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\37.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\37.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\38.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\38.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\39.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\39.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\4.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\4.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\5.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\5.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\6.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\6.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\7.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\7.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\8.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\8.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\ground\\9.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\ground\\9.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\purple_mushroom.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\purple_mushroom.png',
+   'DATA'),
+  ('graphics\\Biomes\\Birch_Forest\\purple_mushrooms.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Birch_Forest\\purple_mushrooms.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\CherryStump_large.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\CherryStump_large.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\CherryStump_medium.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\CherryStump_medium.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\Cherry_Blossom_Water_Decoration.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\Cherry_Blossom_Water_Decoration.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\Cherry_bush1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\Cherry_bush1.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\Cherry_bush2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\Cherry_bush2.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\Cherry_bush3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\Cherry_bush3.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\Cherry_bush4.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\Cherry_bush4.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\Cherry_flower1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\Cherry_flower1.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\Cherry_flower2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\Cherry_flower2.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\Cherrytree_cherry.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\Cherrytree_cherry.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\Cherrytree_large.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\Cherrytree_large.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\Cherrytree_log.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\Cherrytree_log.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\Cherrytree_medium.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\Cherrytree_medium.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\Cherrytree_small.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\Cherrytree_small.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\0.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\1.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\10.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\10.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\11.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\11.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\12.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\12.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\13.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\13.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\14.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\14.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\15.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\15.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\16.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\16.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\17.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\17.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\18.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\18.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\19.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\19.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\2.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\20.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\20.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\21.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\21.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\22.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\22.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\23.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\23.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\24.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\24.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\25.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\25.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\26.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\26.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\27.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\27.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\28.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\28.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\29.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\29.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\3.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\30.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\30.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\31.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\31.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\32.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\32.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\33.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\33.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\34.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\34.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\35.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\35.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\36.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\36.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\37.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\37.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\38.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\38.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\39.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\39.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\4.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\4.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\5.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\5.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\6.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\6.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\7.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\7.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\8.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\8.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\ground\\9.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\ground\\9.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\pink_flower.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\pink_flower.png',
+   'DATA'),
+  ('graphics\\Biomes\\Cherry_Blossom\\small_pink_flower.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Cherry_Blossom\\small_pink_flower.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\OakStump_large.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\OakStump_large.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\OakStump_medium.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\OakStump_medium.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\Oak_Woods_Water Decorations.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\Oak_Woods_Water Decorations.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\Oak_bush.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\Oak_bush.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\Oaktree_apple.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\Oaktree_apple.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\Oaktree_large.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\Oaktree_large.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\Oaktree_log.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\Oaktree_log.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\Oaktree_medium.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\Oaktree_medium.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\Oaktree_small.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\Oaktree_small.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\berry_bush.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\berry_bush.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\flower.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\flower.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\0.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\1.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\10.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\10.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\11.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\11.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\12.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\12.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\13.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\13.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\14.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\14.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\15.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\15.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\16.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\16.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\17.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\17.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\18.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\18.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\19.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\19.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\2.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\20.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\20.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\21.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\21.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\22.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\22.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\23.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\23.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\24.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\24.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\25.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\25.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\26.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\26.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\27.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\27.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\28.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\28.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\29.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\29.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\3.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\30.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\30.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\31.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\31.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\32.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\32.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\33.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\33.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\34.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\34.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\35.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\35.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\36.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\36.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\37.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\37.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\38.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\38.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\39.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\39.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\4.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\4.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\5.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\5.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\6.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\6.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\7.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\7.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\8.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\8.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\ground\\9.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\ground\\9.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\mushroom.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\mushroom.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\mushrooms.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\mushrooms.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\small_yellow_flower.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\small_yellow_flower.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\sunflower.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\sunflower.png',
+   'DATA'),
+  ('graphics\\Biomes\\Oak_Woods\\yellow_flower.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Oak_Woods\\yellow_flower.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\CuteSnow_Man.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\CuteSnow_Man.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\Pine_bush.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\Pine_bush.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\Pinetree_large.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\Pinetree_large.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\Pinetree_log.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\Pinetree_log.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\Pinetree_medium.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\Pinetree_medium.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\Pinetree_small.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\Pinetree_small.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\Snow_Man.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\Snow_Man.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\Snowy_Pine_Water_Decorations.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\Snowy_Pine_Water_Decorations.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\Snowy_flower1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\Snowy_flower1.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\Snowy_flower2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\Snowy_flower2.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\Snowy_flower3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\Snowy_flower3.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\Snowy_flower4.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\Snowy_flower4.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\Snowy_flower5.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\Snowy_flower5.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\0.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\1.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\10.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\10.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\11.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\11.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\12.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\12.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\13.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\13.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\14.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\14.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\15.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\15.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\16.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\16.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\17.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\17.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\18.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\18.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\19.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\19.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\2.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\20.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\20.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\21.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\21.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\22.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\22.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\23.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\23.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\24.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\24.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\25.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\25.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\26.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\26.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\27.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\27.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\28.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\28.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\29.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\29.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\3.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\30.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\30.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\31.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\31.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\32.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\32.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\33.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\33.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\34.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\34.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\35.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\35.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\36.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\36.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\37.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\37.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\38.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\38.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\39.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\39.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\4.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\4.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\5.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\5.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\6.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\6.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\7.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\7.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\8.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\8.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ground\\9.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ground\\9.png',
+   'DATA'),
+  ('graphics\\Biomes\\Snowy_Pine\\ice_tiles.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Biomes\\Snowy_Pine\\ice_tiles.png',
+   'DATA'),
+  ('graphics\\Caves\\Cave_Entry.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\Cave_Entry.png',
+   'DATA'),
+  ('graphics\\Caves\\Cave_Exit.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\Cave_Exit.png',
+   'DATA'),
+  ('graphics\\Caves\\Ores\\amethyst ore.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\Ores\\amethyst ore.png',
+   'DATA'),
+  ('graphics\\Caves\\Ores\\coal ore.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\Ores\\coal ore.png',
+   'DATA'),
+  ('graphics\\Caves\\Ores\\copper ore.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\Ores\\copper ore.png',
+   'DATA'),
+  ('graphics\\Caves\\Ores\\diamond ore.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\Ores\\diamond ore.png',
+   'DATA'),
+  ('graphics\\Caves\\Ores\\emerald ore.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\Ores\\emerald ore.png',
+   'DATA'),
+  ('graphics\\Caves\\Ores\\gold ore.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\Ores\\gold ore.png',
+   'DATA'),
+  ('graphics\\Caves\\Ores\\iron ore.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\Ores\\iron ore.png',
+   'DATA'),
+  ('graphics\\Caves\\Ores\\ruby ore.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\Ores\\ruby ore.png',
+   'DATA'),
+  ('graphics\\Caves\\Rocks\\Rocks1T1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\Rocks\\Rocks1T1.png',
+   'DATA'),
+  ('graphics\\Caves\\Rocks\\Rocks1T2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\Rocks\\Rocks1T2.png',
+   'DATA'),
+  ('graphics\\Caves\\Rocks\\Rocks1T3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\Rocks\\Rocks1T3.png',
+   'DATA'),
+  ('graphics\\Caves\\Rocks\\Rocks2T1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\Rocks\\Rocks2T1.png',
+   'DATA'),
+  ('graphics\\Caves\\Rocks\\Rocks2T2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\Rocks\\Rocks2T2.png',
+   'DATA'),
+  ('graphics\\Caves\\Rocks\\Rocks2T3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\Rocks\\Rocks2T3.png',
+   'DATA'),
+  ('graphics\\Caves\\decorations\\double crates.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\decorations\\double crates.png',
+   'DATA'),
+  ('graphics\\Caves\\decorations\\loaded crates.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\decorations\\loaded crates.png',
+   'DATA'),
+  ('graphics\\Caves\\decorations\\loaded double crates.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\decorations\\loaded double crates.png',
+   'DATA'),
+  ('graphics\\Caves\\decorations\\mixed pots.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\decorations\\mixed pots.png',
+   'DATA'),
+  ('graphics\\Caves\\decorations\\pot.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\decorations\\pot.png',
+   'DATA'),
+  ('graphics\\Caves\\decorations\\shelf(1).png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\decorations\\shelf(1).png',
+   'DATA'),
+  ('graphics\\Caves\\decorations\\shelf.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\decorations\\shelf.png',
+   'DATA'),
+  ('graphics\\Caves\\decorations\\small pot.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\decorations\\small pot.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\0.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\1.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\10.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\10.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\11.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\11.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\12.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\12.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\13.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\13.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\14.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\14.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\15.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\15.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\16.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\16.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\2.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\3.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\4.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\4.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\5.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\5.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\6.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\6.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\7.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\7.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\8.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\8.png',
+   'DATA'),
+  ('graphics\\Caves\\ground\\9.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\ground\\9.png',
+   'DATA'),
+  ('graphics\\Caves\\lava\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\lava\\0.png',
+   'DATA'),
+  ('graphics\\Caves\\lava\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\lava\\1.png',
+   'DATA'),
+  ('graphics\\Caves\\lava\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\lava\\2.png',
+   'DATA'),
+  ('graphics\\Caves\\lava\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Caves\\lava\\3.png',
+   'DATA'),
+  ('graphics\\Growing\\Birchtree\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\Birchtree\\0.png',
+   'DATA'),
+  ('graphics\\Growing\\Birchtree\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\Birchtree\\1.png',
+   'DATA'),
+  ('graphics\\Growing\\Birchtree\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\Birchtree\\2.png',
+   'DATA'),
+  ('graphics\\Growing\\Cherrytree\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\Cherrytree\\0.png',
+   'DATA'),
+  ('graphics\\Growing\\Cherrytree\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\Cherrytree\\1.png',
+   'DATA'),
+  ('graphics\\Growing\\Cherrytree\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\Cherrytree\\2.png',
+   'DATA'),
+  ('graphics\\Growing\\Oaktree\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\Oaktree\\0.png',
+   'DATA'),
+  ('graphics\\Growing\\Oaktree\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\Oaktree\\1.png',
+   'DATA'),
+  ('graphics\\Growing\\Oaktree\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\Oaktree\\2.png',
+   'DATA'),
+  ('graphics\\Growing\\Pinetree\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\Pinetree\\0.png',
+   'DATA'),
+  ('graphics\\Growing\\Pinetree\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\Pinetree\\1.png',
+   'DATA'),
+  ('graphics\\Growing\\Pinetree\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\Pinetree\\2.png',
+   'DATA'),
+  ('graphics\\Growing\\tomato\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\tomato\\0.png',
+   'DATA'),
+  ('graphics\\Growing\\tomato\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\tomato\\1.png',
+   'DATA'),
+  ('graphics\\Growing\\tomato\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\tomato\\2.png',
+   'DATA'),
+  ('graphics\\Growing\\tomato\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\tomato\\3.png',
+   'DATA'),
+  ('graphics\\Growing\\wheat\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\wheat\\0.png',
+   'DATA'),
+  ('graphics\\Growing\\wheat\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\wheat\\1.png',
+   'DATA'),
+  ('graphics\\Growing\\wheat\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\wheat\\2.png',
+   'DATA'),
+  ('graphics\\Growing\\wheat\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Growing\\wheat\\3.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Assets.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Assets.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Baker.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Baker.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Biomes.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Biomes.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Birch wood Biom.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Birch wood Biom.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Birch_Forest_Deco.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Birch_Forest_Deco.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Blacksmith.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Blacksmith.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Blocks.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Blocks.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Cave_Deco.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Cave_Deco.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Cherry Blossom Biom.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Cherry Blossom Biom.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Cherry_Blossom_Deco.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Cherry_Blossom_Deco.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Dungeon_walls.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Dungeon_walls.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Farmer.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Farmer.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Oak_Woods_Deco.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Oak_Woods_Deco.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Pine Tree Biome.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\Tiles_Sets\\Pine '
+   'Tree Biome.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Snowy_Pine_Deco.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Snowy_Pine_Deco.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Trees, stumps and bushes v2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Trees, stumps and bushes v2.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\UI.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\UI.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Wizard.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Wizard.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\Woodcutter.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\Woodcutter.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\birch.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\birch.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\cave ground tile2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\Tiles_Sets\\cave '
+   'ground tile2.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\cave ground tiles.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\Tiles_Sets\\cave '
+   'ground tiles.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\cherry.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\cherry.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\dark cave tiles.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\Tiles_Sets\\dark '
+   'cave tiles.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\ground_dirt_orange.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\ground_dirt_orange.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\ground_dirt_orange_dark.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\ground_dirt_orange_dark.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\pine2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\pine2.png',
+   'DATA'),
+  ('graphics\\Tiles_Sets\\winter sprites.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Tiles_Sets\\winter sprites.png',
+   'DATA'),
+  ('graphics\\UI\\Crop_notify.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\Crop_notify.png',
+   'DATA'),
+  ('graphics\\UI\\Currency.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\Currency.png',
+   'DATA'),
+  ('graphics\\UI\\Filled sound bar.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\Filled sound '
+   'bar.png',
+   'DATA'),
+  ('graphics\\UI\\Final_Quest_Panel.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\Final_Quest_Panel.png',
+   'DATA'),
+  ('graphics\\UI\\Final_Quest_Panel_heart.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\Final_Quest_Panel_heart.png',
+   'DATA'),
+  ('graphics\\UI\\Final_Quest_Panel_heart_after.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\Final_Quest_Panel_heart_after.png',
+   'DATA'),
+  ('graphics\\UI\\Help.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\Help.png',
+   'DATA'),
+  ('graphics\\UI\\Instruction_panel.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\Instruction_panel.png',
+   'DATA'),
+  ('graphics\\UI\\Quest_buttons.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\Quest_buttons.png',
+   'DATA'),
+  ('graphics\\UI\\Tile_selector.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\Tile_selector.png',
+   'DATA'),
+  ('graphics\\UI\\Villagers.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\Villagers.png',
+   'DATA'),
+  ('graphics\\UI\\Weather_Icons.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\Weather_Icons.png',
+   'DATA'),
+  ('graphics\\UI\\Weather_UI.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\Weather_UI.png',
+   'DATA'),
+  ('graphics\\UI\\arrow.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\arrow.png',
+   'DATA'),
+  ('graphics\\UI\\blank.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\blank.png',
+   'DATA'),
+  ('graphics\\UI\\blank_buttons.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\blank_buttons.png',
+   'DATA'),
+  ('graphics\\UI\\close.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\close.png',
+   'DATA'),
+  ('graphics\\UI\\craft block.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\craft '
+   'block.png',
+   'DATA'),
+  ('graphics\\UI\\crafting.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\crafting.png',
+   'DATA'),
+  ('graphics\\UI\\empty sound bar.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\empty sound '
+   'bar.png',
+   'DATA'),
+  ('graphics\\UI\\empty-hearts.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\empty-hearts.png',
+   'DATA'),
+  ('graphics\\UI\\full-hearts.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\full-hearts.png',
+   'DATA'),
+  ('graphics\\UI\\half-hearts.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\half-hearts.png',
+   'DATA'),
+  ('graphics\\UI\\hotbar-2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\hotbar-2.png',
+   'DATA'),
+  ('graphics\\UI\\hotbar.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\hotbar.png',
+   'DATA'),
+  ('graphics\\UI\\inventory.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\inventory.png',
+   'DATA'),
+  ('graphics\\UI\\menu.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\menu.png',
+   'DATA'),
+  ('graphics\\UI\\panel.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\panel.png',
+   'DATA'),
+  ('graphics\\UI\\recipe selector.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\recipe '
+   'selector.png',
+   'DATA'),
+  ('graphics\\UI\\selector.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\selector.png',
+   'DATA'),
+  ('graphics\\UI\\setting.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\setting.png',
+   'DATA'),
+  ('graphics\\UI\\settings.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\settings.png',
+   'DATA'),
+  ('graphics\\UI\\side_panel.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\side_panel.png',
+   'DATA'),
+  ('graphics\\UI\\sound adjuster.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\UI\\sound '
+   'adjuster.png',
+   'DATA'),
+  ('graphics\\UI\\time_panel.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\UI\\time_panel.png',
+   'DATA'),
+  ('graphics\\Village\\Bakery.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Village\\Bakery.png',
+   'DATA'),
+  ('graphics\\Village\\Blacksmith.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Village\\Blacksmith.png',
+   'DATA'),
+  ('graphics\\Village\\Farmer.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Village\\Farmer.png',
+   'DATA'),
+  ('graphics\\Village\\Lumber.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Village\\Lumber.png',
+   'DATA'),
+  ('graphics\\Village\\Shop.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Village\\Shop.png',
+   'DATA'),
+  ('graphics\\Village\\Town Hall.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\Village\\Town '
+   'Hall.png',
+   'DATA'),
+  ('graphics\\Village\\Town Hall_after.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\Village\\Town '
+   'Hall_after.png',
+   'DATA'),
+  ('graphics\\Village\\Wizard.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\Village\\Wizard.png',
+   'DATA'),
+  ('graphics\\character\\Down\\down\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down\\down\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down\\down\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down\\down\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down\\down\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down\\down\\2.png',
+   'DATA'),
+  ('graphics\\character\\Down\\down\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down\\down\\3.png',
+   'DATA'),
+  ('graphics\\character\\Down\\down_axe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down\\down_axe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down\\down_axe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down\\down_axe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down\\down_hoe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down\\down_hoe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down\\down_hoe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down\\down_hoe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down\\down_idle\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down\\down_idle\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down\\down_pickaxe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down\\down_pickaxe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down\\down_pickaxe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down\\down_pickaxe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down\\down_punch\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down\\down_punch\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down\\down_punch\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down\\down_punch\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down\\down_water_bucket\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down\\down_water_bucket\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down\\down_water_bucket\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down\\down_water_bucket\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down_Left\\down_left\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Left\\down_left\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down_Left\\down_left\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Left\\down_left\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down_Left\\down_left\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Left\\down_left\\2.png',
+   'DATA'),
+  ('graphics\\character\\Down_Left\\down_left\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Left\\down_left\\3.png',
+   'DATA'),
+  ('graphics\\character\\Down_Left\\down_left_axe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Left\\down_left_axe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down_Left\\down_left_axe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Left\\down_left_axe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down_Left\\down_left_hoe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Left\\down_left_hoe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down_Left\\down_left_hoe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Left\\down_left_hoe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down_Left\\down_left_idle\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Left\\down_left_idle\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down_Left\\down_left_pickaxe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Left\\down_left_pickaxe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down_Left\\down_left_pickaxe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Left\\down_left_pickaxe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down_Left\\down_left_punch\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Left\\down_left_punch\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down_Left\\down_left_punch\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Left\\down_left_punch\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down_Left\\down_left_water_bucket\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Left\\down_left_water_bucket\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down_Left\\down_left_water_bucket\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Left\\down_left_water_bucket\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down_Right\\down_right\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Right\\down_right\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down_Right\\down_right\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Right\\down_right\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down_Right\\down_right\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Right\\down_right\\2.png',
+   'DATA'),
+  ('graphics\\character\\Down_Right\\down_right\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Right\\down_right\\3.png',
+   'DATA'),
+  ('graphics\\character\\Down_Right\\down_right_axe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Right\\down_right_axe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down_Right\\down_right_axe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Right\\down_right_axe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down_Right\\down_right_hoe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Right\\down_right_hoe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down_Right\\down_right_hoe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Right\\down_right_hoe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down_Right\\down_right_idle\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Right\\down_right_idle\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down_Right\\down_right_pickaxe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Right\\down_right_pickaxe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down_Right\\down_right_pickaxe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Right\\down_right_pickaxe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down_Right\\down_right_punch\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Right\\down_right_punch\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down_Right\\down_right_punch\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Right\\down_right_punch\\1.png',
+   'DATA'),
+  ('graphics\\character\\Down_Right\\down_right_water_bucket\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Right\\down_right_water_bucket\\0.png',
+   'DATA'),
+  ('graphics\\character\\Down_Right\\down_right_water_bucket\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Down_Right\\down_right_water_bucket\\1.png',
+   'DATA'),
+  ('graphics\\character\\Left\\left\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Left\\left\\0.png',
+   'DATA'),
+  ('graphics\\character\\Left\\left\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Left\\left\\1.png',
+   'DATA'),
+  ('graphics\\character\\Left\\left\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Left\\left\\2.png',
+   'DATA'),
+  ('graphics\\character\\Left\\left\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Left\\left\\3.png',
+   'DATA'),
+  ('graphics\\character\\Left\\left_axe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Left\\left_axe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Left\\left_axe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Left\\left_axe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Left\\left_hoe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Left\\left_hoe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Left\\left_hoe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Left\\left_hoe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Left\\left_idle\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Left\\left_idle\\0.png',
+   'DATA'),
+  ('graphics\\character\\Left\\left_pickaxe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Left\\left_pickaxe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Left\\left_pickaxe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Left\\left_pickaxe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Left\\left_punch\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Left\\left_punch\\0.png',
+   'DATA'),
+  ('graphics\\character\\Left\\left_punch\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Left\\left_punch\\1.png',
+   'DATA'),
+  ('graphics\\character\\Left\\left_water_bucket\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Left\\left_water_bucket\\0.png',
+   'DATA'),
+  ('graphics\\character\\Left\\left_water_bucket\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Left\\left_water_bucket\\1.png',
+   'DATA'),
+  ('graphics\\character\\Right\\right\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Right\\right\\0.png',
+   'DATA'),
+  ('graphics\\character\\Right\\right\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Right\\right\\1.png',
+   'DATA'),
+  ('graphics\\character\\Right\\right\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Right\\right\\2.png',
+   'DATA'),
+  ('graphics\\character\\Right\\right\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Right\\right\\3.png',
+   'DATA'),
+  ('graphics\\character\\Right\\right_axe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Right\\right_axe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Right\\right_axe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Right\\right_axe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Right\\right_hoe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Right\\right_hoe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Right\\right_hoe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Right\\right_hoe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Right\\right_idle\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Right\\right_idle\\0.png',
+   'DATA'),
+  ('graphics\\character\\Right\\right_pickaxe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Right\\right_pickaxe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Right\\right_pickaxe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Right\\right_pickaxe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Right\\right_punch\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Right\\right_punch\\0.png',
+   'DATA'),
+  ('graphics\\character\\Right\\right_punch\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Right\\right_punch\\1.png',
+   'DATA'),
+  ('graphics\\character\\Right\\right_water_bucket\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Right\\right_water_bucket\\0.png',
+   'DATA'),
+  ('graphics\\character\\Right\\right_water_bucket\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Right\\right_water_bucket\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up\\up\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up\\up\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up\\up\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up\\up\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up\\up\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up\\up\\2.png',
+   'DATA'),
+  ('graphics\\character\\Up\\up\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up\\up\\3.png',
+   'DATA'),
+  ('graphics\\character\\Up\\up_axe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up\\up_axe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up\\up_axe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up\\up_axe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up\\up_hoe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up\\up_hoe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up\\up_hoe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up\\up_hoe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up\\up_idle\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up\\up_idle\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up\\up_pickaxe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up\\up_pickaxe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up\\up_pickaxe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up\\up_pickaxe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up\\up_punch\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up\\up_punch\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up\\up_punch\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up\\up_punch\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up\\up_water_bucket\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up\\up_water_bucket\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up\\up_water_bucket\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up\\up_water_bucket\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up_Left\\up_left\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Left\\up_left\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up_Left\\up_left\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Left\\up_left\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up_Left\\up_left\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Left\\up_left\\2.png',
+   'DATA'),
+  ('graphics\\character\\Up_Left\\up_left\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Left\\up_left\\3.png',
+   'DATA'),
+  ('graphics\\character\\Up_Left\\up_left_axe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Left\\up_left_axe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up_Left\\up_left_axe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Left\\up_left_axe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up_Left\\up_left_hoe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Left\\up_left_hoe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up_Left\\up_left_hoe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Left\\up_left_hoe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up_Left\\up_left_idle\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Left\\up_left_idle\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up_Left\\up_left_pickaxe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Left\\up_left_pickaxe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up_Left\\up_left_pickaxe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Left\\up_left_pickaxe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up_Left\\up_left_punch\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Left\\up_left_punch\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up_Left\\up_left_punch\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Left\\up_left_punch\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up_Left\\up_left_water_bucket\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Left\\up_left_water_bucket\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up_Left\\up_left_water_bucket\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Left\\up_left_water_bucket\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up_Right\\up_right\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Right\\up_right\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up_Right\\up_right\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Right\\up_right\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up_Right\\up_right\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Right\\up_right\\2.png',
+   'DATA'),
+  ('graphics\\character\\Up_Right\\up_right\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Right\\up_right\\3.png',
+   'DATA'),
+  ('graphics\\character\\Up_Right\\up_right_axe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Right\\up_right_axe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up_Right\\up_right_axe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Right\\up_right_axe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up_Right\\up_right_hoe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Right\\up_right_hoe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up_Right\\up_right_hoe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Right\\up_right_hoe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up_Right\\up_right_idle\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Right\\up_right_idle\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up_Right\\up_right_pickaxe\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Right\\up_right_pickaxe\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up_Right\\up_right_pickaxe\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Right\\up_right_pickaxe\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up_Right\\up_right_punch\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Right\\up_right_punch\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up_Right\\up_right_punch\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Right\\up_right_punch\\1.png',
+   'DATA'),
+  ('graphics\\character\\Up_Right\\up_right_water_bucket\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Right\\up_right_water_bucket\\0.png',
+   'DATA'),
+  ('graphics\\character\\Up_Right\\up_right_water_bucket\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Up_Right\\up_right_water_bucket\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Baker\\Down\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Baker\\Down\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Baker\\Down\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Baker\\Down\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Baker\\Down\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Baker\\Down\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Baker\\Down\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Baker\\Down\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Baker\\Left\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Baker\\Left\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Baker\\Left\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Baker\\Left\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Baker\\Left\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Baker\\Left\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Baker\\Left\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Baker\\Left\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Baker\\Right\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Baker\\Right\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Baker\\Right\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Baker\\Right\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Baker\\Right\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Baker\\Right\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Baker\\Right\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Baker\\Right\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Baker\\Up\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Baker\\Up\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Baker\\Up\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Baker\\Up\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Baker\\Up\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Baker\\Up\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Baker\\Up\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Baker\\Up\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Blacksmith\\Down\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Blacksmith\\Down\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Blacksmith\\Down\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Blacksmith\\Down\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Blacksmith\\Down\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Blacksmith\\Down\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Blacksmith\\Down\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Blacksmith\\Down\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Blacksmith\\Left\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Blacksmith\\Left\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Blacksmith\\Left\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Blacksmith\\Left\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Blacksmith\\Left\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Blacksmith\\Left\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Blacksmith\\Left\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Blacksmith\\Left\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Blacksmith\\Right\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Blacksmith\\Right\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Blacksmith\\Right\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Blacksmith\\Right\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Blacksmith\\Right\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Blacksmith\\Right\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Blacksmith\\Right\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Blacksmith\\Right\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Blacksmith\\Up\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Blacksmith\\Up\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Blacksmith\\Up\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Blacksmith\\Up\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Blacksmith\\Up\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Blacksmith\\Up\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Blacksmith\\Up\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Blacksmith\\Up\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Farmer\\Down\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Farmer\\Down\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Farmer\\Down\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Farmer\\Down\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Farmer\\Down\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Farmer\\Down\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Farmer\\Down\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Farmer\\Down\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Farmer\\Left\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Farmer\\Left\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Farmer\\Left\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Farmer\\Left\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Farmer\\Left\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Farmer\\Left\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Farmer\\Left\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Farmer\\Left\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Farmer\\Right\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Farmer\\Right\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Farmer\\Right\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Farmer\\Right\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Farmer\\Right\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Farmer\\Right\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Farmer\\Right\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Farmer\\Right\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Farmer\\Up\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Farmer\\Up\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Farmer\\Up\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Farmer\\Up\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Farmer\\Up\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Farmer\\Up\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Farmer\\Up\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Farmer\\Up\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Wizard\\Down\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Wizard\\Down\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Wizard\\Down\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Wizard\\Down\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Wizard\\Down\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Wizard\\Down\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Wizard\\Down\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Wizard\\Down\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Wizard\\Left\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Wizard\\Left\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Wizard\\Left\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Wizard\\Left\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Wizard\\Left\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Wizard\\Left\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Wizard\\Left\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Wizard\\Left\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Wizard\\Right\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Wizard\\Right\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Wizard\\Right\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Wizard\\Right\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Wizard\\Right\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Wizard\\Right\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Wizard\\Right\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Wizard\\Right\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Wizard\\Up\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Wizard\\Up\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Wizard\\Up\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Wizard\\Up\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Wizard\\Up\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Wizard\\Up\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Wizard\\Up\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Wizard\\Up\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Woodcutter\\Down\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Woodcutter\\Down\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Woodcutter\\Down\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Woodcutter\\Down\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Woodcutter\\Down\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Woodcutter\\Down\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Woodcutter\\Down\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Woodcutter\\Down\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Woodcutter\\Left\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Woodcutter\\Left\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Woodcutter\\Left\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Woodcutter\\Left\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Woodcutter\\Left\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Woodcutter\\Left\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Woodcutter\\Left\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Woodcutter\\Left\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Woodcutter\\Right\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Woodcutter\\Right\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Woodcutter\\Right\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Woodcutter\\Right\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Woodcutter\\Right\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Woodcutter\\Right\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Woodcutter\\Right\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Woodcutter\\Right\\3.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Woodcutter\\Up\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Woodcutter\\Up\\0.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Woodcutter\\Up\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Woodcutter\\Up\\1.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Woodcutter\\Up\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Woodcutter\\Up\\2.png',
+   'DATA'),
+  ('graphics\\character\\Villagers\\Woodcutter\\Up\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\character\\Villagers\\Woodcutter\\Up\\3.png',
+   'DATA'),
+  ('graphics\\overlay\\Birch_wood.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Birch_wood.png',
+   'DATA'),
+  ('graphics\\overlay\\Bread.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Bread.png',
+   'DATA'),
+  ('graphics\\overlay\\Cherry_wood.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Cherry_wood.png',
+   'DATA'),
+  ('graphics\\overlay\\Fruits and vegetables\\Cherry.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\overlay\\Fruits '
+   'and vegetables\\Cherry.png',
+   'DATA'),
+  ('graphics\\overlay\\Fruits and vegetables\\Orange.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\overlay\\Fruits '
+   'and vegetables\\Orange.png',
+   'DATA'),
+  ('graphics\\overlay\\Fruits and vegetables\\apple.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\overlay\\Fruits '
+   'and vegetables\\apple.png',
+   'DATA'),
+  ('graphics\\overlay\\Fruits and vegetables\\berry.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\overlay\\Fruits '
+   'and vegetables\\berry.png',
+   'DATA'),
+  ('graphics\\overlay\\Fruits and vegetables\\tomato.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\overlay\\Fruits '
+   'and vegetables\\tomato.png',
+   'DATA'),
+  ('graphics\\overlay\\Fruits and vegetables\\wheat.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\overlay\\Fruits '
+   'and vegetables\\wheat.png',
+   'DATA'),
+  ('graphics\\overlay\\Heart of Valley.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\overlay\\Heart '
+   'of Valley.png',
+   'DATA'),
+  ('graphics\\overlay\\Oak_wood.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Oak_wood.png',
+   'DATA'),
+  ('graphics\\overlay\\Ores\\copper ore.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Ores\\copper ore.png',
+   'DATA'),
+  ('graphics\\overlay\\Ores\\diamond ore.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Ores\\diamond ore.png',
+   'DATA'),
+  ('graphics\\overlay\\Ores\\emerald ore.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Ores\\emerald ore.png',
+   'DATA'),
+  ('graphics\\overlay\\Ores\\gold ore.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Ores\\gold ore.png',
+   'DATA'),
+  ('graphics\\overlay\\Ores\\iron ore.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Ores\\iron ore.png',
+   'DATA'),
+  ('graphics\\overlay\\Ores\\ruby ore.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Ores\\ruby ore.png',
+   'DATA'),
+  ('graphics\\overlay\\Pine_wood.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Pine_wood.png',
+   'DATA'),
+  ('graphics\\overlay\\Potions\\Health.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Potions\\Health.png',
+   'DATA'),
+  ('graphics\\overlay\\Potions\\Miner.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Potions\\Miner.png',
+   'DATA'),
+  ('graphics\\overlay\\Potions\\Night_vision.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Potions\\Night_vision.png',
+   'DATA'),
+  ('graphics\\overlay\\Potions\\Speed.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Potions\\Speed.png',
+   'DATA'),
+  ('graphics\\overlay\\Refined ores\\amethyst.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\overlay\\Refined '
+   'ores\\amethyst.png',
+   'DATA'),
+  ('graphics\\overlay\\Refined ores\\coal.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\overlay\\Refined '
+   'ores\\coal.png',
+   'DATA'),
+  ('graphics\\overlay\\Refined ores\\copper.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\overlay\\Refined '
+   'ores\\copper.png',
+   'DATA'),
+  ('graphics\\overlay\\Refined ores\\daimond.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\overlay\\Refined '
+   'ores\\daimond.png',
+   'DATA'),
+  ('graphics\\overlay\\Refined ores\\emerald.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\overlay\\Refined '
+   'ores\\emerald.png',
+   'DATA'),
+  ('graphics\\overlay\\Refined ores\\gold.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\overlay\\Refined '
+   'ores\\gold.png',
+   'DATA'),
+  ('graphics\\overlay\\Refined ores\\iron.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\overlay\\Refined '
+   'ores\\iron.png',
+   'DATA'),
+  ('graphics\\overlay\\Refined ores\\ruby.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\overlay\\Refined '
+   'ores\\ruby.png',
+   'DATA'),
+  ('graphics\\overlay\\Tools\\axe.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Tools\\axe.png',
+   'DATA'),
+  ('graphics\\overlay\\Tools\\hoe.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Tools\\hoe.png',
+   'DATA'),
+  ('graphics\\overlay\\Tools\\pickaxe.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Tools\\pickaxe.png',
+   'DATA'),
+  ('graphics\\overlay\\Tools\\showel.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Tools\\showel.png',
+   'DATA'),
+  ('graphics\\overlay\\Tools\\water_bucket.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\Tools\\water_bucket.png',
+   'DATA'),
+  ('graphics\\overlay\\bed.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\overlay\\bed.png',
+   'DATA'),
+  ('graphics\\overlay\\bush.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\bush.png',
+   'DATA'),
+  ('graphics\\overlay\\rock.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\rock.png',
+   'DATA'),
+  ('graphics\\overlay\\saplings and seeds\\Birchtree_sapling.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\saplings and seeds\\Birchtree_sapling.png',
+   'DATA'),
+  ('graphics\\overlay\\saplings and seeds\\Cherrytree_sapling.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\saplings and seeds\\Cherrytree_sapling.png',
+   'DATA'),
+  ('graphics\\overlay\\saplings and seeds\\Oaktree_sapling.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\saplings and seeds\\Oaktree_sapling.png',
+   'DATA'),
+  ('graphics\\overlay\\saplings and seeds\\Pinetree_sapling.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\saplings and seeds\\Pinetree_sapling.png',
+   'DATA'),
+  ('graphics\\overlay\\saplings and seeds\\Tomato_seed.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\saplings and seeds\\Tomato_seed.png',
+   'DATA'),
+  ('graphics\\overlay\\saplings and seeds\\Wheat_seed.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\saplings and seeds\\Wheat_seed.png',
+   'DATA'),
+  ('graphics\\overlay\\stick.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\overlay\\stick.png',
+   'DATA'),
+  ('graphics\\rain\\drops\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\rain\\drops\\0.png',
+   'DATA'),
+  ('graphics\\rain\\drops\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\rain\\drops\\1.png',
+   'DATA'),
+  ('graphics\\rain\\drops\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\rain\\drops\\2.png',
+   'DATA'),
+  ('graphics\\rain\\floor\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\rain\\floor\\0.png',
+   'DATA'),
+  ('graphics\\rain\\floor\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\rain\\floor\\1.png',
+   'DATA'),
+  ('graphics\\rain\\floor\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\rain\\floor\\2.png',
+   'DATA'),
+  ('graphics\\rain\\snowflakes.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\rain\\snowflakes.png',
+   'DATA'),
+  ('graphics\\world\\Background.mp4',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\Background.mp4',
+   'DATA'),
+  ('graphics\\world\\Bridge.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\Bridge.png',
+   'DATA'),
+  ('graphics\\world\\Collisions\\Bakery_collision.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\Collisions\\Bakery_collision.png',
+   'DATA'),
+  ('graphics\\world\\Collisions\\Blacksmith_collision.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\Collisions\\Blacksmith_collision.png',
+   'DATA'),
+  ('graphics\\world\\Collisions\\Cave_collision.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\Collisions\\Cave_collision.png',
+   'DATA'),
+  ('graphics\\world\\Collisions\\Collision.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\Collisions\\Collision.png',
+   'DATA'),
+  ('graphics\\world\\Collisions\\Farmer_collision.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\Collisions\\Farmer_collision.png',
+   'DATA'),
+  ('graphics\\world\\Collisions\\Lumber_collision.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\Collisions\\Lumber_collision.png',
+   'DATA'),
+  ('graphics\\world\\Collisions\\Shop_collision.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\Collisions\\Shop_collision.png',
+   'DATA'),
+  ('graphics\\world\\Collisions\\Town Hall_collision.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\Collisions\\Town Hall_collision.png',
+   'DATA'),
+  ('graphics\\world\\Collisions\\Wizard_collision.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\Collisions\\Wizard_collision.png',
+   'DATA'),
+  ('graphics\\world\\Isocore.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\Isocore.png',
+   'DATA'),
+  ('graphics\\world\\Mine Mogul.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\world\\Mine '
+   'Mogul.png',
+   'DATA'),
+  ('graphics\\world\\Minecraft.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\Minecraft.png',
+   'DATA'),
+  ('graphics\\world\\Path.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\world\\Path.png',
+   'DATA'),
+  ('graphics\\world\\Path1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\world\\Path1.png',
+   'DATA'),
+  ('graphics\\world\\Path_intersection.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\Path_intersection.png',
+   'DATA'),
+  ('graphics\\world\\Stardew Valley.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\world\\Stardew '
+   'Valley.png',
+   'DATA'),
+  ('graphics\\world\\blank.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\world\\blank.png',
+   'DATA'),
+  ('graphics\\world\\farm_patch.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\farm_patch.png',
+   'DATA'),
+  ('graphics\\world\\interaction.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\interaction.png',
+   'DATA'),
+  ('graphics\\world\\logo.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\world\\logo.png',
+   'DATA'),
+  ('graphics\\world\\rocks.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW VALLEY\\graphics\\world\\rocks.png',
+   'DATA'),
+  ('graphics\\world\\soil_water.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\soil_water.png',
+   'DATA'),
+  ('graphics\\world\\water\\0.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\water\\0.png',
+   'DATA'),
+  ('graphics\\world\\water\\1.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\water\\1.png',
+   'DATA'),
+  ('graphics\\world\\water\\2.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\water\\2.png',
+   'DATA'),
+  ('graphics\\world\\water\\3.png',
+   'C:\\Users\\purab\\Desktop\\PURAB\\PYDEW '
+   'VALLEY\\graphics\\world\\water\\3.png',
+   'DATA'),
+  ('libcrypto-3.dll',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\libcrypto-3.dll',
+   'BINARY'),
+  ('libffi-8.dll',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\libffi-8.dll',
+   'BINARY'),
+  ('libjpeg-9.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\libjpeg-9.dll',
+   'BINARY'),
+  ('libmodplug-1.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\libmodplug-1.dll',
+   'BINARY'),
+  ('libogg-0.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\libogg-0.dll',
+   'BINARY'),
+  ('libopus-0.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\libopus-0.dll',
+   'BINARY'),
+  ('libopusfile-0.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\libopusfile-0.dll',
+   'BINARY'),
+  ('libpng16-16.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\libpng16-16.dll',
+   'BINARY'),
+  ('libssl-3.dll',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\libssl-3.dll',
+   'BINARY'),
+  ('libtiff-5.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\libtiff-5.dll',
+   'BINARY'),
+  ('libwebp-7.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\libwebp-7.dll',
+   'BINARY'),
+  ('numpy-2.5.4.dist-info\\DELVEWHEEL',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\DELVEWHEEL',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\INSTALLER',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\INSTALLER',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\METADATA',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\METADATA',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\RECORD',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\RECORD',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\REQUESTED',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\REQUESTED',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\WHEEL',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\WHEEL',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\entry_points.txt',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\entry_points.txt',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\LICENSE.txt',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\LICENSE.txt',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\numpy\\_core\\include\\numpy\\libdivide\\LICENSE.txt',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\numpy\\_core\\include\\numpy\\libdivide\\LICENSE.txt',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\numpy\\_core\\src\\common\\pythoncapi-compat\\COPYING',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\numpy\\_core\\src\\common\\pythoncapi-compat\\COPYING',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\numpy\\_core\\src\\highway\\LICENSE',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\numpy\\_core\\src\\highway\\LICENSE',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\numpy\\_core\\src\\multiarray\\dragon4_LICENSE.txt',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\numpy\\_core\\src\\multiarray\\dragon4_LICENSE.txt',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\numpy\\_core\\src\\npysort\\x86-simd-sort\\LICENSE.md',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\numpy\\_core\\src\\npysort\\x86-simd-sort\\LICENSE.md',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\numpy\\_core\\src\\umath\\svml\\LICENSE',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\numpy\\_core\\src\\umath\\svml\\LICENSE',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\numpy\\fft\\pocketfft\\LICENSE.md',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\numpy\\fft\\pocketfft\\LICENSE.md',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\numpy\\linalg\\lapack_lite\\LICENSE.txt',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\numpy\\linalg\\lapack_lite\\LICENSE.txt',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\numpy\\ma\\LICENSE',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\numpy\\ma\\LICENSE',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\numpy\\random\\LICENSE.md',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\numpy\\random\\LICENSE.md',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\numpy\\random\\src\\distributions\\LICENSE.md',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\numpy\\random\\src\\distributions\\LICENSE.md',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\numpy\\random\\src\\mt19937\\LICENSE.md',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\numpy\\random\\src\\mt19937\\LICENSE.md',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\numpy\\random\\src\\pcg64\\LICENSE.md',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\numpy\\random\\src\\pcg64\\LICENSE.md',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\numpy\\random\\src\\philox\\LICENSE.md',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\numpy\\random\\src\\philox\\LICENSE.md',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\numpy\\random\\src\\sfc64\\LICENSE.md',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\numpy\\random\\src\\sfc64\\LICENSE.md',
+   'DATA'),
+  ('numpy-2.5.4.dist-info\\licenses\\numpy\\random\\src\\splitmix64\\LICENSE.md',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy-2.5.4.dist-info\\licenses\\numpy\\random\\src\\splitmix64\\LICENSE.md',
+   'DATA'),
+  ('numpy.libs\\libscipy_openblas64_-ed4f167a5330424524f45258e7ca2c8d.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy.libs\\libscipy_openblas64_-ed4f167a5330424524f45258e7ca2c8d.dll',
+   'BINARY'),
+  ('numpy.libs\\msvcp140-a4c2229bdc2a2a630acdc095b4d86008.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy.libs\\msvcp140-a4c2229bdc2a2a630acdc095b4d86008.dll',
+   'BINARY'),
+  ('numpy\\_core\\_multiarray_tests.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy\\_core\\_multiarray_tests.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy\\_core\\_multiarray_umath.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy\\_core\\_multiarray_umath.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy\\fft\\_pocketfft_umath.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy\\fft\\_pocketfft_umath.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy\\linalg\\_umath_linalg.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy\\linalg\\_umath_linalg.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy\\random\\_bounded_integers.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy\\random\\_bounded_integers.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy\\random\\_common.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy\\random\\_common.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy\\random\\_generator.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy\\random\\_generator.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy\\random\\_mt19937.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy\\random\\_mt19937.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy\\random\\_pcg64.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy\\random\\_pcg64.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy\\random\\_philox.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy\\random\\_philox.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy\\random\\_sfc64.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy\\random\\_sfc64.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy\\random\\bit_generator.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy\\random\\bit_generator.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy\\random\\mtrand.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\numpy\\random\\mtrand.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('portmidi.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\portmidi.dll',
+   'BINARY'),
+  ('psutil\\_psutil_windows.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\psutil\\_psutil_windows.pyd',
+   'EXTENSION'),
+  ('pyexpat.pyd',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\pyexpat.pyd',
+   'EXTENSION'),
+  ('pygame\\SDL2.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\SDL2.dll',
+   'BINARY'),
+  ('pygame\\SDL2_image.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\SDL2_image.dll',
+   'BINARY'),
+  ('pygame\\SDL2_mixer.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\SDL2_mixer.dll',
+   'BINARY'),
+  ('pygame\\SDL2_ttf.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\SDL2_ttf.dll',
+   'BINARY'),
+  ('pygame\\_freetype.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\_freetype.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\base.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\base.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\bufferproxy.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\bufferproxy.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\color.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\color.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\constants.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\constants.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\display.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\display.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\draw.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\draw.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\event.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\event.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\font.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\font.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\freesansbold.ttf',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\freesansbold.ttf',
+   'DATA'),
+  ('pygame\\freetype.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\freetype.dll',
+   'BINARY'),
+  ('pygame\\image.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\image.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\imageext.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\imageext.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\joystick.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\joystick.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\key.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\key.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\libjpeg-9.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\libjpeg-9.dll',
+   'BINARY'),
+  ('pygame\\libogg-0.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\libogg-0.dll',
+   'BINARY'),
+  ('pygame\\libopus-0.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\libopus-0.dll',
+   'BINARY'),
+  ('pygame\\libpng16-16.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\libpng16-16.dll',
+   'BINARY'),
+  ('pygame\\mask.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\mask.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\math.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\math.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\mixer.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\mixer.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\mixer_music.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\mixer_music.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\mouse.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\mouse.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\pixelarray.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\pixelarray.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\pixelcopy.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\pixelcopy.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\pygame_icon.bmp',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\pygame_icon.bmp',
+   'DATA'),
+  ('pygame\\rect.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\rect.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\rwobject.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\rwobject.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\scrap.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\scrap.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\surface.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\surface.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\surflock.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\surflock.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\time.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\time.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\transform.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\transform.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('pygame\\zlib1.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\zlib1.dll',
+   'BINARY'),
+  ('python3.dll',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\python3.dll',
+   'BINARY'),
+  ('python313.dll',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\python313.dll',
+   'BINARY'),
+  ('select.pyd',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\select.pyd',
+   'EXTENSION'),
+  ('unicodedata.pyd',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\\DLLs\\unicodedata.pyd',
+   'EXTENSION'),
+  ('yaml\\_yaml.cp313-win_amd64.pyd',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\yaml\\_yaml.cp313-win_amd64.pyd',
+   'EXTENSION'),
+  ('zlib1.dll',
+   'C:\\Users\\purab\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\pygame\\zlib1.dll',
+   'BINARY')],)

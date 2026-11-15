@@ -1,5 +1,5 @@
 import pygame
-from settings import asset_path, ui_font
+from settings import asset_path, ui_font, ui_scale
 
 # Colors per message role.
 COLORS = {
@@ -10,21 +10,9 @@ COLORS = {
 
 
 class InstructionPanel:
-	"""Top instruction bar (Windows-taskbar behaviour: hidden by default,
-	slides down from the very top edge when something must be shown and
-	slides back out when nothing is left).
-
-	Three layers, highest priority first:
-	- toast   : transient message (errors, completion notes), fades after a
-	            few seconds; the opening toast a new game shows is sticky
-	            until it fades, so early neutral notes wait their turn
-	- hint    : sticky contextual hint - shown while a menu is open or while
-	            standing on an interaction trigger; cleared on close
-	- instruction : the current tutorial step - shown only when no hint is
-	            active, so menus never compete with the tutorial
-
-	The hint layer overrides the instruction layer, which is what keeps a
-	menu open showing only its own hint.
+	"""Top instruction bar, hidden by default.
+	Three layers, highest first: toast (transient), hint (sticky),
+	instruction (the tutorial step). The hint overrides the instruction.
 	"""
 
 	def __init__(self, display_surface):
@@ -45,11 +33,12 @@ class InstructionPanel:
 		self.toast = None         # {'text', 'kind', 'remaining'}
 
 		# geometry / animation: flush against the very top edge (no gap)
-		self.height = 44
+		scale = ui_scale()
+		self.height = int(44 * scale)
 		self.max_width_ratio = 0.52
-		self.pad_x = 28
-		self.pad_y = 7
-		self.min_width = 220
+		self.pad_x = int(28 * scale)
+		self.pad_y = int(7 * scale)
+		self.min_width = int(220 * scale)
 		self._hidden_y = float(-(self.height + 20))
 		self._shown_y = 0.0
 		self._y = self._hidden_y
@@ -81,10 +70,10 @@ class InstructionPanel:
 		self._set_toast(text, 'instruction', duration)
 
 	def show_opening(self, text, duration=8.0):
-		"""Neutral toast for the first thing a brand-new game has to
-		say (the movement keys). It is sticky: later neutral notes
-		wait for it to fade instead of crowding it out, while errors
-		still cut straight through."""
+		"""Neutral toast for the first thing a brand-new game has to say (the
+		movement keys). Sticky: later neutral notes wait for it to fade, while
+		errors still cut straight through.
+		"""
 		self._set_toast(text, 'instruction', duration, sticky=True)
 
 	def clear(self):

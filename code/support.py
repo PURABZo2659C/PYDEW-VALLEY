@@ -31,12 +31,8 @@ SEED_ICON_ALIASES = {
 
 def load_overlay_icons(items, folder=None, aliases=None):
 	"""Resolve item icons from graphics/overlay recursively.
-
-	Icons live in subfolders (Tools/, Fruits and vegetables/, ores/...), so a
-	flat lookup misses most of them. Matching is case-insensitive and item
-	names can be aliased (e.g. 'wood' -> Oak_wood). Missing icons stay None.
-	Pickable world items with no overlay art (flowers, mushrooms) fall back
-	to their biome folder under graphics/Biomes/.
+	Matching is case-insensitive and names can be aliased. Items with no
+	overlay art fall back to their biome folder.
 	"""
 	if folder is None:
 		folder = asset_path('graphics', 'overlay')
@@ -46,9 +42,8 @@ def load_overlay_icons(items, folder=None, aliases=None):
 			if name.lower().endswith('.png'):
 				stems.setdefault(os.path.splitext(name)[0].lower(), os.path.join(root, name))
 	if folder == asset_path('graphics', 'overlay'):
-		# Extra icon sources for the default lookup: biome art for
-		# foraged flowers/fungi and the world folder for placeables
-		# (e.g. Bridge.png). Overlay art always wins on a name clash.
+		# Extra icon sources: biome art for foraged flowers/fungi and the
+		# world folder for placeables. Overlay art wins on a name clash.
 		for extra in (asset_path('graphics', 'Biomes'),
 		              asset_path('graphics', 'world')):
 			if os.path.isdir(extra):
@@ -83,11 +78,8 @@ _logged_warnings = set()
 
 
 def log_once(key, exc):
-	"""Print `exc` the first time `key` is seen, then stay quiet.
-
-	Bare `except: pass` hides real bugs; printing every occurrence in a
-	per-frame path buries them in spam instead. One line per failure site
-	surfaces the error (plan item 3) without either failure mode.
+	"""Print a message the first time it is seen, then never again.
+	Used in per-frame paths, where an unconditional print would flood.
 	"""
 	if key in _logged_warnings:
 		return
@@ -97,9 +89,9 @@ def log_once(key, exc):
 
 def click_sound():
 	"""The shared UI click sound, loaded on first use.
-
-	Returns the Sound (so volume settings can be applied to the very
-	sound play_click() will play) or None when the file is missing."""
+	Returns the Sound (so volume settings can be applied to the very sound
+	play_click() will play) or None when the file is missing.
+	"""
 	global _click_snd
 	if _click_snd is None:
 		try:
@@ -131,12 +123,9 @@ def play_error():
 		_error_snd.play()
 
 def load_map(path):
-	"""Load a TMX map, tolerating tileset images that no longer exist on disk.
-
-	The world is drawn procedurally now, so TMX tile art is only needed by
-	Tiled; a deleted/renamed sheet must never abort startup. The map is
-	consulted only for its LAYERS - the farmable zones and the player
-	start - and its tilesets are never rendered.
+	"""Load a TMX map, tolerating tileset images that no longer exist.
+	The map is consulted only for its LAYERS - the farmable zones and the
+	player start - and its tilesets are never rendered.
 	"""
 	from pytmx.util_pygame import pygame_image_loader
 	import pytmx
@@ -187,19 +176,14 @@ def import_folder_dict(path):
 
 def smooth_scale_rgba(surf, size):
 	"""smoothscale an RGBA surface with premultiplied alpha.
-
-	Pygame's smoothscale resamples R,G,B and A independently; transparent
-	pixels often carry stale RGB (white grids, magenta placeholders), which
-	would bleed colored halos into the art edges when downscaling. This
-	premultiplies, scales RGB+A separately and un-premultiplies, so fully
-	transparent areas contribute nothing to the resulting color.
+	Pygame resamples RGB and A independently, and transparent pixels often
+	carry stale RGB, which bleeds into the scaled edges.
 	"""
 	if surf.get_size() == size:
 		return surf
 	import numpy as np
-	# Big downscales (2048px art -> a few hundred px) alias badly in one
-	# pass; halving down to ~2x first box-filters the result AND cuts the
-	# per-pixel premultiply work of the final pass by 4x per stage.
+	# Big downscales alias badly in one pass; halving to ~2x first
+	# box-filters and cuts the per-pixel premultiply work.
 	w, h = surf.get_size()
 	tw, th = size
 	while w > tw * 2 and h > th * 2 and w > 16 and h > 16:
@@ -225,10 +209,10 @@ def smooth_scale_rgba(surf, size):
 
 
 def clean_sprite_background(surf, noise_alpha=25, faint_alpha=215):
-	"""Strip faint leftovers from AI-scaling artifacts: near-invisible
-	alpha noise (borders, checkerboards) and faint light/neutral pixels
-	(construction grids) that are clearly below the art's AA edge range.
-	Operates in place; returns the surface."""
+	"""Strip faint leftovers from AI-scaling artifacts: near-invisible alpha noise
+	(borders, checkerboards) and faint light/neutral pixels clearly below the
+	art's AA edge range. Operates in place; returns the surface.
+	"""
 	import numpy as np
 	arr = pygame.surfarray.array3d(surf).astype(np.int32)
 	a = pygame.surfarray.array_alpha(surf).astype(np.int32)
@@ -244,11 +228,9 @@ def clean_sprite_background(surf, noise_alpha=25, faint_alpha=215):
 
 
 def visible_bottom_pad(surf, alpha_threshold=10):
-	"""Transparent rows between the image bottom and the lowest opaque pixel.
-
-	Used to ground sprites on their isometric tile: the render step lifts the
-	image by this amount so the VISIBLE art bottom (not the image edge) sits
-	on the tile diamond center. Returns 0 for fully opaque/empty images.
+	"""Transparent padding below an art's visible pixels.
+	The renderer lifts a sprite by this much so its visible bottom lands on
+	the tile diamond centre.
 	"""
 	h = surf.get_height()
 	w = surf.get_width()
@@ -262,33 +244,9 @@ _FOOTPRINT_CACHE = {}
 
 def ground_footprint_tiles(surf, foot_pad, wx, wy, tile=None,
                            alpha_threshold=10, min_frac=0.5):
-	"""Whole ground tiles this bottom-anchored art physically covers.
-
-	The art is drawn bottom-centred on (wx, wy) and lifted by ``foot_pad``
-	screen px, so pixel (c, r) sits on screen at (c - w/2, r - h + foot_pad)
-	from the anchor — the same projection support.occlusion_bands uses.
-	Every opaque pixel maps back to exactly one ground point (the point
-	that projects onto that screen pixel); the tiles those points fall in
-	are the footprint: the ground the structure stands on PLUS the ground
-	its height hides behind it.
-
-	Collision built from these tiles is the river-bank rule applied to a
-	structure: the player stops on the tile line exactly at the art's
-	visible outline (no invisible wall standing in open ground, no
-	squeezing between art pixels), and the ground the roof/rocks hide
-	stays solid so nobody walks into the building and vanishes.
-
-	``min_frac`` drops tiles the art only CLIPS: 1 art pixel covers
-	4 ground units², so a full tile is tile²/4 pixels and a tile counts
-	only when at least ``min_frac`` of it lies under the art. Without
-	the cut, a roof edge shaving a couple of pixels off a doorstep would
-	tile it solid and the door would be unwalkable. 0.125 keeps every
-	tile the structure genuinely stands on (even the corner a wall just
-	clips, which is what makes the shop's anchor tile solid) while
-	doorsteps — which sit on 0 px of mask — and paths stay open.
-
-	The result only depends on the anchor's position INSIDE its tile, so
-	it is cached per surface + padding and translated for each caller.
+	"""Whole tiles a bottom-anchored structure covers.
+	Walks the art's opaque pixels, groups them into per-row runs and snaps
+	each run to whole tiles. min_frac drops slivers.
 	"""
 	import numpy as np
 	if tile is None:
@@ -299,9 +257,8 @@ def ground_footprint_tiles(surf, foot_pad, wx, wy, tile=None,
 	if rel is None:
 		w, h = surf.get_size()
 		alpha = pygame.surfarray.array_alpha(surf)
-		# array_alpha is indexed [x][y] (shape (w, h)), so np.nonzero
-		# hands back the pixel's COLUMN first and its ROW second:
-		# xs = the art's c (horizontal), ys = its r (vertical).
+		# array_alpha is indexed [x][y], so np.nonzero hands back the
+		# COLUMN first and the ROW second: xs = c, ys = r.
 		xs, ys = np.nonzero(alpha > alpha_threshold)
 		if xs.size == 0:
 			rel = frozenset()
@@ -329,11 +286,8 @@ def ground_footprint_tiles(surf, foot_pad, wx, wy, tile=None,
 
 
 def tile_runs(tiles, tile=None):
-	"""Merge whole tiles into one rect per row run: [(Rect, ...)].
-
-	Every rect is tile-aligned and tile-sized, so collision built from
-	them behaves exactly like a river bank tile — edge to edge, never a
-	ragged art-pixel rim.
+	"""Merge a set of tiles into one run rect per row - far fewer collision
+	sprites than one per tile.
 	"""
 	if tile is None:
 		tile = TILE_SIZE
@@ -356,23 +310,16 @@ def tile_runs(tiles, tile=None):
 
 
 def flatten_bridge_deck(surf):
-	"""Cut Bridge.png down to its bare deck DIAMOND (one 128x64 tile).
-
-	The source art is a 3D slab: the deck diamond on top, 16px of side
-	faces below it. A placed bridge has to be an ordinary ground tile —
-	flush with the bank tops and the water plane, never a raised block —
-	so keep only the pixels inside the deck's isometric diamond. The
-	result drops into the terrain pass and renders exactly like any
-	other tile.
+	"""Cut a bridge art down to the bare deck diamond, so a placed bridge IS
+	a tile: it renders in the terrain pass, not standing up as a prop.
 	"""
 	w, h = surf.get_size()
 	deck_h = min(ISO_TILE_HEIGHT, h)
 	flat = pygame.Surface((w, deck_h), pygame.SRCALPHA)
 	mid = (w - 1) / 2.0
 	for x in range(w):
-		# Diamond edges: half-height of the column grows 0.5px per px
-		# from either side vertex, so the column spans top..bottom
-		# around the deck's centre row.
+		# Diamond edges: the column's half-height grows 0.5px per px from
+		# either side vertex, so it spans top..bottom around the centre row.
 		top = int(round(abs(x - mid) / 2.0))
 		bottom = deck_h - 1 - top
 		if bottom < top:
@@ -384,15 +331,8 @@ def flatten_bridge_deck(surf):
 _base_anchor_cache = {}
 
 def iso_base_anchor(surf, alpha_threshold=10):
-	"""Pixel inside the art where its isometric BASE DIAMOND CENTER sits.
-
-	Many cave decor exports are not centered in their image: the box is
-	drawn somewhere inside a wider canvas, so centering the image on the
-	tile leaves the prop floating. This walks up from the bottom vertex
-	while the row span keeps growing; the first plateau is the base
-	diamond's equator, whose center is the anchor. Returns None for
-	flat-bottomed art (pots), where the legacy bottom-pad convention is
-	already correct.
+	"""The art pixel that sits on a tile's diamond centre.
+	Used by props whose canvas is not centred on the prop.
 	"""
 	key = (surf, alpha_threshold)
 	if key in _base_anchor_cache:
@@ -442,27 +382,8 @@ CHARACTER_BOX = (172, 124, 24)
 
 def occlusion_bands(surf, foot_pad, char_size=None, char_pad=None, step=32,
                     carve=None, alpha_threshold=10):
-	"""Collision rects covering every ground spot where this bottom-anchored
-	prop's art would draw OVER a character sprite (the character box shares
-	an opaque pixel's screen space AND the iso depth key draws the prop in
-	front). Returns ints [(x0, y0, w, h), ...] offset from the prop's tile
-	centre; carve (same units) stays walkable.
-
-	Renderer facts (CameraGroup.custom_draw): the prop's rect is centred on
-	its tile centre and drawn with a +foot_pad screen lift; ground px and
-	screen px are 1:1, so art pixel (c, r) sits on screen at
-	(c - w/2, r - h + foot_pad) from the tile centre, i.e. over the ground
-	point Q = (2*my + mx, 2*my - mx) with mx = c - w/2,
-	my = r - (h - foot_pad). A character with feet at F is covered by that
-	pixel when
-	    du = (Q - F).x + (Q - F).y  in  [-4*(ch - pad), 4*pad]
-	    dv = (Q - F).x - (Q - F).y  in  [-cw, cw]
-	(the pixel's screen offset from the feet stays inside the sprite box).
-	Depth: both keys are x + y floored at their own tile centre, so the
-	prop only draws over the character where
-	max(fx + fy, own_tile_offset) < 0 for feet offset (fx, fy) from the
-	prop's tile centre — SE of the anti-diagonal the character draws on
-	top, so overlap there is safe and stays walkable.
+	"""Rect bands where a structure's art would paint over the player.
+	Collision group only - the camera never draws them.
 	"""
 	if char_size is None:
 		char_size = CHARACTER_BOX[:2]

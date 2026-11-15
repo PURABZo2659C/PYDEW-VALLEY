@@ -3,8 +3,16 @@ import pygame, sys, os, math, random, webbrowser
 import numpy as np
 from pygame.constants import K_RETURN
 
-from settings import (SCREEN_HEIGHT, SCREEN_WIDTH, asset_path, help_doc_path, ui_font,
-                    WEB)
+from settings import asset_path, help_doc_path, ui_font, ui_scale
+
+
+def _art_scale(base):
+    """Scale factor for pixel art: an integer, so the pixels stay square.
+
+    The interface grows with the screen, but pixel art only survives whole
+    number steps - a 2.5x button would have uneven rows.
+    """
+    return max(1, int(round(base * ui_scale())))
 from save_system import save_exists
 from support import play_click, click_sound
 from pause_menu import SettingsMenu
@@ -107,16 +115,13 @@ class TitleScreen:
         except (pygame.error, FileNotFoundError):
             self.menu_bg = None
 
-        # background video
-        #
-        # OpenCV does not exist in the browser build, so the animated
-        # background is skipped there and the title screen falls back to
-        # its still background.
+        # background video - OpenCV is optional, without it the title
+        # screen falls back to its still background.
         self.video = None
         self._video_frame = None
         self._video_pos = 0.0
         self._video_fps = 30
-        if _HAS_CV2 and not WEB:
+        if _HAS_CV2:
             video_path = asset_path('graphics', 'world', 'Background.mp4')
             if os.path.exists(video_path):
                 cap = cv2.VideoCapture(video_path)
@@ -125,17 +130,12 @@ class TitleScreen:
                     self._video_fps = cap.get(cv2.CAP_PROP_FPS) or 30
                     self._video_frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) or 1
 
-        # Menu music.
-        #
-        # Slots, first one that exists wins:
+        # Menu music. First slot that exists wins:
         #   audio/Title_background.wav    - title theme by Yoiyami (CC0)
-        #   graphics/world/background.mp3 - optional user-supplied track
-        #   audio/menu.mp3                 - optional user-supplied track
+        #   graphics/world/background.mp3 - optional user track
+        #   audio/menu.mp3                 - optional user track
         #   audio/music.mp3                - in-game track (fallback)
-        #
-        # Only the CC0 title theme and the in-game track ship with the
-        # project. If you drop a track into an optional slot, make sure
-        # its licence allows redistribution.
+        # Only the CC0 title theme and the in-game track ship.
         self.menu_music = None
         music_path = None
         for candidate in (asset_path('audio', 'Title_background.wav'),
@@ -160,7 +160,7 @@ class TitleScreen:
             w, h = img.get_size()
             normal = img.subsurface((0, 0, w // 2, h))
             selected = img.subsurface((w // 2, 0, w // 2, h))
-            scale = 4
+            scale = _art_scale(4)
             normal = pygame.transform.scale(normal, (normal.get_width() * scale, normal.get_height() * scale))
             selected = pygame.transform.scale(selected, (selected.get_width() * scale, selected.get_height() * scale))
             return {'normal': normal, 'selected': selected}
@@ -172,7 +172,7 @@ class TitleScreen:
             img = pygame.image.load(asset_path('graphics', 'UI', 'blank_buttons.png')).convert_alpha()
             w, h = img.get_size()
             normal = img.subsurface((0, 0, w // 2, h))
-            scale = 2
+            scale = _art_scale(2)
             self.ok_button_img = pygame.transform.scale(normal, (normal.get_width() * scale, normal.get_height() * scale))
         except (pygame.error, FileNotFoundError):
             self.ok_button_img = None
@@ -187,7 +187,7 @@ class TitleScreen:
                 raw = pygame.image.load(asset_path('graphics', 'UI', stem)).convert_alpha()
                 w, h = raw.get_size()
                 half = w // 2
-                scale = 3  # 69x72 - compact enough to sit in the corner
+                scale = _art_scale(3)  # 69x72 - compact enough to sit in the corner
                 images[name] = {
                     'normal': pygame.transform.scale(
                         raw.subsurface((0, 0, half, h)), (half * scale, h * scale)),
@@ -209,11 +209,15 @@ class TitleScreen:
                      for name in ('SETTINGS', 'HELP') if images.get(name)),
                     None)
         w, h = size if size else (192, 62)
+        scale = ui_scale()
+        right = int(self.CORNER_RIGHT * scale)
+        top = int(self.CORNER_TOP * scale)
+        gap = int(self.CORNER_GAP * scale)
         rects = {}
-        y = self.CORNER_TOP
+        y = top
         for name in ('SETTINGS', 'HELP'):
-            rects[name] = pygame.Rect(sw - self.CORNER_RIGHT - w, y, w, h)
-            y += h + self.CORNER_GAP
+            rects[name] = pygame.Rect(sw - right - w, y, w, h)
+            y += h + gap
         return rects
 
     # ── corner button actions ──────────────────────────────────────
@@ -352,9 +356,8 @@ class TitleScreen:
 
     def handle_choice(self, choice):
         if choice == 'NEW GAME' and save_exists():
-            # Never wipe a save on a single click: ask first. YES starts
-            # fresh (main deletes the old save); NO keeps it and points
-            # the player at CONTINUE.
+            # Never wipe a save on a single click: ask first. YES starts fresh
+            # (main deletes the old save), NO keeps it and points at CONTINUE.
             self.popup_lines = [
                 'Saved game found!',
                 'Starting a new game will permanently',
@@ -478,12 +481,13 @@ class TitleScreen:
         """New-game overwrite warning in the debug menu's YES/NO style."""
         lines = [self.popup_font.render(text, False, (240, 230, 200))
                  for text in self.popup_lines]
+        scale = ui_scale()
         line_h = max(line.get_height() for line in lines) + 6
-        btn_w, btn_h = 120, 50
-        gap = 36
-        pad_x = 44
-        box_w = max(560, max(line.get_width() for line in lines) + pad_x * 2)
-        box_h = 22 + line_h * len(lines) + 18 + btn_h + 20
+        btn_w, btn_h = int(120 * scale), int(50 * scale)
+        gap = int(36 * scale)
+        pad_x = int(44 * scale)
+        box_w = max(int(560 * scale), max(line.get_width() for line in lines) + pad_x * 2)
+        box_h = int(22 * scale) + line_h * len(lines) + int(18 * scale) + btn_h + int(20 * scale)
         box = pygame.Rect(0, 0, box_w, box_h)
         box.center = (sw // 2, sh // 2)
 
@@ -573,14 +577,11 @@ class TitleScreen:
                     return result
                 self.draw(dt)
                 pygame.display.update()
-                # Hand control back to the event loop, so the browser can
-                # paint the frame and deliver the next input.
+                # Hand control back to the event loop once per frame.
                 await asyncio.sleep(0)
         finally:
-            # QUIT calls pygame.quit() before sys.exit(), so by the time we
-            # get here the mixer may already be torn down. Guard every audio/
-            # video teardown call so a clean exit is never masked by
-            # "pygame.error: mixer not initialized".
+            # QUIT calls pygame.quit() before sys.exit(), so the mixer may
+            # already be down. Guard every teardown call.
             if self.menu_music is not None and pygame.mixer.get_init():
                 self.menu_music.stop()
             if self.video is not None:

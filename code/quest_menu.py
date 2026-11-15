@@ -7,10 +7,10 @@ import input_manager
 
 
 class QuestMenu:
-	"""Town-hall delivery board: six buttons per page, each asking for one
-	full stack of an item. A successful delivery consumes the items and
-	leaves the button pressed in as completed. Finishing page one reveals
-	Next, which switches to the fruit delivery page."""
+	"""Town-hall delivery board: six buttons per page, each asking for one full
+	stack of an item. A successful delivery consumes the items and leaves the
+	button pressed in as completed.
+	"""
 
 	PANEL_W, PANEL_H = 635, 469
 	SLOT_W, SLOT_H = 130, 128
@@ -225,9 +225,8 @@ class QuestMenu:
 		# into the heart placing panel - no Next prompt needed
 		if (self.page == len(TOWN_QUEST_PAGES) - 1
 		        and self._page_complete()):
-			# DEMO mode: once the town quests are done, stock the
-			# materials to craft the Heart of the Valley so the player
-			# can reach the heart panel without grinding ores again.
+			# DEMO mode: once the town quests are done, stock the materials to
+			# craft the Heart of the Valley.
 			level = getattr(self.player, 'level_ref', None)
 			if getattr(level, 'debug_demo', False):
 				cost = RECIPES[HEART_RECIPE][0]

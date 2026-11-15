@@ -1,4 +1,4 @@
-import pygame, os
+﻿import pygame, os
 from settings import *
 from support import load_overlay_icons
 
@@ -98,7 +98,8 @@ class Overlay:
 		try:
 			currency_raw = pygame.image.load(
 				os.path.join(ui_path, 'Currency.png')).convert_alpha()
-			self.currency_icon = pygame.transform.scale(currency_raw, (32, 32))
+			self.currency_icon = pygame.transform.scale(
+			currency_raw, (int(32 * ui_scale()), int(32 * ui_scale())))
 		except (pygame.error, FileNotFoundError):
 			self.currency_icon = None
 		self.potion_top = 63
@@ -243,9 +244,8 @@ class Overlay:
 			card.right = right
 			self.potion_card_rects.append(card)
 
-			# The card is as wide as the coords panel above it, but the
-			# panel art is only 165px, so anchor the art to the card's
-			# RIGHT edge - the icon and timer then sit inside the art.
+			# The card is as wide as the coords panel above it, but the panel
+			# art is only 165px, so anchor the art to the card's RIGHT edge.
 			if self.potion_panel:
 				art = self.potion_panel.get_rect()
 				art.right = card.right
@@ -262,7 +262,7 @@ class Overlay:
 			icon = self.item_icons.get(effect)
 			icon_rect = None
 			if icon:
-				icon = pygame.transform.scale(icon, (32, 32))
+				icon = pygame.transform.scale(icon, (int(32 * ui_scale()), int(32 * ui_scale())))
 				icon_rect = icon.get_rect(midright=(art.right - 12, content_cy))
 				self.display_surface.blit(icon, icon_rect)
 			# timer sits left of the icon, inside the panel art
@@ -410,10 +410,10 @@ class Overlay:
 		# Single decorative weather/time UI at top-left
 		if self.time_manager and self.weather_ui_raw:
 			# Scale decorative UI to fit nicely
-			ui_scale = min(sw * 0.15 / self.weather_ui_raw.get_width(), sh * 0.25 / self.weather_ui_raw.get_height())
-			ui_scale = max(ui_scale, 1.0)
-			ui_w = int(self.weather_ui_raw.get_width() * ui_scale)
-			ui_h = int(self.weather_ui_raw.get_height() * ui_scale)
+			weather_scale = min(sw * 0.15 / self.weather_ui_raw.get_width(), sh * 0.25 / self.weather_ui_raw.get_height())
+			weather_scale = max(weather_scale, 1.0)
+			ui_w = int(self.weather_ui_raw.get_width() * weather_scale)
+			ui_h = int(self.weather_ui_raw.get_height() * weather_scale)
 			weather_ui = pygame.transform.scale(self.weather_ui_raw, (ui_w, ui_h))
 			ui_rect = weather_ui.get_rect(topleft=(10, 10))
 			self.display_surface.blit(weather_ui, ui_rect)
@@ -431,13 +431,15 @@ class Overlay:
 				icon_col = 1 if raining else 0
 				icon_surf = self.weather_icons_raw.subsurface(
 					(icon_col * icon_size, icon_row * icon_size, icon_size, icon_size))
-				icon_scaled = pygame.transform.scale(icon_surf, (112, 112))
+				icon_scaled = pygame.transform.scale(
+			icon_surf, (int(112 * ui_scale()), int(112 * ui_scale())))
 				icon_rect = icon_scaled.get_rect(center=(ui_rect.left + ui_w * 0.28, ui_rect.top + ui_h * 0.31))
 				self.display_surface.blit(icon_scaled, icon_rect)
 
 				if self.arrow_icons:
 					arrow_surf = self.arrow_icons[icon_row]
-					arrow_scaled = pygame.transform.scale(arrow_surf, (24, 24))
+					arrow_scaled = pygame.transform.scale(
+			arrow_surf, (int(24 * ui_scale()), int(24 * ui_scale())))
 					arrow_rect = arrow_scaled.get_rect(midleft=(icon_rect.right + 14, icon_rect.centery - 3))
 					self.display_surface.blit(arrow_scaled, arrow_rect)
 
@@ -452,7 +454,8 @@ class Overlay:
 				int(ui_w * 0.717),
 				int(ui_h * 0.330))
 		else:
-			money_slot = pygame.Rect(10, 170, 150, 40)
+			money_slot = pygame.Rect(int(10 * ui_scale()), int(170 * ui_scale()),
+									int(150 * ui_scale()), int(40 * ui_scale()))
 
 		# Money, left-and-centre aligned inside that slot; the font shrinks
 		# so long numbers never spill out of the bar.
@@ -460,7 +463,8 @@ class Overlay:
 			cy = money_slot.centery + max(2, int(ui_h * 0.025))
 			mx = money_slot.left + 14
 			if self.currency_icon:
-				icon = pygame.transform.scale(self.currency_icon, (28, 28))
+				icon = pygame.transform.scale(
+					self.currency_icon, (int(28 * ui_scale()), int(28 * ui_scale())))
 				icon_rect = icon.get_rect(midleft=(mx, cy))
 				self.display_surface.blit(icon, icon_rect)
 				mx = icon_rect.right + 6

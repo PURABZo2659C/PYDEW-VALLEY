@@ -1,31 +1,6 @@
-"""Interactive rows inside the F5 debug overlay (no separate panel).
-
-The F5 info box doubles as the control panel:
-
-* DEMO      - wordless pill switch right under the title: green = ON,
-              red = OFF. OFF (the default) is the plain game loop and
-              greys the rows below out; ON unlocks them and stocks the
-              inventory/hotbar with the test kit (Level.set_debug_demo,
-              which also snapshots/restores what you were carrying).
-* Rain      - COMBO box: a closed box showing the current value with a
-              small arrow; clicking it drops a list of options UPWARD
-              above the row (drop-up, like the reference), exactly
-              like a standard select opened in place (False / True).
-* Season    - the same COMBO box, directly below Rain, listing the
-              in-game seasons (Spring / Summer / Fall / Winter).
-* Time      - text box whose ':' is FIXED: the digits on either
-              side are editable and a third field flips the AM / PM
-              suffix (a 12-hour reading, so 5PM and 5AM never look
-              alike). Tab walks hour -> minute -> AM/PM; 'a' / 'p'
-              (or any digit) picks the half of the day.
-* Player grid - text box whose '(' ',' ')' are FIXED: the two
-              numbers are editable and BOTH accept a leading '-'
-              (range -9999 .. 9999); Enter teleports the player
-              there.
-
-While a box is focused or a list is open the player's input is locked
-(Level sets ``player.input_locked``), so typing never walks the
-character around or swings a tool. Esc / Enter / clicking away commits.
+"""Interactive rows inside the F5 debug overlay.
+DEMO is a pill switch; Rain and Season are combo boxes that drop their
+list upward; Time and Player grid are text boxes with fixed punctuation.
 """
 
 import pygame
@@ -92,9 +67,7 @@ class DebugControls:
 		self.layout = {}
 		self.teleport_choice = 'village'
 
-	# ─────────────────────────────────────────────────────────
-	# STATE
-	# ─────────────────────────────────────────────────────────
+	# ---- STATE ----
 	@property
 	def active(self):
 		"""True while the panel owns the keyboard/mouse."""
@@ -122,9 +95,7 @@ class DebugControls:
 		self.focused = None
 		self.open_menu = None
 
-	# ─────────────────────────────────────────────────────────
-	# SIZING
-	# ─────────────────────────────────────────────────────────
+	# ---- SIZING ----
 	def widget_width(self, kind, font):
 		"""Width the closed widget needs for its widest possible value."""
 		if kind == 'demo':
@@ -144,9 +115,7 @@ class DebugControls:
 		return (f"{(hour - 1) % 12 + 1:02d}:{int(minute):02d} "
 		        f"{'PM' if hour >= 12 else 'AM'}")
 
-	# ─────────────────────────────────────────────────────────
-	# DRAW - closed widget (inside the info box)
-	# ─────────────────────────────────────────────────────────
+	# ---- DRAW - closed widget (inside the info box) ----
 	def segments(self, kind, fallback):
 		"""[(text, is_editable), ...] to render inside a text box."""
 		if kind == 'time' and self.focused == 'time':
@@ -166,10 +135,10 @@ class DebugControls:
 
 	def draw_widget(self, surface, kind, rect, fallback, font,
 	                enabled=True):
-		"""Draw one closed widget (DEMO pill / combo box / text box)
-		and remember its rect so the next click can hit it. While
-		DEMO is off the edit rows are drawn dimmed: they still show
-		their value but take no input."""
+		"""Draw one closed widget (DEMO pill / combo box / text box) and remember its
+		rect so the next click can hit it. While DEMO is off the edit rows are
+		drawn dimmed: they show their value but take no input.
+		"""
 		self.layout[kind] = rect
 		if kind in self.TOGGLES:
 			self._draw_pill(surface, rect, bool(fallback))
@@ -265,14 +234,12 @@ class DebugControls:
 		pygame.draw.circle(surface, PILL_KNOB_EDGE, (kx, cy), knob_r + 1)
 		pygame.draw.circle(surface, PILL_KNOB, (kx, cy), knob_r)
 
-	# ─────────────────────────────────────────────────────────
-	# DRAW - open list (on top of everything)
-	# ─────────────────────────────────────────────────────────
+	# ---- DRAW - open list (on top of everything) ----
 	def draw_popup(self, surface, level):
-		"""Draw the option list. It opens UPWARD, resting on top of its
-		row — the info box hugs the bottom of the screen, so up is
-		where the room is and the box never has to slide. Called at the
-		very end of the frame so nothing can paint over it."""
+		"""Draw the option list. It opens UPWARD, resting on top of its row - the
+		info box hugs the bottom of the screen, so up is where the room is.
+		Called at the very end of the frame so nothing paints over it.
+		"""
 		self.option_rects = []
 		if not self.open_menu:
 			self.menu_rect = None
@@ -327,9 +294,7 @@ class DebugControls:
 			return self.teleport_choice
 		return int(level.time_manager.season_index)
 
-	# ─────────────────────────────────────────────────────────
-	# INPUT
-	# ─────────────────────────────────────────────────────────
+	# ---- INPUT ----
 	def handle_events(self, level, events):
 		"""Consume the clicks/keys that belong to the panel. Returns True
 		when an event was taken (so the world must not also react)."""
@@ -456,9 +421,8 @@ class DebugControls:
 				self.time_parts = ['%02d' % (hour % 12 or 12),
 				                   '%02d' % int(tm.minute)]
 				self.time_pm = hour >= 12
-				# start in the field the click actually landed on, so the
-				# trailing AM / PM word is directly toggleable instead of
-				# only reachable via Tab
+				# Start in the field the click landed on, so the trailing AM / PM
+				# word is directly toggleable instead of only reachable via Tab.
 				if pos[0] >= rect.right - 32:
 					self.time_field = 2
 				else:
@@ -533,10 +497,8 @@ class DebugControls:
 			if ch not in '0123456789':
 				return
 		else:
-			# the player grid takes a leading '-' in EITHER field: a
-			# freshly focused (or just tabbed into) field is treated
-			# as empty, so the minus lands before the digits do and
-			# '-9999' is as typeable as '9999'
+			# The player grid takes a leading '-' in EITHER field: a freshly
+			# focused field counts as empty, so '-9999' is as typeable as '9999'.
 			typed = '' if self._fresh else parts[field]
 			if ch == '-':
 				if typed:
@@ -581,9 +543,7 @@ class DebugControls:
 			self.grid_field = index
 		self._fresh = True
 
-	# ─────────────────────────────────────────────────────────
-	# APPLY
-	# ─────────────────────────────────────────────────────────
+	# ---- APPLY ----
 	def _select(self, level, kind, value):
 		if kind == 'rain':
 			level.raining = bool(value)

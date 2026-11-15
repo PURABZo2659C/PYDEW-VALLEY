@@ -40,7 +40,7 @@ def get_sky_color(hour, minute):
 class Sky:
 	def __init__(self, time_manager=None):
 		self.display_surface = pygame.display.get_surface()
-		self.full_surf = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+		self.full_surf = pygame.Surface(self.display_surface.get_size())
 		self.start_color = list(DAY_COLOR)
 		self.night = False
 		self.time_manager = time_manager
@@ -93,9 +93,7 @@ class Sky:
 			base_color[2] = int(base_color[2] * tint[2])
 
 		# A white grade is an identity multiply: skipping it leaves the
-		# framebuffer bit-identical while saving a full-screen mask blit
-		# (~1 ms) on every daytime frame. NIGHT_COLOR and the dusk/dawn
-		# lerps still take the normal path.
+		# framebuffer untouched and saves a full-screen blit each frame.
 		if tuple(base_color) == (255, 255, 255):
 			return
 
@@ -128,17 +126,15 @@ class Drop(Generic):
 
 def _camera_spawn_pos(all_sprites):
 	"""World-pixel point that projects onto the visible screen.
-
-	The world is infinite, so a fixed spawn box would leave the
-	player in dry air once far from the origin. Instead pick a random
-	screen point (plus margin) and invert the isometric projection to
-	get the world position that lands there under the current camera.
+	The world is infinite, so a random screen point is inverted through the
+	isometric projection instead of using a fixed box.
 	"""
 	cam = all_sprites
 	cam_x = getattr(cam, 'cam_x', 0)
 	cam_y = getattr(cam, 'cam_y', 0)
-	sw = getattr(cam, 'screen_w', SCREEN_WIDTH)
-	sh = getattr(cam, 'screen_h', SCREEN_HEIGHT)
+	surface = pygame.display.get_surface()
+	sw = getattr(cam, 'screen_w', surface.get_width())
+	sh = getattr(cam, 'screen_h', surface.get_height())
 	if getattr(cam, 'isometric_mode', True):
 		sx = randint(-100, sw + 100)
 		sy = randint(-100, sh + 100)
@@ -189,17 +185,13 @@ class Rain:
 
 class Snow:
 	"""Permanent snowfall for the snowy biome.
-
-	Like Rain, flakes spawn camera-relative so they always fill the
-	screen, but they fall slowly with a gentle leftward drift. Flake
-	lifetime is computed from the screen-crossing time and anything
-	that leaves the padded view is pruned, so density stays even
-	even when the player walks. Uses graphics/rain/snowflakes.png
-	(a grid of 32x32 frames).
+	Flakes spawn camera-relative so they always fill the screen, but fall
+	slowly with a gentle leftward drift.
 	"""
 
 	def __init__(self, all_sprites, spawn_interval=0.05):
 		self.all_sprites = all_sprites
+		self.display_surface = pygame.display.get_surface()
 		self.spawn_interval = spawn_interval
 		self._spawn_timer = 0.0
 		self._flakes = []
@@ -233,8 +225,8 @@ class Snow:
 
 	def update(self, dt=1 / 60, spawning=True):
 		cam = self.all_sprites
-		sw = getattr(cam, 'screen_w', SCREEN_WIDTH)
-		sh = getattr(cam, 'screen_h', SCREEN_HEIGHT)
+		sw = getattr(cam, 'screen_w', self.display_surface.get_width())
+		sh = getattr(cam, 'screen_h', self.display_surface.get_height())
 		# kill flakes that aged out or left the padded view (authoritative
 		# even if the wall-clock lifetime and dt ever disagree)
 		kept = []

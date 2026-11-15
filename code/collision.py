@@ -1,29 +1,6 @@
 """Structure collision system.
-
-Builds whole-tile collision blockers from a structure's opaque art pixels
-(``ground_footprint_tiles``) merged into per-row run rects
-(``tile_runs``). Applied to village houses, cave entrances, and any other
-bottom-anchored structure: the player stops on the tile line exactly at the
-art's visible outline (river-bank rule — no invisible wall in open ground,
-no squeezing between art pixels), and the ground the roof hides behind
-stays solid so nobody walks into the structure.
-
-Blockers are invisible Generic sprites added to ``collision_sprites``; they
-ride the chunk sprite list so unloading cleans them up.
-
-Usage::
-
-    from collision import structure_blockers
-    foot = ground_footprint_tiles(art, pad, wx, wy)
-    for block in structure_blockers(foot):
-        blocker = Generic(block.topleft, invisible_surf,
-                          [collision_sprites], z=0)
-        blocker.hitbox = block
-        sprites.append(blocker)
-
-The same footprint tiles are also used by the layout planner so paths never
-cross a building, and by villager pathfinding so NPCs never cut through a
-house.
+Whole-tile blockers built from a structure's opaque art pixels, so the
+player stops exactly at the visible outline (river-bank rule).
 """
 
 from support import ground_footprint_tiles, tile_runs
@@ -32,12 +9,9 @@ import pygame
 
 
 def structure_footprint(surf, foot_pad, wx, wy, min_frac=0.125):
-    """Return the set of whole ground tiles this bottom-anchored structure
-    covers. ``min_frac=0.125`` drops only true slivers (under an eighth of
-    the tile, i.e. a roof edge shaving the tile) so doorsteps and paths
-    stay free, while every tile the structure really sits on — down to the
-    corner the wall just clips — stays solid and the player stops on the
-    tile line at the visible outline."""
+    """The whole ground tiles this bottom-anchored structure covers.
+    min_frac drops only true slivers, so doorsteps and paths stay free.
+    """
     return ground_footprint_tiles(surf, foot_pad, wx, wy, min_frac=min_frac)
 
 
@@ -49,29 +23,9 @@ def structure_blockers(foot, tile=None):
 
 def occluded_stand_tiles(surf, foot_pad, min_px=100,
                          box_w=56, box_h=82, depth_only=True):
-    """Whole tiles where a player standing on them would be PAINTED OVER
-    by this bottom-anchored structure.
-
-    The art is drawn bottom-centred on its anchor tile's diamond centre
-    (lifted by ``foot_pad``); a player standing on a tile occupies
-    ``box_w x box_h`` px directly above that tile's diamond centre (the
-    measured opaque body box of the player sprite: 56x82). Two gates:
-
-    * depth — the structure must sort AFTER the player there. In the
-      iso depth key both use ``128 * (x + y) + 128`` (+ SPRITE_LIFT,
-      which cancels), so the structure draws over a player standing on
-      relative tile ``(dx, dy)`` exactly when ``dx + dy < 0``. On the
-      front side (``dx + dy >= 0`` — doorway, apron, the depth tie
-      itself) the player draws on top and can never be covered, so
-      those tiles are never blocked: that is the structure's front.
-    * coverage — at least ``min_px`` opaque art pixels must fall inside
-      the player's box, so a roof edge that only clips the air above
-      someone's head does not turn open ground into a wall.
-
-    Returns tiles RELATIVE to the structure's anchor. The result is the
-    walkable complement of "visible overlap": everywhere else a player
-    may stand next to the structure and stay fully visible, in front of
-    it as well as behind it.
+    """Whole tiles where a player standing on them would be painted over.
+    Two gates: depth (the structure must sort after the player) and coverage
+    (enough opaque art pixels inside the player's box).
     """
     import numpy as np
     if surf is None:
@@ -79,8 +33,8 @@ def occluded_stand_tiles(surf, foot_pad, min_px=100,
     w, h = surf.get_size()
     alpha = pygame.surfarray.array_alpha(surf) > 10
     tiles = set()
-    # bounding ranges: the player box must intersect the art at all.
-    # feet at (64*(dx-dy), 32*(dx+dy)) from the anchor diamond centre;
+    # Bounding ranges: the player box must intersect the art at all.
+    # Feet at (64*(dx-dy), 32*(dx+dy)) from the anchor diamond centre;
     # art-local y of the feet = 32*(dx+dy) + h - foot_pad.
     max_dd = (w // 2 + box_w) // 64 + 1
     min_sum = -(h - foot_pad + box_h) // 32 - 1
