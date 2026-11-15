@@ -1,0 +1,22 @@
+{
+    "move_up": 119,
+    "move_down": 115,
+    "move_left": 97,
+    "move_right": 100,
+    "use_tool": 13,
+    "use_item": 1073742053,
+    "interact": 1073742053,
+    "open_crafting": 99,
+    "open_inventory": 101,
+    "drop_item": 113,
+    "pause": 27,
+    "hotbar_1": 49,
+    "hotbar_2": 50,
+    "hotbar_3": 51,
+    "hotbar_4": 52,
+    "hotbar_5": 53,
+    "hotbar_6": 54,
+    "hotbar_7": 55,
+    "hotbar_8": 56,
+    "hotbar_9": 57
+}
