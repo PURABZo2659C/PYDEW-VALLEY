@@ -112,9 +112,14 @@ def help_doc_path():
 		pass
 	return beside if os.path.exists(beside) else bundled
 
-# The game runs full screen at the real desktop resolution, so there is
+# The game always runs full screen at the real desktop resolution, so there is
 # no canvas size to hardcode - everything reads the live display surface.
 TILE_SIZE = 128
+
+# The game always runs full screen; there is no settings file.
+def ini_bool(key, default=True):
+	"""Always returns default since there is no settings file."""
+	return default
 
 # Isometric tile dimensions - 2:1 ratio for proper isometric projection
 ISO_TILE_WIDTH = 128

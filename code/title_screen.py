@@ -1,5 +1,4 @@
-﻿import asyncio
-import pygame, sys, os, math, random, webbrowser
+﻿import pygame, sys, os, math, random, webbrowser
 import numpy as np
 from pygame.constants import K_RETURN
 
@@ -565,7 +564,7 @@ class TitleScreen:
         self.draw_corner_buttons(self.display_surface, sw, sh)
         self.draw_menu_options(self.display_surface, sw, sh)
 
-    async def run(self):
+    def run(self):
         clock = pygame.time.Clock()
         if self.menu_music:
             self.menu_music.play(loops=-1)
@@ -578,7 +577,6 @@ class TitleScreen:
                 self.draw(dt)
                 pygame.display.update()
                 # Hand control back to the event loop once per frame.
-                await asyncio.sleep(0)
         finally:
             # QUIT calls pygame.quit() before sys.exit(), so the mixer may
             # already be down. Guard every teardown call.

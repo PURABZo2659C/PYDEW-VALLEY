@@ -1,10 +1,7 @@
-# PYDEW VALLEY
-
-A Stardew Valley-inspired farming game written in Python with Pygame.
-
-Version **2.6** - Windows, macOS and Linux
-
 ![title](graphics/world/logo.png)
+A 2D isometric farming, crafting, mining and exploration game built with Python and Pygame.
+
+Version 3.0 - Windows, macOS and Linux
 
 ---
 

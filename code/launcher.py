@@ -82,9 +82,8 @@ def main():
 	directory = _user_dir()
 	handle = _redirect_output(directory)
 	try:
-		import asyncio
 		import main as game
-		asyncio.run(game.Game().run())
+		game.Game().run()
 	except SystemExit:
 		raise
 	except Exception:
