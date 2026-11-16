@@ -7,8 +7,7 @@ from support import (
 	visible_bottom_pad, play_click, play_error, iso_base_anchor, load_overlay_icons,
 )
 
-# Shared decoded sounds: chunk generation creates dozens of sprites
-# and decoding the file per placement was a profiled hot spot.
+# Shared decoded sounds: decoding per placement was a profiled hot spot.
 _sound_cache = {}
 
 def load_sound(name):
@@ -45,16 +44,13 @@ def teardown_solid(sprite):
 	Guarantees the sprite is gone from collision_sprites and that the
 	leftover zero-sized hitbox can never overlap the player.
 	"""
-	# Remove from every group we registered with. Iterate a copy:
-	# remove() mutates the group's list as we walk it.
+	# Iterate a copy: remove() mutates the group's list as we walk it.
 	for group in list(sprite.groups()):
 		group.remove(sprite)
-	# Zero the collision box so nothing (player, tools, projectiles) can
-	# ever colliderect a destroyed prop even if a stale reference lingers.
+	# Zero the hitbox so even a stale reference can never collide.
 	sprite.hitbox = pygame.Rect(0, 0, 0, 0)
 	sprite.alive = False
-	# Now a no-op (already ungrouped) but kept so a future group that adds
-	# itself later still gets cleaned up.
+	# No-op now but kept so any future group still gets cleaned up.
 	sprite.kill()
 
 class Generic(pygame.sprite.Sprite):
@@ -64,11 +60,9 @@ class Generic(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect(topleft = pos)
 		self.z = z
 		self.hitbox = self.rect.copy().inflate(-self.rect.width * 0.2, -self.rect.height * 0.75)
-		# Flat world: sprites always sit on the ground plane (level 0);
-		# kept for the depth-sort interface.
+		# Flat world: sprites sit on the ground plane; kept for depth-sort.
 		self.level = 0
-		# Transparent rows under the visible art; the iso renderer lifts the
-		# image by this so the art bottom sits on the tile diamond center.
+		# Sole padding: the renderer lifts by this to seat art on the tile.
 		self.foot_pad = 0
 
 	def _rebuild_hitbox(self):
@@ -133,8 +127,7 @@ class WildFlower(Generic):
 
 	def damage(self, amount = 1):
 		if not self.broken:
-			# A full bag must not swallow the flower: check the room
-			# first and leave it standing when the loot cannot fit.
+			# A full bag leaves the flower standing until its loot fits.
 			if self.player_add and not can_store(
 					self.player_add, [(self.item, 1)]):
 				play_error()
@@ -143,8 +136,7 @@ class WildFlower(Generic):
 			self.broken = True
 			if self.player_add:
 				self.player_add(self.item)
-			# Detach from every group (incl. collision) and clear the box so
-			# the broken flower no longer blocks movement.
+			# Detach from every group; the flower no longer blocks movement.
 			teardown_solid(self)
 
 class Particle(Generic):
@@ -248,8 +240,7 @@ class DroppedItem(Generic):
 		self._age = 0.0
 		self.y_anchor_offset = 0
 		self._full_warned = 0
-		# game-clock expiry (see module docstring); a clock-less caller
-		# never expires instead of guessing at a wall-clock lifetime
+		# Game-clock expiry: a clock-less caller never expires.
 		clock = getattr(level_ref, 'time_manager', None)
 		self.dropped_at = (float(clock.total_minutes)
 		                   if clock is not None else None)
@@ -286,8 +277,7 @@ class DroppedItem(Generic):
 		dt = max(0.0, float(dt))
 		self._age += dt
 		self._fly(dt)
-		# float: a slow bob above the ground, phase-shifted per drop so
-		# a pile of items never bobs in lockstep
+		# Slow bob, phase-shifted per drop so piles never bob in lockstep.
 		self._phase += dt * 3.0
 		self.y_anchor_offset = -int(round(
 			self.BOB_LIFT * 0.5 * (1.0 + math.sin(self._phase))))
@@ -297,19 +287,16 @@ class DroppedItem(Generic):
 		player = getattr(self.level_ref, 'player', None)
 		if player is None:
 			return
-		# Fast rect reject, then a pixel-precise overlap so small items
-		# (bush, seed, ore) pick up on their visible shape.
+		# Fast rect reject, then pixel-precise overlap for small items.
 		if not player.hitbox.colliderect(self.rect):
 			return
 		player_mask = pygame.mask.from_surface(player.image)
-		# overlap()'s offset is the OTHER mask's origin relative to this
-		# one, i.e. where the player sits inside the drop's box.
+		# overlap()'s offset: the other mask's origin relative to this one.
 		offset = (player.rect.x - self.rect.x,
 		          player.rect.y - self.rect.y)
 		if not self.mask.overlap(player_mask, offset):
 			return
-		# only items the bag still has room for come back (Q's twin rule:
-		# a full inventory leaves the drop where it lies)
+		# A full inventory leaves the drop where it lies (Q's rule).
 		remaining = player.add_loot(self.item, self.count)
 		picked = self.count - remaining
 		if picked > 0:
@@ -331,19 +318,16 @@ class Tree(Generic):
 		super().__init__(pos, surf, groups)
 		self.rect = self.image.get_rect(center = pos)
 
-		# Trunk hitbox: a narrow box on the tree's world position, sized
-		# proportionally so it stays correct if the art changes.
+		# Trunk hitbox: proportional so it stays correct if art changes.
 		trunk_w = max(30, int(self.rect.width * 0.50))
 		trunk_h = max(20, int(self.rect.height * 0.18))
 		self.hitbox = self.rect.copy().inflate(
 			trunk_w - self.rect.width,
 			trunk_h - self.rect.height,
 		)
-		# Trees default to a 24px lift off the image bottom edge (user
-		# request); stumps/logs pass their own visible_bottom_pad instead.
+		# Trees default to a 24px lift; stumps/logs pass visible_bottom_pad.
 		self.foot_pad = foot_pad
-		# 'bottom' = art bottom on the tile diamond center (trees).
-		# 'center' = image center on the tile diamond center (logs, stumps).
+		# 'bottom' = art bottom, 'center' = image center on the tile center.
 		self.iso_anchor = iso_anchor
 
 		# tree attributes
@@ -359,8 +343,7 @@ class Tree(Generic):
 		self.wood_item = wood_item
 		self.fruit_item = fruit_item
 		self.sapling_item = sapling_item
-		# Natural trees carry a stable chunk id so a felled tree stays gone
-		# across chunk reloads. Planted trees drop their save record.
+		# Stable chunk id: felled trees stay gone across chunk reloads.
 		self.tree_id = tree_id
 		self.on_removed = on_removed
 
@@ -388,8 +371,7 @@ class Tree(Generic):
 		# play sound
 		self.axe_sound.play()
 
-		# felled immediately: clear collision and drop loot right away
-		# instead of waiting for the next update() frame.
+		# Felled immediately, not on the next update() frame.
 		self.check_death()
 
 	def check_death(self):
@@ -458,8 +440,7 @@ class GrowingTree(Generic):
 
 		if self.elapsed >= self.duration:
 			self._apply_frame()
-			# Don't turn solid while the player is standing on the tile;
-			# retry on a later frame once the tile is clear.
+			# Don't turn solid while the player stands on the tile.
 			gx = int(self.base_pos[0]) // TILE_SIZE
 			gy = int(self.base_pos[1]) // TILE_SIZE
 			tile = pygame.Rect(gx * TILE_SIZE, gy * TILE_SIZE,
@@ -480,8 +461,7 @@ class Rock(Generic):
 		self.alive = True
 		self.player_add = player_add
 		self.drop_item = drop_item
-		# Natural rocks keep a stable id so a mined rock does not refresh
-		# on the next day. Cave ores leave these None (cave props reroll).
+		# Stable id keeps mined rocks gone; cave ores leave None (reroll).
 		self.rock_id = rock_id
 		self.on_removed = on_removed
 		self.rock_sound = load_sound('axe.mp3')
@@ -544,8 +524,7 @@ class Crate(Generic):
 		self._rebuild_hitbox()
 		anchor = iso_base_anchor(surf)
 		if anchor is not None:
-			# Prop art is not centered in its canvas: pin the BASE DIAMOND
-			# CENTER to the tile diamond center (renderer 'pixel' mode).
+			# Pin the base diamond center to the tile ('pixel' mode).
 			self.iso_anchor = 'pixel'
 			self.anchor_px = anchor
 			self.foot_pad = surf.get_height() - anchor[1]
@@ -620,8 +599,7 @@ class Bush(Generic):
 		self.health = 3
 		self.alive = True
 		self.player_add = player_add
-		# [(item, min, max), ...] dropped when felled. Berry bushes also
-		# drop the bush itself alongside their berries.
+		# [(item, min, max), ...]; berry bushes also drop the bush itself.
 		self.drops = drops if drops is not None else [('bush', 1, 1)]
 		self.hoe_sound = load_sound('hoe.wav')
 		# Bushes are foraged with RShift (pick), never broken by tools.
@@ -650,8 +628,7 @@ class Bush(Generic):
 		for item, count in items:
 			for _ in range(count):
 				self.player_add(item)
-		# Detach from every group (incl. collision) and clear the box so the
-		# foraged bush no longer blocks movement.
+		# Detach from every group; the bush no longer blocks movement.
 		teardown_solid(self)
 
 	def update(self, dt):
@@ -660,8 +637,7 @@ class Bush(Generic):
 class PlaceableBed(Generic):
 	def __init__(self, pos, surf, groups, player_add):
 		super().__init__(pos, surf, groups)
-		# Bed art anchored at image center so the bed center coincides with
-		# the tile diamond center.
+		# Image center anchors on the tile diamond center.
 		self.iso_anchor = 'center'
 		self.foot_pad = visible_bottom_pad(self.image)
 		# Solid hitbox so the player cannot walk through the bed.
@@ -673,8 +649,7 @@ class PlaceableBed(Generic):
 
 	def damage(self, amount = 1):
 		if self.health - amount <= 0:
-			# This hit would break the bed, so the bed has to fit in the bag
-			# first. A full bag means no break sound or animation at all.
+			# A full bag means no break sound or animation at all.
 			if not can_store(self.player_add, [('Bed', 1)]):
 				play_error(); notify_inventory_full(self.player_add)
 				return
@@ -717,8 +692,7 @@ class PlaceableBridge(Generic):
 	def damage(self, amount = 1):
 		if not self.alive:
 			return
-		# The finishing hit needs a free bag slot for the plank, so a full
-		# bag leaves the deck standing.
+		# The finishing hit needs a free bag slot for the plank.
 		if self.health - amount <= 0:
 			if not can_store(self.player_add, [('bridge', 1)]):
 				play_error(); notify_inventory_full(self.player_add)
@@ -734,8 +708,7 @@ class PlaceableBridge(Generic):
 			if level is not None and self.tile is not None \
 			   and hasattr(level, 'break_bridge'):
 				level.break_bridge(*self.tile, self.scene)
-			# Drop out of every group: the painter's ground pass iterates
-			# all_sprites, so kill() is what makes the deck vanish.
+			# kill() drops it from all_sprites, which the ground pass draws.
 			self.kill()
 
 	def update(self, dt):

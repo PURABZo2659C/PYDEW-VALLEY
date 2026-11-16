@@ -19,12 +19,14 @@ class Menu:
 		self.padding = 8
 
 		# entries
+		# Sell entries come first; sell_border marks the last one.
 		self.options = list(SALE_PRICES.keys()) + list(PURCHASE_PRICES.keys())
 		self.sell_border = len(SALE_PRICES) - 1
 		self.setup()
 
 		# movement
 		self.index = 0
+		# Rate-limits repeated navigation while a key is held.
 		self.timer = Timer(200)
 
 	def display_money(self):
@@ -39,6 +41,7 @@ class Menu:
 		sw, sh = self.display_surface.get_size()
 
 		# create the text surfaces
+		# Pre-render labels and measure the full menu height.
 		self.text_surfs = []
 		self.total_height = 0
 
@@ -63,6 +66,7 @@ class Menu:
 			play_click()
 			self.toggle_menu()
 
+		# Ignore repeats until the navigation timer expires.
 		if not self.timer.active:
 			if keys[pygame.K_UP] or input_manager.is_action_pressed_keys(keys, 'move_up'):
 				self.index -= 1
@@ -97,7 +101,7 @@ class Menu:
 							if level is not None and hasattr(level, 'show_inventory_full'):
 								level.show_inventory_full()
 
-		# clamo the values
+		# Wrap the selection at both ends.
 		if self.index < 0:
 			self.index = len(self.options) - 1
 		if self.index > len(self.options) - 1:
@@ -105,6 +109,7 @@ class Menu:
 
 	def show_entry(self, text_surf, amount, top, selected):
 
+		# One row: name, owned count, and a sell/buy tag when selected.
 		# background
 		bg_rect = pygame.Rect(self.main_rect.left,top,self.width,text_surf.get_height() + (self.padding * 2))
 		pygame.draw.rect(self.display_surface, 'White',bg_rect, 0, 4)

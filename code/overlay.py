@@ -25,8 +25,7 @@ class Overlay:
 
 		ui_path = asset_path('graphics', 'UI')
 
-		# Load decorative weather/time UI panel. The art pack has been
-		# renamed over time, so accept both the old and current names.
+		# Weather/time UI panel: accept both the old and current art names.
 		self.weather_ui_raw = None
 		self.weather_icons_raw = None
 		for name in ('Weather_UI_Free.png', 'Weather_UI.png'):
@@ -103,8 +102,7 @@ class Overlay:
 		except (pygame.error, FileNotFoundError):
 			self.currency_icon = None
 		self.potion_top = 63
-		# Set by Level to the coordinates panel width so the timer cards
-		# line up with it; None keeps the art's own size.
+		# Set by Level to the coords panel width so timer cards line up; None keeps art size.
 		self.potion_card_width = None
 		self._potion_label_cache = {}
 
@@ -118,14 +116,12 @@ class Overlay:
 		return surf
 
 	def slot_icon(self, item):
-		# Wheat/tomato item keys are shared by crops and seed stacks; the
-		# hotbar always holds seeds, so prefer the new seed art there.
+		# Crop keys are shared with seed stacks; the hotbar holds seeds, so prefer seed art.
 		if item in self.player.seeds:
 			return self.seed_icons.get(item) or self.item_icons.get(item)
 		icon = self.item_icons.get(item)
 		if icon is None:
-			# Icons for items picked up after the overlay was built aren't
-			# pre-loaded: resolve them on demand instead of drawing a dot.
+			# Icons picked up after the overlay was built: resolve on demand.
 			icon = load_overlay_icons([item]).get(item)
 			self.item_icons[item] = icon
 		return icon
@@ -222,8 +218,7 @@ class Overlay:
 		self.potion_card_rects = []
 		if not self.time_manager:
 			return
-		# Potions count down in REAL seconds (Player.potion_remaining),
-		# not on the accelerated game clock.
+		# Potions count down in REAL seconds (Player.potion_remaining), not game time.
 		effects = [effect for effect in
 		           ('speed_potion', 'miner_potion', 'night_vision_potion')
 		           if self.player.potion_remaining(effect) > 0]
@@ -244,8 +239,7 @@ class Overlay:
 			card.right = right
 			self.potion_card_rects.append(card)
 
-			# The card is as wide as the coords panel above it, but the panel
-			# art is only 165px, so anchor the art to the card's RIGHT edge.
+			# Panel art is only 165px but the card is wider, so anchor art to the RIGHT edge.
 			if self.potion_panel:
 				art = self.potion_panel.get_rect()
 				art.right = card.right
@@ -443,11 +437,9 @@ class Overlay:
 					arrow_rect = arrow_scaled.get_rect(midleft=(icon_rect.right + 14, icon_rect.centery - 3))
 					self.display_surface.blit(arrow_scaled, arrow_rect)
 
-		# The weather art has two slots: a big square on top for the
-		# weather icon and a lower bar for the coin counter.
+		# Weather art: big square on top for the weather icon, lower bar for the coin counter.
 		if self.time_manager and self.weather_ui_raw:
-			# Lower slot of the art, in fractions of its size so the
-			# geometry survives a resize.
+			# Lower slot, as fractions of the art size so the geometry survives resize.
 			money_slot = pygame.Rect(
 				ui_rect.left + int(ui_w * 0.026),
 				ui_rect.top + int(ui_h * 0.613),
@@ -457,8 +449,7 @@ class Overlay:
 			money_slot = pygame.Rect(int(10 * ui_scale()), int(170 * ui_scale()),
 									int(150 * ui_scale()), int(40 * ui_scale()))
 
-		# Money, left-and-centre aligned inside that slot; the font shrinks
-		# so long numbers never spill out of the bar.
+		# Money left-aligned in the slot; the font shrinks so long numbers never spill.
 		if self.time_manager and self.weather_ui_raw:
 			cy = money_slot.centery + max(2, int(ui_h * 0.025))
 			mx = money_slot.left + 14
@@ -481,8 +472,7 @@ class Overlay:
 			self.display_surface.blit(
 				money_surf, money_surf.get_rect(midleft=(mx, cy)))
 
-		# Time panel: below the money bar, centred on it and a little
-		# narrower than the weather card so the two never visually merge.
+		# Time panel below the money bar, slightly narrower so the two never merge.
 		time_str = (self.time_manager.get_time_string()
 		            if self.time_manager else '')
 		time_surf = self.font.render(time_str, False, '#5C3A1E')

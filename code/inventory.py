@@ -14,6 +14,7 @@ class InventoryMenu:
 		self.font = ui_font(20)
 		self.tooltip_font = ui_font(16)
 
+		# Preload every icon the menu may need.
 		all_items = (list(player.inventory.unique_items()) + list(player.tools)
 		             + list(player.seeds) + list(RECIPES.keys())
 		             + list(POTION_ITEMS) + list(REFINED_ITEMS)
@@ -22,6 +23,7 @@ class InventoryMenu:
 		self.item_icons = load_overlay_icons(all_items)
 		self.seed_icons = load_overlay_icons(player.seeds)
 
+		# Raw art is scaled once per screen size in recompute_layout.
 		self.bg_raw = pygame.image.load(
 			asset_path('graphics', 'UI', 'inventory.png')).convert_alpha()
 		self.hb_raw = pygame.image.load(
@@ -31,6 +33,7 @@ class InventoryMenu:
 
 		self.cols = 9
 		self.rows = 3
+		# cursor holds the stack under the mouse; hover_slot is the slot below it.
 		self.cursor = None
 		self.hover_slot = -1
 		self._last_click_time = 0
@@ -48,6 +51,7 @@ class InventoryMenu:
 			self.recompute_layout()
 
 	def recompute_layout(self):
+		# Fit the panel to 70% width / 75% height, then scale the slot grid with it.
 		self._last_size = self.display_surface.get_size()
 		sw, sh = self._last_size
 		scale = min(sw * 0.7 / self.bg_raw.get_width(),
@@ -75,6 +79,7 @@ class InventoryMenu:
 		self.close_rect = self.close_normal.get_rect(
 			topright=(self.bg_rect.right - 52, self.bg_rect.top - 2))
 
+		# Slot centres in the unscaled inventory.png art.
 		orig_slot_cx = [30, 78, 126, 174, 222, 270, 318, 366, 414]
 		orig_slot_cy = [62, 118, 174]
 		orig_slot_w = 37
@@ -91,6 +96,7 @@ class InventoryMenu:
 		hb_left = self.bg_rect.left + (30 - 26.5) * scale
 		self.hbar_rect = self.hbar_img.get_rect(
 			topleft=(hb_left, self.bg_rect.bottom + 10))
+		# Hotbar slots use their own origin and pitch in hotbar-2.png.
 		slot_cx0 = 26.5
 		slot_cy = 27.5
 		slot_pitch = 48
@@ -105,6 +111,7 @@ class InventoryMenu:
 				slot_isize, slot_isize))
 
 	def slot_icon(self, item):
+		# Seeds have dedicated icons; other items resolve on first use.
 		if item in self.player.seeds:
 			icon = self.seed_icons.get(item)
 			if icon is not None:
@@ -116,6 +123,7 @@ class InventoryMenu:
 		return icon
 
 	def _slot_index_at(self, pos):
+		# Bag slots use model indices; hotbar slots use 0..HOTBAR_SIZE-1.
 		for i, rect in enumerate(self.slot_rects):
 			if rect.collidepoint(pos):
 				return MAIN_START + i
@@ -137,6 +145,7 @@ class InventoryMenu:
 			panel.show_error(text)
 
 	def return_cursor(self):
+		# Put the held stack back; refuse to close if the bag is full.
 		if self.cursor is None:
 			return True
 		item, count = self.cursor
@@ -157,6 +166,7 @@ class InventoryMenu:
 		return False
 
 	def _gather_to_cursor(self):
+		# Double-click pulls matching stacks into the held stack.
 		if self.cursor is None:
 			return
 		item, count = self.cursor
@@ -169,6 +179,7 @@ class InventoryMenu:
 			play_click()
 
 	def _left_click(self, index):
+		# Pick up, place, merge, or swap the held stack.
 		inventory = self.player.inventory
 		slot = inventory.get_slot(index)
 
@@ -185,6 +196,7 @@ class InventoryMenu:
 			return
 
 		now = pygame.time.get_ticks()
+		# Second click on the same slot within 280 ms gathers the rest.
 		if (now - self._last_click_time < 280
 		    and self._last_click_item == self.cursor[0]
 		    and self._last_click_slot == index):
@@ -223,6 +235,7 @@ class InventoryMenu:
 		play_click()
 
 	def _right_click(self, index):
+		# Right click takes half a stack, or places one item.
 		inventory = self.player.inventory
 		slot = inventory.get_slot(index)
 
@@ -254,12 +267,14 @@ class InventoryMenu:
 		play_click()
 
 	def _quick_move(self, index):
+		# Shift+click moves a stack between bag and hotbar.
 		if self.player.inventory.quick_move(index):
 			play_click()
 		else:
 			play_error()
 
 	def _swap_to_hotbar(self, index, hotbar_index):
+		# Number keys swap the hovered slot with that hotbar slot.
 		if self.cursor is not None:
 			return
 		if self.player.inventory.move_to_hotbar(index, hotbar_index):
@@ -292,6 +307,7 @@ class InventoryMenu:
 						self.return_cursor()
 					continue
 				if event.button == 1:
+					# Shift+click quick-moves; plain click picks up or places.
 					if pygame.key.get_mods() & pygame.KMOD_SHIFT:
 						if self.cursor is None:
 							self._quick_move(index)
@@ -303,6 +319,7 @@ class InventoryMenu:
 		self.hover_slot = self._slot_index_at(mouse_pos)
 
 	def draw(self):
+		# Dim the world, then draw panel, slots, cursor, tooltip, and errors.
 		self._ensure_layout()
 		sw, sh = self.display_surface.get_size()
 		if self._overlay is None or self._overlay.get_size() != (sw, sh):
@@ -390,6 +407,7 @@ class InventoryMenu:
 		mx, my = pygame.mouse.get_pos()
 		rect = surf.get_rect(topleft=(mx + 16, my + 16))
 		sw, sh = self.display_surface.get_size()
+		# Keep the tooltip inside the screen.
 		rect.clamp_ip(pygame.Rect(8, 8, sw - 16, sh - 16))
 		pygame.draw.rect(
 			self.display_surface, (30, 25, 15),

@@ -182,8 +182,7 @@ class SettingsMenu:
 					self._rebind_key(event.key)
 					return
 			if event.type == pygame.MOUSEBUTTONDOWN:
-				# While waiting for a rebind, a mouse button becomes the new
-				# binding. The close button stays a cancel, the wheel still scrolls.
+				# While waiting for a rebind, a mouse button becomes the binding; close stays a cancel.
 				if self._rebinding_wait and event.button in (1, 2, 3):
 					code = input_manager.mouse_button_code(event.button)
 					if code is not None and not self.close_rect.collidepoint(mx, my):
@@ -395,8 +394,7 @@ class SettingsMenu:
 		lab_surf = font.render(label, False, '#5C3A1E')
 		pct_surf = self._pct_text(volume, font, '#5C3A1E')
 
-		# Widest label + widest percentage reserve equal columns in both
-		# rows, so the two bars share exactly the same left/right edges.
+		# Widest label + percentage reserve equal columns so both bars share the same edges.
 		label_col = max(font.size('Music')[0], font.size('SFX')[0])
 		pct_col = self._pct_text(1.0, font, '#5C3A1E').get_width()
 
@@ -460,8 +458,7 @@ class SettingsMenu:
 			self._sfx_pill_rects = pill_rects
 			self._sfx_bar_rect = bar_rect
 
-		# Adjuster handle at the volume position, kept inside the bar so
-		# it can never run into the percentage column.
+		# Adjuster handle at the volume position, clamped inside the bar.
 		if self.adjuster_img:
 			adj_scale = display_bar_h * 1.4 / self.adjuster_h
 			adj_w = max(1, int(self.adjuster_w * adj_scale))
@@ -541,8 +538,7 @@ class SettingsMenu:
 		for action, (category, description) in input_manager.BINDING_INFO.items():
 			actions.append((action, description, category))
 		
-		# Control rows use the Biome font size; _fit_font shrinks a long
-		# action name only when it would touch the key column.
+		# Control rows use the Biome font size; _fit_font shrinks long action names to fit.
 		row_font_size = max(12, int(42 * scale))
 		category_font_size = max(12, int(46 * scale))
 		category_font = ui_font(category_font_size)
@@ -614,8 +610,7 @@ class SettingsMenu:
 			self._control_rects[action] = row_rect
 			y += line_h + int(4 * scale)
 
-		# NOTE: the read-only MOUSE section was removed — mouse buttons are
-		# ordinary rebindable keys now (see input_manager.is_mouse_binding).
+		# NOTE: the read-only MOUSE section was removed; mouse buttons are rebindable keys now.
 
 		# Buttons at bottom - Save and Reset side by side
 		btn_font = ui_font(row_font_size)

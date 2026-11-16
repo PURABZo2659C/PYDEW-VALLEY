@@ -114,8 +114,7 @@ class TitleScreen:
         except (pygame.error, FileNotFoundError):
             self.menu_bg = None
 
-        # background video - OpenCV is optional, without it the title
-        # screen falls back to its still background.
+        # OpenCV is optional; without it the title uses the still background.
         self.video = None
         self._video_frame = None
         self._video_pos = 0.0
@@ -129,12 +128,7 @@ class TitleScreen:
                     self._video_fps = cap.get(cv2.CAP_PROP_FPS) or 30
                     self._video_frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) or 1
 
-        # Menu music. First slot that exists wins:
-        #   audio/Title_background.wav    - title theme by Yoiyami (CC0)
-        #   graphics/world/background.mp3 - optional user track
-        #   audio/menu.mp3                 - optional user track
-        #   audio/music.mp3                - in-game track (fallback)
-        # Only the CC0 title theme and the in-game track ship.
+        # Menu music: the first existing candidate path wins.
         self.menu_music = None
         music_path = None
         for candidate in (asset_path('audio', 'Title_background.wav'),
@@ -219,7 +213,7 @@ class TitleScreen:
             y += h + gap
         return rects
 
-    # ── corner button actions ──────────────────────────────────────
+    # -- corner button actions --
     def open_settings(self):
         """Open the very same settings menu the pause screen uses."""
         sfx = click_sound()
@@ -267,8 +261,7 @@ class TitleScreen:
         sw, sh = self.get_size()
         events = pygame.event.get()
         if self.settings_active and self.settings_menu:
-            # the settings menu owns the screen while it is open
-            # (its ESC / close button calls close_settings)
+            # The settings menu owns the screen while open (ESC closes it).
             self.settings_menu.input(events)
             return None
         corner = self.corner_rects(sw, sh)
@@ -279,8 +272,7 @@ class TitleScreen:
 
             if self.popup_active:
                 if self.popup_confirm:
-                    # Overwrite confirmation: only YES starts a fresh game
-                    # (and deletes the old save); NO / Esc / Enter keeps it.
+                    # Only YES starts fresh (deletes the save); NO/Esc keeps it.
                     if event.type == pygame.KEYDOWN:
                         if (event.key in (pygame.K_RETURN, pygame.K_ESCAPE)
                                 or input_manager.is_key_for_action(event.key, 'pause')):
@@ -355,8 +347,7 @@ class TitleScreen:
 
     def handle_choice(self, choice):
         if choice == 'NEW GAME' and save_exists():
-            # Never wipe a save on a single click: ask first. YES starts fresh
-            # (main deletes the old save), NO keeps it and points at CONTINUE.
+            # Never wipe a save on one click: ask first; NO points at CONTINUE.
             self.popup_lines = [
                 'Saved game found!',
                 'Starting a new game will permanently',
@@ -578,14 +569,12 @@ class TitleScreen:
                 pygame.display.update()
                 # Hand control back to the event loop once per frame.
         finally:
-            # QUIT calls pygame.quit() before sys.exit(), so the mixer may
-            # already be down. Guard every teardown call.
+            # QUIT may already have shut pygame down; guard every teardown call.
             if self.menu_music is not None and pygame.mixer.get_init():
                 self.menu_music.stop()
             if self.video is not None:
                 try:
                     self.video.release()
                 except Exception:
-                    # Release is best-effort; a missing/closed decoder must
-                    # not raise out of the shutdown path.
+                    # Best-effort release: never raise out of the shutdown path.
                     pass

@@ -213,8 +213,7 @@ class CreditsScreen:
 		line('Monocraft — interface font (Idrees Inc, OFL)')
 		divider()
 		header('MUSIC')
-		# Only credit the tracks that are actually installed, so the
-		# screen never names a track the build does not contain.
+		# Only credit tracks that are actually installed in this build.
 		for label, parts in (
 			('Music by Yoiyami (CC0)', ('audio', 'Title_background.wav')),
 			('"8bit attempt" — Daniel Stephens', ('audio', 'music.mp3')),

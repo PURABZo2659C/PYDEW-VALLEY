@@ -22,8 +22,7 @@ class CaveGenerator:
 		self.prop_sprites = prop_sprites if prop_sprites is not None else pygame.sprite.Group()
 		self.decor_sprites = decor_sprites if decor_sprites is not None else pygame.sprite.Group()
 		self.seed = WORLD_SEED if seed is None else seed
-		# Kept for interface parity with WorldGenerator (the cave has no
-		# chunk-placed sprites yet - ground is emitted per tile on demand).
+		# Kept for interface parity with WorldGenerator; ground is emitted per tile.
 		self.active_chunks = {}
 
 		self.perlin_shape = PerlinNoise(seed=self.seed + 900)
@@ -33,13 +32,11 @@ class CaveGenerator:
 		self._ground_variant_cache = {}
 		self._surf_bounds = {}
 
-		# Cave props (rocks / ore veins / decorations): session state.
-		# Deterministic per tile; the ones the player mined stay mined.
+		# Cave props: session state, deterministic per tile; mined ones stay mined.
 		self._placed = {}        # (gx, gy) -> sprite (alive, in groups)
 		self._mined = set()      # tiles whose prop was destroyed
 		self._prop_center = None
-		# Incremented on every cave entry so ores/rocks/decor roll a fresh layout
-		# instead of replaying the same deterministic tiles.
+		# Incremented per cave entry so ores/rocks/decor roll a fresh layout.
 		self._entry_nonce = 0
 
 		self._load_assets()
@@ -77,8 +74,7 @@ class CaveGenerator:
 		"""
 		self.ore_surfs = dict(self._load_folder_named('Caves', 'Ores'))
 		self.rock_surfs = [s for _n, s in self._load_folder_named('Caves', 'Rocks')]
-		# 'double crates' (the small empty crate pair) is retired - filtered out
-		# so the art file stays but never spawns.
+		# 'double crates' is retired: the art file stays but never spawns.
 		self.decor_entries = [e for e in
 			self._load_folder_named('Caves', 'decorations')
 			if e[0] != 'double crates']
@@ -284,8 +280,7 @@ class CaveGenerator:
 				ray = v * 128 + 128
 
 				if is_lava(gx, gy):
-					# Lava fill drawn raw and hollow, like the overworld's water plane.
-					# Each tile runs its own phase, so the ocean bubbles out of lockstep.
+					# Lava drawn raw and hollow like the water plane; per-tile phase.
 					if dy >= sh or dy + pad <= 0:
 						continue
 					key = (gx, gy)
@@ -423,8 +418,7 @@ class CaveGenerator:
 				pos = (wx, wy), surf = self.rock_surfs[arg],
 				groups = [self.all_sprites, self.collision_sprites, self.prop_sprites],
 				player_add = self.player_add)
-		# Decorations: solid scenery. Crates/shelves are cut with the axe (loaded
-		# ones can yield an ore); pots are punched for pickup.
+		# Decorations: crates/shelves are axe-cut (loaded ones yield an ore); pots are punched.
 		stem, surf = self.decor_entries[arg]
 		groups = [self.all_sprites, self.collision_sprites, self.decor_sprites]
 		if 'pot' in stem:

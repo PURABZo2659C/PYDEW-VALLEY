@@ -16,8 +16,7 @@ LEGACY_SEED_ALIASES = {
 	'tomato': 'tomato_seed',
 }
 
-# Older saves stored 'Bread'; keys are lowercase everywhere now, so
-# slots are normalised on load.
+# Older saves stored 'Bread'; keys are lowercase now, normalised on load.
 LEGACY_ITEM_ALIASES = {
 	'Bread': 'bread',
 }

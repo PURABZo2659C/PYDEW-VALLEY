@@ -194,8 +194,7 @@ class QuestMenu:
 		           for item, _, _ in self._quests())
 
 	def _next_visible(self):
-		# intermediate pages still offer Next; the final page auto-
-		# advances to the heart panel instead of showing Next
+		# intermediate pages still offer Next; the final page auto-advances to the heart panel
 		return (self.page < len(TOWN_QUEST_PAGES) - 1
 		        and self._page_complete())
 
@@ -221,12 +220,10 @@ class QuestMenu:
 		self._take(item, QUEST_STACK, seed)
 		self.player.completed_quests.add(quest_id)
 		play_click()
-		# completing the last quest on the last page drops straight
-		# into the heart placing panel - no Next prompt needed
+		# completing the last quest on the last page drops straight into the heart panel
 		if (self.page == len(TOWN_QUEST_PAGES) - 1
 		        and self._page_complete()):
-			# DEMO mode: once the town quests are done, stock the materials to
-			# craft the Heart of the Valley.
+			# DEMO mode: once town quests are done, stock the Heart of the Valley materials.
 			level = getattr(self.player, 'level_ref', None)
 			if getattr(level, 'debug_demo', False):
 				cost = RECIPES[HEART_RECIPE][0]

@@ -255,8 +255,7 @@ class DebugControls:
 		height = len(opts) * ITEM_H + 8
 		rect = pygame.Rect(anchor.left, anchor.top - 2 - height,
 		                   width, height)
-		# keep the list on screen (fall back to below the row only if
-		# there is somehow no room above it)
+		# Keep the list on screen; below the row only if no room above.
 		sw, sh = surface.get_size()
 		if rect.top < 4:
 			rect.top = anchor.bottom + 2
@@ -381,8 +380,7 @@ class DebugControls:
 				# ask before turning it on: it cannot be undone
 				self.demo_confirm = True
 				self._fresh = False
-				# lay out the Yes/No buttons immediately so the confirm
-				# can be accepted without waiting for a draw pass
+				# Lay out the Yes/No buttons now so the confirm needs no draw.
 				try:
 					sw, sh = pygame.display.get_surface().get_size()
 					box = pygame.Rect(0, 0, int(sw * 0.52),
@@ -401,8 +399,7 @@ class DebugControls:
 					pass
 				return True
 			if not self.demo_on:
-				# edits wait for DEMO: swallow the click so the
-				# world doesn't also react (no tool swing)
+				# Edits wait for DEMO: swallow the click, no tool swing.
 				return True
 			if kind in self.DROPDOWNS:
 				self.focused = None
@@ -416,13 +413,11 @@ class DebugControls:
 			if kind == 'time':
 				tm = level.time_manager
 				hour = int(tm.hour)
-				# read the clock back as a 12-hour value: the digits
-				# and the AM/PM field together name the same instant
+				# Read the clock back as 12-hour digits plus the AM/PM field.
 				self.time_parts = ['%02d' % (hour % 12 or 12),
 				                   '%02d' % int(tm.minute)]
 				self.time_pm = hour >= 12
-				# Start in the field the click landed on, so the trailing AM / PM
-				# word is directly toggleable instead of only reachable via Tab.
+				# Start in the clicked field so the AM/PM word is toggleable.
 				if pos[0] >= rect.right - 32:
 					self.time_field = 2
 				else:
@@ -497,8 +492,7 @@ class DebugControls:
 			if ch not in '0123456789':
 				return
 		else:
-			# The player grid takes a leading '-' in EITHER field: a freshly
-			# focused field counts as empty, so '-9999' is as typeable as '9999'.
+			# A leading '-' is allowed in either field: fresh fields are empty.
 			typed = '' if self._fresh else parts[field]
 			if ch == '-':
 				if typed:
@@ -565,8 +559,7 @@ class DebugControls:
 	def _apply(self, level):
 		if self.focused == 'time':
 			tm = level.time_manager
-			# the box edits a 12-hour clock: the digits plus the
-			# AM/PM field name one instant, so 07 PM lands at 19:00
+			# 12-hour digits + AM/PM field name one instant: 07 PM is 19:00.
 			raw = self._int(self.time_parts[0], None)
 			if raw is None:
 				# an empty (or half-typed) hour keeps the current one

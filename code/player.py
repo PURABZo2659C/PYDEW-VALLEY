@@ -30,30 +30,25 @@ class Player(pygame.sprite.Sprite):
 		self.speed = self.base_speed
 		self.target_grid = None
 		self.target_object = None
-		# Character frames are 172x124 with 24px transparent sole padding;
-		# the iso renderer lifts by this so visible feet sit on the tile.
+		# Frames are 172x124 with 24px transparent sole padding; the iso renderer lifts by it.
 		self.foot_pad = 24
 
 		# collision
 		self.hitbox = self.rect.copy().inflate((-126,-70))
 		self.collision_sprites = collision_sprites
-		# nearby solid sprites, rebuilt when the player changes tile - the
-		# old code rescanned the whole chunk ring six times a frame
+		# Rebuilt when the player changes tile; the old code rescanned the chunk ring per frame.
 		self._collider_cache = None
 		self.world_direction = pygame.math.Vector2(0, 0)
-		# True while a UI text box owns the keyboard, so typing never walks
-		# the character or swings a tool.
+		# True while a UI text box owns the keyboard, blocking movement and tool swings.
 		self.input_locked = False
-		# Flat world: the level attribute stays 0 everywhere (kept for
-		# sprite depth-sort interfaces).
+		# Flat world: level stays 0 everywhere (kept for the depth-sort interface).
 		self.level = 0
 
 		# timers 
 		self.timers = {
 			'tool use': Timer(350,self.use_tool),
 			'water bucket': Timer(600,self.use_water_bucket),
-			# 'punch' only gates the animation + cooldown; the hit itself fires
-			# on 'punch impact', timed to the extended-fist frame.
+			# 'punch' only gates the animation; the hit fires on 'punch impact'.
 			'punch': Timer(300),
 			'punch impact': Timer(300,self.use_punch),
 			'interact': Timer(400),
@@ -87,8 +82,7 @@ class Player(pygame.sprite.Sprite):
 		self.bush_sprites = bush_sprites
 		self.flower_sprites = flower_sprites
 		self.bed_sprites = bed_sprites
-		# Placed bridge decks (axe-breakable); the level owns the group and
-		# re-points it on scene swaps. An empty Group is falsy: test None.
+		# Placed bridge decks (axe-breakable); level re-points the group on scene swaps.
 		self.bridge_sprites = (getattr(level, 'bridge_sprites', None)
 		                       if level is not None else None)
 		if self.bridge_sprites is None:
@@ -167,8 +161,7 @@ class Player(pygame.sprite.Sprite):
 		level = getattr(self, 'level_ref', None)
 		if level is None:
 			return False
-		# throw in the direction the player faces, so the drop never
-		# lands back on the feet that dropped it
+		# Throw in the facing direction so the drop never lands back on the feet.
 		facing = self._facing_vector(
 			self.status.replace('_idle', ''), False)
 		throw = (facing.x * 52.0, facing.y * 52.0) if facing else None
@@ -343,8 +336,7 @@ class Player(pygame.sprite.Sprite):
 			play_error()
 			self._panel_error('Too tired to keep working - eat some food to recover.')
 			return
-		# Inventory-full short-circuit: never spend energy or damage anything
-		# when the loot cannot be stored.
+		# Inventory-full short-circuit: no energy spend or damage when loot cannot be stored.
 		level = self.level_ref
 		if level is not None and self.selected_tool in ('axe', 'pickaxe'):
 			target = (self._axe_target() if self.selected_tool == 'axe'
@@ -352,15 +344,13 @@ class Player(pygame.sprite.Sprite):
 			if target is not None:
 				items = getattr(target, 'drop_items', lambda: [])()
 				if isinstance(target, PlaceableBed):
-					# A bed only needs a free slot on the hit that
-					# actually breaks it - until then it stays put.
+					# A bed only needs bag room on the hit that actually breaks it.
 					effective_health = (1 if self.has_potion_effect('miner_potion')
 					                    else target.health)
 					items = ([('Bed', 1)] if effective_health - 2 <= 0
 					         else [])
 				elif isinstance(target, PlaceableBridge):
-					# Same rule as the bed: only the third axe hit
-					# (the one that breaks the deck) needs bag room.
+					# Same as the bed: only the deck-breaking hit needs bag room.
 					effective_health = (1 if self.has_potion_effect('miner_potion')
 					                    else target.health)
 					items = ([('bridge', 1)] if effective_health - 1 <= 0
@@ -407,8 +397,7 @@ class Player(pygame.sprite.Sprite):
 									bush.damage()
 									break
 							else:
-								# Bridge decks: axe only, one hit per
-								# swing, so three swings break the deck.
+								# Axe only, one hit per swing, so three swings break the deck.
 								for bridge in self.bridge_sprites.sprites():
 									if not self._tool_allowed(bridge, 'axe'):
 										continue
@@ -430,12 +419,10 @@ class Player(pygame.sprite.Sprite):
 			print(f"[{self.__class__.__name__}] pickaxe/rock error: {exc!r}")
 
 	def use_punch(self):
-		# Fired by the 'punch impact' timer, so damage + the hit sound land
-		# together. A whiff plays nothing.
+		# Fired by the 'punch impact' timer so damage and sound land together.
 		if self.energy <= 0:
 			return
-		# Inventory-full short-circuit: never drain stamina or finish the
-		# swing when the target's loot no longer fits.
+		# Inventory-full short-circuit: no stamina drain or swing when loot cannot fit.
 		level = self.level_ref
 		target = self._punch_target()
 		if level is not None and target is not None:
@@ -446,8 +433,7 @@ class Player(pygame.sprite.Sprite):
 				return
 		self.spend_energy(0.5)
 		try:
-			# Punch picks up pots, inherits the stick's rock-breaking job,
-			# then falls back to trees so bare hands still clear wood.
+			# Punch picks up pots, breaks rocks like the stick, then falls back to trees.
 			for rock in self.rock_sprites.sprites():
 				if not self._tool_allowed(rock, 'punch'):
 					continue
@@ -511,8 +497,7 @@ class Player(pygame.sprite.Sprite):
 		if item == 'pickaxe':
 			return [self.rock_sprites]
 		if item == 'punch':
-			# empty hand punches rocks and trees, and angle-snaps to RShift
-			# pickups (flowers, bushes; cave pots ride tree_sprites)
+			# Empty hand punches rocks/trees and snaps to RShift pickups (flowers, bushes).
 			return [self.rock_sprites, self.tree_sprites, self.flower_sprites, self.bush_sprites]
 		return []
 
@@ -543,8 +528,7 @@ class Player(pygame.sprite.Sprite):
 				if getattr(sprite, 'broken', False):
 					continue
 				rect = sprite.rect
-				# Distance to the nearest point of the sprite's rect so
-				# touching/large objects always qualify.
+				# Distance to the nearest rect point so touching/large objects qualify.
 				near = pygame.math.Vector2(
 					max(rect.left, min(origin.x, rect.right)),
 					max(rect.top, min(origin.y, rect.bottom)),
@@ -570,15 +554,13 @@ class Player(pygame.sprite.Sprite):
 
 		origin = pygame.math.Vector2(self.rect.center)
 
-		# Pass 1: objects the held tool can actually damage. These win so
-		# swinging an axe or pickaxe always aims at the thing it can hit.
+		# Pass 1: tool-damageable objects win, so a swing aims at what it can hit.
 		if groups:
 			best = self._best_snap(groups, origin, facing, tool)
 			if best is not None:
 				return best
 
-		# Pass 2: forage. Bushes and flowers are gathered with RShift, which
-		# works with any held tool.
+		# Pass 2: forage; bushes and flowers are gathered with RShift, any tool.
 		return self._best_snap([self.bush_sprites, self.flower_sprites],
 		                       origin, facing, None)
 
@@ -630,8 +612,7 @@ class Player(pygame.sprite.Sprite):
 		origin = pygame.math.Vector2(self.rect.center)
 		player_gx = self.rect.centerx // TILE_SIZE
 		player_gy = self.rect.centery // TILE_SIZE
-		# Prefer the tile directly in the faced ISO direction first, so a
-		# short cross-row interaction does not snap to a better-scoring tile.
+		# Prefer the faced ISO-direction tile so cross-row input does not snap away.
 		gx_off, gy_off = self.ISO_GRID_OFFSETS.get(
 			status_dir or 'down', self.ISO_GRID_OFFSETS['down'])
 		facing_tile = (player_gx + gx_off, player_gy + gy_off)
@@ -649,8 +630,7 @@ class Player(pygame.sprite.Sprite):
 					continue
 				if not self._farm_tile_valid(gx, gy, action):
 					continue
-				# Immature crops stay selectable so an empty hand answers "crop not
-				# ready for harvest!" instead of ignoring the tile.
+				# Immature crops stay selectable so an empty hand reports "crop not ready".
 
 				center = pygame.math.Vector2(
 					gx * TILE_SIZE + TILE_SIZE // 2,
@@ -694,8 +674,7 @@ class Player(pygame.sprite.Sprite):
 			self.target_pos = self.rect.center
 			self.target_grid = None
 
-		# Auto-selector: prefer the nearest breakable matching the selected
-		# tool inside the facing cone; otherwise keep the facing tile target.
+		# Auto-selector: snap to the nearest in-cone breakable matching the tool.
 		snapped = self._find_snap_target(status_dir)
 		if snapped is not None:
 			self.target_object = snapped
@@ -708,8 +687,7 @@ class Player(pygame.sprite.Sprite):
 		else:
 			self.target_object = None
 
-		# Farming actions can angle-snap past the face tile so adjacent
-		# crop rows stay usable without pixel-perfect alignment.
+		# Farming snaps past the face tile so adjacent crop rows stay usable.
 		soil_tile = self._find_soil_tile(status_dir)
 		if soil_tile is not None:
 			self.target_grid = soil_tile
@@ -771,8 +749,7 @@ class Player(pygame.sprite.Sprite):
 		return max(0.0, expiry - self._potion_now())
 
 	def spend_energy(self, amount):
-		# Every swing costs stamina — the miner potion's perk is that one
-		# swing finishes the job, not that it is free.
+		# Every swing costs stamina; the miner potion finishes in one hit, not for free.
 		self.energy = max(0, self.energy - amount)
 
 	def _refresh_potion_speed(self):
@@ -899,8 +876,7 @@ class Player(pygame.sprite.Sprite):
 			self.hotbar[self.hotbar_index] = None
 		return True
 
-	# graphics/character/<Folder>/<action> layout: one folder per facing
-	# direction, each holding the walk/idle/tool/punch animation subfolders.
+	# graphics/character/<Folder>/<action>: one folder per facing with animation subfolders.
 	DIR_FOLDERS = {
 		'up': 'Up', 'down': 'Down', 'left': 'Left', 'right': 'Right',
 		'up_left': 'Up_Left', 'up_right': 'Up_Right',
@@ -952,8 +928,7 @@ class Player(pygame.sprite.Sprite):
 			self.image = frames[int(self.frame_index)]
 
 	def input(self):
-		# A focused debug text box owns the keyboard: freeze movement,
-		# tool swings, hotbar and menu keys until it is committed.
+		# A focused debug text box owns the keyboard: freeze movement, tools, menus.
 		if getattr(self, 'input_locked', False):
 			self.direction.update(0, 0)
 			return
@@ -996,12 +971,10 @@ class Player(pygame.sprite.Sprite):
 						break
 				self.status = base + '_idle'
 
-			# use selected tool / place / punch (Enter). Tools & punch are
-			# hold-to-repeat; bed placement stays edge-triggered.
+			# Enter: use tool / place / punch. Tools & punch repeat; bed placement is edge-triggered.
 			use_tool_pressed = input_manager.is_action_pressed_keys(keys, 'use_tool')
 			in_cave = getattr(self.level_ref, 'scene', 'overworld') == 'cave'
-			# Enter also enters/exits the cave: while standing on a doorway
-			# or the exit lift it takes precedence over the tool swing.
+			# Enter also enters/exits the cave, taking precedence over the tool swing.
 			cave_triggered = False
 			quest_triggered = False
 			if use_tool_pressed and not self._use_tool_was_pressed:
@@ -1012,8 +985,7 @@ class Player(pygame.sprite.Sprite):
 				slot = self.hotbar[self.hotbar_index]
 				if slot:
 					item, count = slot
-					# Food and potions are used with RSHIFT (use_item),
-					# not with the tool key.
+					# Food and potions are used with RSHIFT (use_item), not the tool key.
 					if item in self.tools and item != 'water_bucket':
 						if in_cave and item == 'hoe':
 							# no farmland in the cave
@@ -1060,14 +1032,12 @@ class Player(pygame.sprite.Sprite):
 							self.direction = pygame.math.Vector2()
 							self.frame_index = 0
 					elif self._is_consumable(item):
-						# Enter eats food / drinks potions. RSHIFT keeps the
-						# same convenience shortcut for consumables.
+						# Enter also eats food / drinks potions; RSHIFT keeps the same shortcut.
 						if not self._use_tool_was_pressed:
 							if self._consume_selected_food_or_potion():
 								self.timers['interact'].activate()
 					elif item == 'Bed' and not self._use_tool_was_pressed and not in_cave:
-						# Rect centered on the target tile; the bed renderer
-						# anchors its art by the rect center (not the feet).
+						# Bed renderer anchors its art by the rect center (not the feet).
 						_bw = self.bed_surf.get_width()
 						_bh = self.bed_surf.get_height()
 						bed = PlaceableBed(
@@ -1083,8 +1053,7 @@ class Player(pygame.sprite.Sprite):
 						if slot[1] <= 0:
 							self.hotbar[self.hotbar_index] = None
 					elif item == 'bridge' and not self._use_tool_was_pressed:
-						# Placed on the water (overworld) or lava (cave) tile under the
-						# crosshair; the level records it as walkable so crossing works.
+						# Placed on the water/lava tile under the crosshair; the level makes it walkable.
 						level = self.level_ref
 						if level is not None and level.place_bridge(
 								self.target_pos):
@@ -1099,8 +1068,7 @@ class Player(pygame.sprite.Sprite):
 								'Aim at open water to place a bridge.')
 					# seeds & water_bucket are handled by use_item (Shift)
 					else:
-						# Held something that is neither a tool, a consumable, a bed nor a
-						# bridge: treat it as a bare-hand punch.
+						# Anything not a tool, consumable, bed or bridge: bare-hand punch.
 						punch_target = self._punch_target()
 						if punch_target is not None:
 							level = self.level_ref
@@ -1118,9 +1086,7 @@ class Player(pygame.sprite.Sprite):
 								self.direction = pygame.math.Vector2()
 								self.frame_index = 0
 				else:
-					# Enter with an empty hand sleeps beside a placed bed, otherwise punches
-					# only when there is something to break - no target, no swing, no
-					# stamina drain. Inventory full: refuse the swing outright.
+					# Empty hand: sleep beside a placed bed, else punch only when a target exists.
 					if self._try_sleep_near_bed():
 						pass
 					else:
@@ -1141,9 +1107,7 @@ class Player(pygame.sprite.Sprite):
 								self.direction = pygame.math.Vector2()
 								self.frame_index = 0
 
-			# plant seed / water / fill bucket / pick decorations (RShift).
-			# Overworld: villager talk, bush & flower pickup, bed sleep, shop sprites,
-			# then soil actions. Cave: pot pickup.
+			# RShift: plant / water / fill bucket / pick. Overworld: talk, forage, sleep, shop; cave: pots.
 			use_item_pressed = input_manager.is_action_pressed_keys(keys, 'use_item')
 			near_villager = None
 			picked_decoration = False
@@ -1165,8 +1129,7 @@ class Player(pygame.sprite.Sprite):
 							self.timers['interact'].activate()
 							picked_decoration = True
 						else:
-							# Crop under the crosshair but still growing:
-							# say so instead of silently doing nothing.
+							# Crop under the crosshair still growing: say so instead of doing nothing.
 							gx = int(self.target_pos[0]) // TILE_SIZE
 							gy = int(self.target_pos[1]) // TILE_SIZE
 							plant = self.soil_layer.plant_at_tile(gx, gy)
@@ -1189,8 +1152,7 @@ class Player(pygame.sprite.Sprite):
 										break
 						except Exception as exc:  # keep input alive, never swallow silently
 							print(f"[{self.__class__.__name__}] forage error: {exc!r}")
-					# Bed sleep on RShift when a placed bed sits within one
-					# tile of the player (center-to-center).
+					# Sleep on RShift when a placed bed sits within one tile of the player.
 					if not picked_decoration:
 						hit_placed_bed = False
 						px, py = self.rect.center
@@ -1446,8 +1408,7 @@ class Player(pygame.sprite.Sprite):
 			for sprite in self._near_colliders():
 				if hasattr(sprite, 'hitbox'):
 					if sprite.hitbox.colliderect(self.hitbox):
-						# A water tile's invisible wall is lifted once a bridge covers it.
-						# Checked live so it stays right after chunks rebuild their colliders.
+						# A water tile's wall lifts once a bridge covers it; checked live each frame.
 						if getattr(sprite, '_is_water_collider', False):
 							level = getattr(self, 'level_ref', None)
 							if level is not None and hasattr(level, 'is_bridged') \
@@ -1550,8 +1511,7 @@ class Player(pygame.sprite.Sprite):
 		if self.direction.magnitude() > 0:
 			self.direction = self.direction.normalize()
 
-		# Screen directions to world movement for isometric view:
-		# screen right = world (+x, -y), screen down = world (+x, +y).
+		# Iso mapping: screen right = world (+x, -y), screen down = world (+x, +y).
 		world_dx = (self.direction.x + self.direction.y) * 0.5
 		world_dy = (self.direction.y - self.direction.x) * 0.5
 		self.world_direction = pygame.math.Vector2(world_dx, world_dy)
@@ -1559,8 +1519,7 @@ class Player(pygame.sprite.Sprite):
 		new_x = self.pos.x + world_dx * self.speed * dt
 		new_y = self.pos.y + world_dy * self.speed * dt
 
-		# Bridge traversal: apply the diagonal step as one move so a stair-step
-		# bridge is not blocked by open water on the intermediate tiles.
+		# Apply a diagonal step as one move so a stair-step bridge is not blocked.
 		if world_dx != 0 and world_dy != 0 and self._bridge_step_ok(new_x, new_y):
 			self.pos.x = new_x
 			self.hitbox.centerx = round(self.pos.x)

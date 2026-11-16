@@ -22,8 +22,7 @@ ICON_ALIASES = {
 	'pine_sapling': 'pinetree_sapling',
 }
 
-# Crop seed stacks share the harvested-crop item key, so the HUD resolves
-# their icons separately (graphics/overlay/saplings and seeds/*_seed.png).
+# Seed stacks share the crop item key, so the HUD resolves their icons separately.
 SEED_ICON_ALIASES = {
 	'wheat': 'wheat_seed',
 	'tomato': 'tomato_seed',
@@ -42,8 +41,7 @@ def load_overlay_icons(items, folder=None, aliases=None):
 			if name.lower().endswith('.png'):
 				stems.setdefault(os.path.splitext(name)[0].lower(), os.path.join(root, name))
 	if folder == asset_path('graphics', 'overlay'):
-		# Extra icon sources: biome art for foraged flowers/fungi and the
-		# world folder for placeables. Overlay art wins on a name clash.
+		# Extra sources: Biomes for foraged flowers/fungi, world for placeables; overlay wins.
 		for extra in (asset_path('graphics', 'Biomes'),
 		              asset_path('graphics', 'world')):
 			if os.path.isdir(extra):
@@ -72,8 +70,7 @@ def load_overlay_icons(items, folder=None, aliases=None):
 		icons[item] = surf
 	return icons
 
-# Diagnostics printed at most once per key: several of these guards sit
-# in per-frame paths, where an unconditional print would flood the console.
+# Warnings print at most once per key; these guards sit in per-frame paths.
 _logged_warnings = set()
 
 
@@ -182,8 +179,7 @@ def smooth_scale_rgba(surf, size):
 	if surf.get_size() == size:
 		return surf
 	import numpy as np
-	# Big downscales alias badly in one pass; halving to ~2x first
-	# box-filters and cuts the per-pixel premultiply work.
+	# Big downscales alias in one pass; halve to ~2x first to box-filter.
 	w, h = surf.get_size()
 	tw, th = size
 	while w > tw * 2 and h > th * 2 and w > 16 and h > 16:
@@ -257,8 +253,7 @@ def ground_footprint_tiles(surf, foot_pad, wx, wy, tile=None,
 	if rel is None:
 		w, h = surf.get_size()
 		alpha = pygame.surfarray.array_alpha(surf)
-		# array_alpha is indexed [x][y], so np.nonzero hands back the
-		# COLUMN first and the ROW second: xs = c, ys = r.
+		# array_alpha is [x][y]: np.nonzero returns COLUMN first, so xs = c, ys = r.
 		xs, ys = np.nonzero(alpha > alpha_threshold)
 		if xs.size == 0:
 			rel = frozenset()
@@ -318,8 +313,7 @@ def flatten_bridge_deck(surf):
 	flat = pygame.Surface((w, deck_h), pygame.SRCALPHA)
 	mid = (w - 1) / 2.0
 	for x in range(w):
-		# Diamond edges: the column's half-height grows 0.5px per px from
-		# either side vertex, so it spans top..bottom around the centre row.
+		# Diamond edges: column half-height grows 0.5px per px from either side vertex.
 		top = int(round(abs(x - mid) / 2.0))
 		bottom = deck_h - 1 - top
 		if bottom < top:
@@ -376,8 +370,7 @@ def iso_base_anchor(surf, alpha_threshold=10):
 	_base_anchor_cache[key] = anchor
 	return anchor
 
-# Player sprite metrics used to decide occlusion (keep in sync with
-# Player: frame size and sole lift). (width, height, foot_pad)
+# Player metrics for occlusion (keep in sync with Player): (width, height, foot_pad).
 CHARACTER_BOX = (172, 124, 24)
 
 def occlusion_bands(surf, foot_pad, char_size=None, char_pad=None, step=32,
@@ -422,8 +415,7 @@ def occlusion_bands(surf, foot_pad, char_size=None, char_pad=None, step=32,
 		inside = ((xs[None, :] >= cx0) & (xs[None, :] < cx0 + cw_) &
 		          (ys[:, None] >= cy0) & (ys[:, None] < cy0 + ch_))
 		elig &= ~inside
-	# coverage raster: pixels sorted by qy, per row only the qy slice that
-	# can reach it (delta qy in [-286, 134])
+	# coverage raster: pixels sorted by qy, per row only slices with delta qy in [-286, 134].
 	order = np.argsort(qy)
 	qs, qxs = qy[order], qx[order]
 	covered = np.zeros((ys.size, xs.size), dtype=bool)

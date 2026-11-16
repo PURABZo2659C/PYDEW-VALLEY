@@ -7,24 +7,12 @@ from save_system import load_save, delete_save
 class Game:
 	def __init__(self):
 		pygame.init()
-		# SCALED | FULLSCREEN is SDL's desktop-fullscreen path: the game
-		# keeps its logical surface while SDL stretches it to the current
-		# desktop resolution. SDL never switches the display mode, so
-		# alt-tabbing cannot reflow other windows or leave the desktop
-		# at a different resolution. (pygame.FULLSCREEN alone and the
-		# pygame._sdl2 Window.set_fullscreen path both switched modes and
-		# could crash in pygame.event.get().)
-		#
-		# PydewValley.ini can turn that off. fullscreen=0 gives a
-		# resizable window instead, which is the way to play on a screen
-		# smaller than 1525x860.
-		if ini_bool('display.fullscreen', True) or ini_bool('fullscreen', True):
-			self.screen = pygame.display.set_mode(
-				(SCREEN_WIDTH, SCREEN_HEIGHT),
-				pygame.SCALED | pygame.FULLSCREEN)
-		else:
-			self.screen = pygame.display.set_mode(
-				(SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
+		# SCALED | FULLSCREEN stretches to the desktop without switching display modes.
+		sw, sh = pygame.display.get_desktop_sizes()[0]
+		self.screen = pygame.display.set_mode(
+			(sw, sh), pygame.SCALED | pygame.FULLSCREEN)
+		# Scale the interface to match: fonts grow with the fit-to-screen menus.
+		set_ui_scale(self.screen.get_height() / float(UI_REFERENCE_HEIGHT))
 		pygame.display.set_caption('PYDEW VALLEY')
 		self.clock = pygame.time.Clock()
 
@@ -36,9 +24,7 @@ class Game:
 		save_data = None
 		if choice == 'NEW GAME':
 			if not delete_save():
-				# Another copy of the game may still be holding the save
-				# file open. Carry on, but say so - otherwise CONTINUE
-				# would bring back the world the player just left.
+				# Another copy may hold the save open; carry on but say so.
 				print('[Main] could not delete the old save - '
 					  'another copy of the game may be running')
 		elif choice == 'CONTINUE':

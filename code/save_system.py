@@ -6,8 +6,7 @@ from inventory_model import Inventory, LEGACY_SEED_ALIASES
 from settings import TILE_SIZE, WORLD_SEED, user_data_path
 
 SAVE_VERSION = 2
-# The save lives beside the executable, so a portable copy of the game
-# carries its world along wherever it is moved.
+# The save lives beside the executable, so a portable copy carries its world along.
 SAVE_PATH = user_data_path('save.json')
 
 
@@ -120,9 +119,7 @@ def _build_save_data(level):
 			getattr(player, 'seed_inventory', {}),
 			getattr(player, 'hotbar', []))
 
-	# DEMO ON replaces the bag with a test kit; a save written while it is on
-	# stores the PRE-DEMO snapshot, so debug stock never overwrites the real
-	# items.
+	# DEMO ON: store the PRE-DEMO inventory snapshot so debug stock never overwrites real items.
 	snap = getattr(level, '_demo_inv_snapshot', None)
 	if snap is not None:
 		inv_data = [[stack[0], int(stack[1])] if stack else None
@@ -132,8 +129,7 @@ def _build_save_data(level):
 
 	return {
 		'version': SAVE_VERSION,
-		# The world this save was generated from: loading replays it exactly.
-		# Saves written before seeds existed fall back to the legacy seed.
+		# World seed this save came from; pre-seed saves fall back to the legacy seed.
 		'world_seed': int(getattr(level, 'world_seed', WORLD_SEED)),
 		'player': {
 			'pos': [player.pos.x, player.pos.y],
@@ -146,8 +142,7 @@ def _build_save_data(level):
 			'selected_seed': player.selected_seed,
 			'hotbar_index': player.hotbar_index,
 			'water_bucket_amount': player.water_bucket_amount,
-			# Seconds LEFT on each effect, not an absolute expiry: the countdown
-			# freezes while the game is closed.
+			# Seconds LEFT per effect, not absolute expiry: the countdown freezes while closed.
 			'potion_effects': {
 				effect: round(float(player.potion_remaining(effect)), 3)
 				for effect in player.potion_effects
@@ -177,8 +172,7 @@ def _build_save_data(level):
 			'year': level.time_manager.year,
 			'total_minutes': level.time_manager.total_minutes,
 		},
-		# Tutorial progress: the step to resume at, so instructions for tasks
-		# the player has NOT done come back after a save/quit/continue.
+		# Tutorial step to resume at, so undone instructions come back after save/quit.
 		'tutorial_step': int(getattr(level, 'tutorial_step', 0)),
 		'scene': getattr(level, 'scene', 'overworld'),
 		'return_pos': (list(level.return_pos)

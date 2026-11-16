@@ -105,6 +105,7 @@ class InstructionPanel:
 		return bool(self.toast is not None and self.toast.get('sticky'))
 
 	def _visible(self):
+		# Highest layer wins: toast, then hint, then instruction.
 		if self.toast is not None:
 			return self.toast['text'], self.toast['kind']
 		if self.hint is not None:
@@ -115,6 +116,7 @@ class InstructionPanel:
 
 	# ------------------------------------------------------------------ loop
 	def update(self, dt):
+		# Count the toast down, then slide the panel toward its target.
 		if self.toast is not None:
 			self.toast['remaining'] -= dt
 			if self.toast['remaining'] <= 0:
@@ -130,6 +132,7 @@ class InstructionPanel:
 			self._y += step if delta > 0 else -step
 
 	def _wrap(self, text, max_width):
+		# Greedy word wrap using the rendered text width.
 		lines = []
 		line = ''
 		for word in text.split(' '):
@@ -150,6 +153,7 @@ class InstructionPanel:
 		sw, sh = self.display_surface.get_size()
 		max_width = int(sw * self.max_width_ratio)
 
+		# Size the panel to the text, then draw at the current slide position.
 		lines = self._wrap(text, max_width - self.pad_x * 2)
 		text_w = max(self.font.size(line)[0] for line in lines)
 		panel_w = min(max_width, max(self.min_width, text_w + self.pad_x * 2))

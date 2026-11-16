@@ -2,8 +2,7 @@ import os
 import sys
 from pygame.math import Vector2
 
-# A packaged build (PyInstaller) is "frozen": the assets live inside the
-# bundle and sys._MEIPASS points at it.
+# A PyInstaller build is "frozen": assets live in the bundle at sys._MEIPASS.
 FROZEN = getattr(sys, 'frozen', False)
 
 if FROZEN:
@@ -17,16 +16,11 @@ def asset_path(*parts):
 
 
 # -- The interface font --
-# Monocraft (Idrees Inc, SIL OFL 1.1) replaced Mojangles, which is Mojang's
-# proprietary font and not licensed for redistribution. Monocraft is wider,
-# so the sizes are scaled to keep the text the same width on screen.
+# Monocraft (SIL OFL 1.1) replaced non-redistributable Mojangles; it is wider, so sizes scale.
 UI_FONT = 'font/ui.ttf'
 UI_FONT_SCALE = 22.0 / 28.0
 
-# The interface was designed against a canvas this tall. The game opens
-# full screen at the real desktop resolution, so on a bigger screen the
-# whole UI scales by the same factor - the menus already fit themselves
-# to the screen, and this keeps the text in step with them.
+# The UI was designed at this canvas height; everything scales by this factor on bigger screens.
 UI_REFERENCE_HEIGHT = 860
 
 _ui_scale = 1.0
@@ -82,8 +76,7 @@ def ensure_user_data_dir():
 
 
 # -- The game always runs full screen --
-# No settings file and no windowed mode: the game opens on the desktop,
-# stretched to whatever resolution the screen has.
+# No settings file or windowed mode: opens on the desktop at its resolution.
 def app_version():
 	"""The version of this build, from the bundled VERSION.txt."""
 	try:
@@ -112,8 +105,7 @@ def help_doc_path():
 		pass
 	return beside if os.path.exists(beside) else bundled
 
-# The game always runs full screen at the real desktop resolution, so there is
-# no canvas size to hardcode - everything reads the live display surface.
+# Always full screen: no canvas to hardcode, everything reads the live display surface.
 TILE_SIZE = 128
 
 # The game always runs full screen; there is no settings file.
@@ -138,8 +130,7 @@ PLAYER_TOOL_OFFSET = {
 	'down_right': Vector2(50,50),
 }
 
-# Auto-selector: the nearest breakable matching the selected tool is
-# snapped to within SNAP_RANGE and a +-60 degree cone (SNAP_CONE_COS).
+# Auto-selector snaps to the nearest breakable within SNAP_RANGE and a +-60 cone.
 SNAP_RANGE = int(TILE_SIZE * 2.5)
 SNAP_CONE_COS = 0.5
 
@@ -158,15 +149,12 @@ LAYERS = {
 	'rain drops': 10,
 }
 
-# Fruit trees: chance a spawned tree is a fruit tree, and how many fruits
-# it drops when felled (per-biome fruit art/item lives in BIOMES).
+# Fruit trees: spawn chance and fruit drops when felled (per-biome art/item in BIOMES).
 FRUIT_TREE_CHANCE = 0.25
 APPLE_DROP_MIN = 1
 APPLE_DROP_MAX = 3
 
-# Natural-prop density: the chance that ONE open tile gets a prop of that
-# kind. Every tile rolls its own noise, so the expected density is the same
-# in every chunk. Pre-rejection: spacing rules turn some rolls down.
+# Chance one open tile gets a prop; per-tile noise keeps density even across chunks.
 PROP_DENSITY = {
 	'trees':   (0.050, 11),   # (chance per open tile, white-noise seed)
 	'debris':  (0.014, 23),
@@ -174,27 +162,18 @@ PROP_DENSITY = {
 	'bushes':  (0.027, 51),
 	'flowers': (0.023, 67),
 }
-# How far the LOCAL average may bend around the mean above (0.35 =
-# +-35%). That mild clumping reads as natural growth.
+# How far the local average bends around the mean above (0.35 = +-35%).
 PROP_DENSITY_RELIEF = 0.35
 # Feature size of that clumping band, in tiles (~8-tile blobs).
 PROP_DENSITY_NOISE_SCALE = 0.125
 
-# Berry bush: relative spawn weight among bushes (vs 100 for plain bushes)
-# and how many berries it yields when cut down.
+# Berry bush: spawn weight vs 100 for plain bushes, and berry yield when cut.
 BERRY_BUSH_WEIGHT = 35
 BERRY_DROP_MIN = 1
 BERRY_DROP_MAX = 2
 
 # ---- BIOMES: art pools + drops per biome ----
-# Files resolve inside graphics/Biomes/<biome>/.
-# debris: (file, hits_to_cut, wood_yield, spawn_weight)
-# bushes: (file, drops, spawn_weight)  drops = [(item, min, max)]
-# fruit_tree: (file, chance, drop_item) or None
-# wood_item: inventory item dropped by that biome's trees/logs
-# props: rare non-colliding standing decorations
-# ground: ground-tile pool - numbered full-cube tiles, deco baked in
-# ice_tile: frozen water surface tile, on interior water tiles only
+# Biome art pools and drops; files live in graphics/Biomes/<biome>/.
 BIOMES = {
 	'Oak_Woods': {
 		'trees': ['Oaktree_small.png', 'Oaktree_medium.png', 'Oaktree_large.png'],
@@ -273,8 +252,7 @@ BIOMES = {
 	},
 }
 
-# Flower / fungus pickups, keyed by their art file stem. Each type is its
-# own inventory item so the icon matches the sprite that was picked.
+# Flower/fungus pickups keyed by art file stem; each type is its own item.
 FLOWER_ITEMS = [
 	'flower', 'sunflower', 'yellow_flower', 'small_yellow_flower',
 	'mushroom', 'mushrooms',
@@ -291,21 +269,19 @@ BIOME_BANDS = [
 	('Cherry_Blossom', 0.75),
 	('Snowy_Pine', 1.01),
 ]
-# fBm output clusters near 0.5; stretching x4 before banding spreads the
-# four biomes over roughly equal quartile-sized regions (clamped to 0..1).
+# fBm clusters near 0.5; x4 stretch spreads the four biomes into equal bands.
 BIOME_STRETCH = 4.0
 # Dither band width at biome borders (speckled transition).
 BIOME_DITHER = 0.02
 
-# All wood flavours — crafting treats a 'wood' cost as this group.
+# All wood flavours - crafting treats a 'wood' cost as this group.
 WOOD_ITEMS = ('wood', 'birch_wood', 'cherry_wood', 'pine_wood')
 POTION_ITEMS = ('health_potion', 'miner_potion',
                 'night_vision_potion', 'speed_potion')
 REFINED_ITEMS = ('coal', 'copper', 'iron', 'gold', 'amethyst',
                  'emerald', 'ruby', 'diamond')
 
-# Plantable saplings: species -> biome whose tree art it grows into.
-# Felled trees drop their sapling, so trees only come back by replanting.
+# Saplings: species -> biome tree art; felled trees drop theirs to replant.
 BIOME_SAPLINGS = {
 	'Oak_Woods': 'oak_sapling',
 	'Birch_Forest': 'birch_sapling',
@@ -320,8 +296,7 @@ SAPLING_GROWTH_FOLDERS = {
 	'cherry_sapling': 'Cherrytree',
 	'pine_sapling': 'Pinetree',
 }
-# Planted trees mature after one in-game day. TREE_GROWTH_SECONDS is kept
-# only to migrate saves written before growth switched to game time.
+# Trees mature after one in-game day; TREE_GROWTH_SECONDS is legacy save migration.
 TREE_GROWTH_MINUTES = 24 * 60
 TREE_STAGE_SECONDS = 20.0
 TREE_GROWTH_SECONDS = TREE_STAGE_SECONDS * 3
@@ -340,9 +315,7 @@ def tree_wood_yield(surf_width):
 			return (low, high)
 	return TREE_WOOD_DROPS[-1][1:]
 
-# Town-hall quests: deliver one full stack (64) of each item. Page one
-# asks for saplings/seeds, page two for fruits and vegetables, page three
-# for the eight refined ores.
+# Town-hall quests: one full stack (64) per item; pages ask saplings, produce, ores.
 QUEST_STACK = 64
 TOWN_QUEST_PAGES = (
 	(
@@ -479,28 +452,19 @@ RECIPES = {
 TOOL_ITEMS = ('hoe', 'axe', 'pickaxe', 'water_bucket')
 
 # -- Time system --
-# TimeManager.update() fires once SECONDS_PER_MINUTE of real time have
-# passed and then advances the clock by 10 game minutes, so this value is
-# really the interval per 10 game minutes:
-#   25/6 real seconds -> 10 game minutes
-#   25 real seconds   -> 1 game hour
-#   1 game day (144 ticks) -> ~600 real seconds (~10 min)
-# Elapsed time is subtracted, never reset, so no drift accumulates.
-# Do NOT change the rate: the potion timer and the farmland decay tests
-# are calibrated against it.
+# Real seconds per 10 game minutes (1 day ~ 600s); elapsed time is subtracted, no drift.
+# Do NOT change the rate: the potion timer and farmland decay tests are calibrated to it.
 SECONDS_PER_MINUTE = 25 / 6
 MINUTES_PER_HOUR = 60
 HOURS_PER_DAY = 24
-# Empty tilled tiles revert to grass after half an in-game day
-# (12 game hours = 720 game minutes = 144 ticks x 25/6 s = ~10 real min).
+# Empty tilled tiles revert to grass after half an in-game day (~10 real min).
 FARMLAND_EMPTY_MINUTES = MINUTES_PER_HOUR * (HOURS_PER_DAY // 2)
 DAY_START_HOUR = 7
 NIGHT_START_HOUR = 20
 DAYS_PER_SEASON = 28
 SEASONS = ['Spring', 'Summer', 'Fall', 'Winter']
 
-# Potions tick on the REAL clock: each lasts this many actual seconds.
-# The save stores the seconds left, so a potion freezes while off.
+# Potions tick on the REAL clock; saves store seconds left, so they freeze while off.
 POTION_EFFECT_DURATION_SECONDS = 5 * 60
 SPEED_POTION_MULTIPLIER = 1.5
 NIGHT_VISION_RADIUS = int(TILE_SIZE * 4.0)
@@ -524,18 +488,13 @@ NOISE_LACUNARITY = 2.0
 # Terrain thresholds
 WATER_THRESHOLD = 0.38
 WATER_TRANSITION = 0.05
-# Shore-bank bonus: land next to water reads as a damp river/lake bank.
-# Two tiers - tiles touching water get the wider damp band, tiles within 2
-# get a slimmer one.
+# Shore-bank bonus: two tiers - touching water gets the wider damp band, within 2 slimmer.
 SHORE_WET_BOOST = 0.07
 SHORE_WET_BOOST_ADJ = 0.12
 
 # -- Flat terrain --
-# The overworld and the cave are FLAT planes (no elevation, no cliffs, no
-# jumps). Water shapes the overworld: blob lakes + winding rivers; the cave
-# keeps its lava ocean. Land is walkable in every direction.
-# Rivers: contour bands of one low-frequency river noise. |v - level| <
-# half-width (dithered per tile) marks a river tile.
+# Both maps are flat planes; overworld water is lakes + rivers, the cave a lava ocean.
+# Rivers: |v - level| < half-width of low-frequency noise, dithered per tile.
 RIVER_NOISE_SCALE = 0.006            # river field feature size (~170 tiles)
 RIVER_LEVELS = (
 	(0.50, 0.010),   # main stems
@@ -545,41 +504,28 @@ RIVER_LEVELS = (
 # Lakes: high band of a separate lake noise -> blob basins.
 NOISE_SCALE_LAKE = 0.008             # lake feature size (~125-tile blobs)
 LAKE_THRESHOLD = 0.60
-# Flat overlays (ice, water deco, farm soil) sit above their own tile's
-# ground; the lift only breaks cross-tile ties. Constraint: 0 < lift < 128
-# - a lift of 128 or more made ice paint over the tiles in front.
+# Flat overlays lift above their tile's ground; must stay 0 < lift < 128 or ice overpaints.
 OVERLAY_LIFT = 64
-# Sprites add this to their depth key. It must clear OVERLAY_LIFT so a
-# same-tile farm patch sits below the sprite (rank 3.0 wins the tie).
+# Added to sprite depth keys; must clear OVERLAY_LIFT so sprites beat same-tile patches.
 SPRITE_LIFT = 320
 
 # Player stats
 
 # ---- CAVE (separate world space) - also a FLAT plane ----
-# The cave exit sits near the top-left. Everything that is not land is full
-# lava - an endless lava ocean, no black void.
+# Exit near top-left; everything not land is an endless lava ocean, no void.
 CAVE_EXIT_TILE = (1, 0)
 CAVE_EXIT_PAD_RADIUS = 3          # forced flat land around the exit platform
-# Shape noise: land stays where the fractal value lies inside a band
-# symmetric around 0.5, giving winding cave corridors. The band is
-# calibrated from noise quantiles at init so land/lava splits ~50/50.
+# Land where the fractal value sits in a band around 0.5; calibrated for ~50/50 land/lava.
 CAVE_NOISE_SCALE = 0.05           # corridor feature size (~20-tile cycles)
 CAVE_NOISE_OCTAVES = 4
-# Entrance placement: jittered grid sampling with a dead zone - one
-# entrance per sector, inset from the borders so they keep a minimum
-# distance from each other.
+# Entrances: jittered grid sampling, one per sector, inset by the dead zone.
 CAVE_SECTOR_SIZE = 48             # tiles per sector
 CAVE_ENTRANCE_DEAD_ZONE = 8       # min distance from a sector border
 CAVE_ENTRANCE_RESERVE_RADIUS = 4  # no trees/rocks within this many tiles
 CAVE_DARKNESS_ALPHA = 46          # ambient dim overlay while inside
 # ---- Cave content: rocks, ore veins and decorations ----
-# One prop max per land tile, deterministic per (tile, WORLD_SEED).
-# Ore TYPES get rarer with depth = tile distance from CAVE_EXIT_TILE.
-# Each row: (item, weight at the exit, weight at full depth, depth where
-# the weight starts rising, depth where it peaks, hits to mine, drop
-# min, drop max).
-# Near the lift only coal/copper spawn; iron fades in around depth 8,
-# gold ~18, gems ~32 and ruby/diamond only past ~50.
+# One prop max per land tile, deterministic per (tile, WORLD_SEED); ores rarer with depth.
+# Rows: (item, exit weight, deep weight, rise depth, peak depth, hits, drop min, max).
 CAVE_ORES = (
 	('coal ore',     3.0, 2.4,   0,   0, 3, 1, 2),
 	('copper ore',   2.6, 2.0,   0,   0, 3, 1, 2),
@@ -595,27 +541,22 @@ CAVE_ROCK_CHANCE = 0.035          # per land tile (when no ore rolled)
 CAVE_DECOR_CHANCE = 0.012         # per land tile (when no ore/rock rolled)
 CAVE_PROP_RADIUS = 15             # tiles of props kept spawned around the player
 CAVE_PROP_UNLOAD = 5              # extra rings before props despawn
-# A few veins yield a refined good instead of the raw ore (coal reads
-# better with the refined-fuel icon). CAVE_ORE_LOOT is the pool random
-# ore loot rolls from.
+# Some veins yield a refined good; CAVE_ORE_LOOT is the pool ore loot rolls from.
 CAVE_ORE_DROPS = {'coal ore': 'coal', 'amethyst ore': 'amethyst'}
 CAVE_ORE_LOOT = tuple(CAVE_ORE_DROPS.get(row[0], row[0]) for row in CAVE_ORES)
 CAVE_CRATE_HEALTH = 3             # axe hits to cut a crate/shelf apart
 CAVE_CRATE_ORE_CHANCE = 0.10      # loaded crates/shelves: extra random ore
 
 # ---- VILLAGES (overworld settlements) ----
-# Same jittered-grid sampling as the cave entrances: one site per sector,
-# inset from the borders so villages keep a minimum distance. Fully
-# deterministic per (site tile, WORLD_SEED) - nothing to save.
+# Jittered grid like cave entrances: one site per sector, deterministic, nothing to save.
 VILLAGE_SECTOR_SIZE = 160         # tiles per sector
 VILLAGE_DEAD_ZONE = 24            # min distance from a sector border
-VILLAGE_START_TILE = (12, 13)     # farm / TMX start — villages stay clear
+VILLAGE_START_TILE = (12, 13)     # farm / TMX start - villages stay clear
 VILLAGE_START_CLEARANCE = 44      # Chebyshev tiles from VILLAGE_START_TILE
 # Streaming around the site centre (Chebyshev tiles)
 VILLAGE_LOAD_DISTANCE = 30
 VILLAGE_UNLOAD_DISTANCE = 40
-# The village core forces flat dry grassland while it is loaded (like the
-# cave exit pad), so every site renders its layout the same way.
+# The core forces flat dry grassland while loaded (like the cave exit pad).
 VILLAGE_LAND_MARGIN = 3
 VILLAGE_RESERVE_MARGIN = 3
 # Villager NPC behaviour
@@ -624,18 +565,12 @@ VILLAGER_IDLE_MIN = 1.2           # seconds standing still between walks
 VILLAGER_IDLE_MAX = 3.4
 VILLAGER_ACTIVE_START_HOUR = 6
 VILLAGER_ACTIVE_END_HOUR = 20
-# Plaza = the village green: the flattened dry centre the layout keeps
-# clear. Not rendered - it only anchors the path starts.
+# Plaza = the flattened dry centre; not rendered, only anchors the path starts.
 VILLAGE_PLAZA = {
 	'tiles': 2.0,                 # clear radius in map tiles
 	'anchor': (1, 3),             # tile offset from the village centre
 }
-# Buildings laid out around the plaza. Rows: file, fallback width (tiles),
-# anchor tile offset from the village centre. The width column is ONLY a
-# fallback for a missing file: every footprint is measured from the art
-# itself (art_tiles()). Art is bottom-anchored at the anchor tile; the
-# walkable front is anchor+(1,1). The town hall sits at the centre, the
-# other six homes ring it at an equal radius.
+# Rows: (key, file, fallback width, anchor); footprints come from art_tiles(), front anchor+(1,1).
 VILLAGE_BUILDINGS = (
 	('town_hall', 'Town Hall.png', 4.3, (0, 0)),
 	('bakery', 'Bakery.png', 3.3, (0, -6)),
@@ -645,20 +580,15 @@ VILLAGE_BUILDINGS = (
 	('farmer', 'Farmer.png', 3.0, (0, 5)),
 	('shop', 'Shop.png', 2.2, (-7, 3)),
 )
-# Tall props (trees, logs, rocks) keep this many tiles clear of every
-# building footprint so canopies never draw over a roof or wall.
+# Tall props keep this many tiles clear of footprints so canopies miss roofs.
 VILLAGE_BUILDING_CLEARANCE = 3
 # Alternate building art used once the Heart of the Valley is placed.
 VILLAGE_BUILDING_AFTER = {
 	'town_hall': 'Town Hall_after.png',
 }
-# Jitter is disabled so the canonical path network stays perfectly
-# aligned with every door tile. Variety comes from the natural props.
+# Jitter disabled so paths stay aligned with every door tile.
 VILLAGE_ANCHOR_JITTER = 0
-# Dirt paths: (target tile offset, start tile offset, route mode). The
-# target is the building's front tile (anchor + (1,1)); the start sits
-# outside the centre green on the side facing the building. 'vh' walks
-# the column first, 'hv' the row first.
+# Paths: (target offset, start offset, route); 'vh' walks the column first, 'hv' the row.
 VILLAGE_PATHS = (
 	((1, 1), (1, 6), 'vh'),       # town hall front (main square)
 	((1, -5), (1, 6), 'vh'),      # bakery front (north approach)
@@ -668,12 +598,9 @@ VILLAGE_PATHS = (
 	((1, 6), (1, 6), 'vh'),       # farmer front (south approach, main road)
 	((-6, 4), (1, 6), 'hv'),      # shop front (southwest approach)
 )
-# Main road running south out of the plaza: (x, y0, y1). Starts at y=6
-# so it clears the lumber/shop blocks (which end at relative y=5).
+# Main road south out of the plaza: (x, y0, y1); starts at y=6 to clear the blocks.
 VILLAGE_ROAD = (1, 6, 18)
-# Villagers: (name, home building key, wander zone (x0, y0, x1, y1) tile
-# offsets from the village centre). Sprites live in
-# graphics/character/Villagers/<Name>/{Down,Up,Left,Right}/.
+# Villagers: (name, home key, wander zone); sprites in graphics/character/Villagers/<Name>/.
 VILLAGERS = (
 	('Baker', 'bakery', (-2, -8, 2, -4)),
 	('Blacksmith', 'smith', (5, -4, 9, 0)),
@@ -683,11 +610,7 @@ VILLAGERS = (
 )
 # Range (world px) in which RSHIFT opens the nearest villager's menu.
 VILLAGER_TALK_RADIUS = int(TILE_SIZE * 1.5)
-# Trade offers per villager (exact name from VILLAGERS).
-#   'sell': player sells ONE unit for the coins shown.
-#   'buy':  player buys ONE unit for the coins shown.
-#   'barter': player gives N of the first item for ONE of the second.
-#   'refine': alternating (item, amount) costs, then the reward.
+# Trades per villager: 'sell'/'buy' for coins, 'barter' N for one, 'refine' costs then reward.
 VILLAGER_TRADES = {
 	'Blacksmith': {
 		'sell': (('coal', 2), ('copper', 5), ('iron', 9),
@@ -735,8 +658,7 @@ VILLAGER_TRADES = {
 		'buy': (('wheat_seed', 5), ('tomato_seed', 8),
 		        ('oak_sapling', 12), ('birch_sapling', 12),
 		        ('cherry_sapling', 15), ('pine_sapling', 15)),
-		# Buy-back is always below the buy price above (so flipping seeds straight
-		# back can never turn a profit) and below the general shop's sale price.
+		# Buy-back below buy and shop prices so flipping seeds never turns a profit.
 		'sell': (('wheat_seed', 2), ('tomato_seed', 4),
 		         ('oak_sapling', 6), ('birch_sapling', 6),
 		         ('cherry_sapling', 7), ('pine_sapling', 7)),

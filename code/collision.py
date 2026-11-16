@@ -33,9 +33,7 @@ def occluded_stand_tiles(surf, foot_pad, min_px=100,
     w, h = surf.get_size()
     alpha = pygame.surfarray.array_alpha(surf) > 10
     tiles = set()
-    # Bounding ranges: the player box must intersect the art at all.
-    # Feet at (64*(dx-dy), 32*(dx+dy)) from the anchor diamond centre;
-    # art-local y of the feet = 32*(dx+dy) + h - foot_pad.
+    # Bounding ranges: feet at (64*(dx-dy), 32*(dx+dy)), y = 32*(dx+dy) + h - foot_pad.
     max_dd = (w // 2 + box_w) // 64 + 1
     min_sum = -(h - foot_pad + box_h) // 32 - 1
     for dsum in range(min_sum, 0):          # depth gate: dx+dy < 0

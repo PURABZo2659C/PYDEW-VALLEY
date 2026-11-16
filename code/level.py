@@ -30,8 +30,7 @@ from operator import itemgetter
 
 _first = itemgetter(0)
 
-# Minecraft-style onboarding flow: (step_id, template) per step. The
-# template is filled with the player's live key bindings.
+# Onboarding flow: (step_id, template) per step; filled with live key bindings.
 TUTORIAL_STEPS = (
 	('punch_tree',
 	 'Punch a tree by pressing {use_tool} to gather wood.'),
@@ -51,8 +50,7 @@ TUTORIAL_STEPS = (
 	 'Till soil with the hoe, plant a seed, then water it with your bucket.'),
 )
 
-# One-time hints shown the first time a hotbar item is selected.
-# Anything not listed is described generically by item category.
+# One-time hints for the first hotbar selection; unlisted items stay generic.
 SELECTION_HINTS = {
 	'hoe': 'Hoe selected: press {use_tool} on grass to till soil for planting.',
 	'axe': 'Axe selected: face a tree or bush and press {use_tool} to chop it.',
@@ -73,9 +71,7 @@ SELECTION_HINTS = {
 	                'and move faster.',
 }
 
-# DEMO test kit (F5 DEMO switch): tools + staples in the hotbar and
-# 64-stacks of everything worth crafting. Only item keys the game
-# already sells or quests, so every icon resolves.
+# F5 DEMO test kit: tools + staples, 64-stacks of sellable/quest items.
 DEMO_HOTBAR = (
 	# 1st-4th slot: the four tools (stack 1), 5th slot: oak wood (64), rest empty
 	('axe', 1), ('hoe', 1), ('pickaxe', 1), ('water_bucket', 1),
@@ -83,17 +79,16 @@ DEMO_HOTBAR = (
 	None, None, None, None,
 )
 DEMO_BAG = (
-	# 1st quest page (6 items): saplings + seeds — 64 stacks
+	# 1st quest page (6 items): saplings + seeds - 64 stacks
 	('birch_sapling', 64), ('cherry_sapling', 64), ('oak_sapling', 64),
 	('pine_sapling', 64), ('tomato_seed', 64), ('wheat_seed', 64),
-	# 2nd quest page (6 items): fruits + vegetables — 64 stacks
+	# 2nd quest page (6 items): fruits + vegetables - 64 stacks
 	('apple', 64), ('berry', 64), ('cherry', 64), ('orange', 64),
 	('tomato', 64), ('wheat', 64),
-	# 3rd quest page (8 items): refined ores — 64 stacks
+	# 3rd quest page (8 items): refined ores - 64 stacks
 	('coal', 64), ('copper', 64), ('iron', 64), ('gold', 64),
 	('amethyst', 64), ('emerald', 64), ('ruby', 64), ('diamond', 64),
-	# Heart of the Valley materials are already at 64 stacks above.
-	# potions - stack 1 (unstackable)
+	# Heart materials already at 64 above; potions stack 1 (unstackable)
 	('health_potion', 1), ('miner_potion', 1),
 	('night_vision_potion', 1), ('speed_potion', 1),
 )
@@ -108,8 +103,7 @@ class Level:
 		self.isometric_mode = True
 
 		# -- world seed --
-		# Every NEW GAME rolls a fresh seed. A save carries its own seed;
-		# pre-seed saves keep WORLD_SEED.
+		# New games roll a fresh seed; saves carry their own, else WORLD_SEED.
 		if save_data is not None:
 			stored = save_data.get('world_seed')
 			self.world_seed = stored if isinstance(stored, int) else WORLD_SEED
@@ -135,8 +129,7 @@ class Level:
 		self.interaction_sprites = pygame.sprite.Group()
 
 		try:
-			# Full slab art, rendered in the ground pass at the tile's own depth
-			# so the deck sits flush and its sides are occluded by tiles in front.
+			# Full slab art drawn in the ground pass at tile depth, so it sits flush.
 			self.bridge_surf = pygame.image.load(
 				asset_path('graphics', 'world', 'Bridge.png')).convert_alpha()
 		except (pygame.error, FileNotFoundError):
@@ -149,8 +142,7 @@ class Level:
 		self.soil_layer.time_manager = self.time_manager
 
 		# -- cave world space (swapped in/out through the sleep Transition) --
-		# Two sprite-group sets exist at once: the inactive scene freezes in its
-		# own groups while the active one is updated/drawn.
+		# Two group sets coexist: the inactive scene freezes in its own groups.
 		self.scene = 'overworld'
 		self.return_pos = None          # overworld entrance to return to
 		self.return_level = 0
@@ -162,14 +154,11 @@ class Level:
 		self.cave_sprites.isometric_mode = True
 		self.cave_collision = pygame.sprite.Group()
 		self.cave_interaction = pygame.sprite.Group()
-		# cave_prop_sprites = streamed cave props (rocks/ores, pickaxe);
-		# cave_decor_sprites = breakable scenery, standing in for the
-		# overworld's tree/bush/flower/bed.
+		# cave_prop_sprites: rocks/ores (pickaxe); cave_decor_sprites: breakables.
 		self.cave_prop_sprites = pygame.sprite.Group()
 		self.cave_decor_sprites = pygame.sprite.Group()
 		self.cave_stub_sprites = pygame.sprite.Group()
-		# Cave decks are per-visit: the cave resets every time you enter it,
-		# so they live in their own groups and are never written to the save.
+		# Cave decks are per-visit: never written to the save.
 		self.cave_bridge_sprites = pygame.sprite.Group()
 		self._cave_bridged_tiles = set()
 		self.cave_gen = CaveGenerator(
@@ -186,8 +175,7 @@ class Level:
 		self.overworld_camera = self.all_sprites
 		self.overworld_world_gen = self.world_gen
 
-		# Planted trees live outside chunk generation: they persist across
-		# day resets and scene swaps, and only appear once planted.
+		# Planted trees live outside chunk gen: they persist across scene swaps.
 		self.sapling_surfs = load_overlay_icons(SAPLING_ITEMS)
 		self.growth_frames = {}
 		for item, folder in SAPLING_GROWTH_FOLDERS.items():
@@ -247,8 +235,7 @@ class Level:
 
 		self.coords_font = ui_font(28)
 		self.coords_top = 0
-		# The panel must hold BOTH "X: -9999" and "Y: -9999", so widen the
-		# ART (never the font) until two signed 4-digit readings fit.
+		# Widen the ART (never the font) until two signed 4-digit readings fit.
 		coords_half_w = self.coords_font.size('X: -9999')[0]
 		coords_w = max(165, coords_half_w * 2 + 32)
 		coords_h = 63
@@ -273,19 +260,16 @@ class Level:
 			self.menu_button_rect.midright = (
 				self.coords_panel_rect.left - 8, self.coords_panel_rect.centery)
 		self.overlay.potion_top = self.coords_top + coords_h
-		# the potion timer cards sit in the same right-hand column, so
-		# they take the panel's width and the stack stays flush
+		# potion timer cards share this column and the panel's width
 		self.overlay.potion_card_width = coords_w
 
 		self.block_font = ui_font(36)
 
-		# debug overlay (F5 toggle) + its control panel (rain / season /
-		# time / coordinates) — both are shown and hidden by F5
+		# debug overlay (F5) + its control panel (rain/season/time/coords)
 		self.debug_mode = False
 		self._debug_key_time = 0
 		self.debug_controls = DebugControls()
-		# DEMO snapshot: what the inventory held when the DEMO switch went on
-		# (None while off), so a save written mid-DEMO stores the real items.
+		# Inventory snapshot taken when DEMO went on (None off); saves keep real items.
 		self._demo_inv_snapshot = None
 
 		# camera mode (F3 toggle) - hides UI/player/selector, auto-screenshots clean game view
@@ -304,8 +288,7 @@ class Level:
 		self.music.set_volume(music_vol)
 		self.music.play(loops = -1)
 
-		# Tutorial onboarding: a new game starts at step 0, a loaded save resumes
-		# where it left off, pre-field saves reconstruct it from what is owned.
+		# Tutorial: new games start at 0; saves resume or rebuild their step.
 		self.tutorial_step = self._resume_tutorial_step(save_data)
 		self.tutorial_enabled = self.tutorial_step < len(TUTORIAL_STEPS)
 		self._tutorial_hooks = {
@@ -316,15 +299,13 @@ class Level:
 			'pickaxe': self.player.inventory.count('pickaxe'),
 			'bucket': self.player.inventory.count('water_bucket'),
 		}
-		# A new game leads with how to move. It rides the sticky toast layer
-		# so the first tutorial step keeps sitting underneath.
+		# New-game movement toast rides the sticky layer above the tutorial step.
 		if save_data is None:
 			self.instruction_panel.show_opening(
 				f'Move with {self._movement_keys()} to walk around '
 				'the valley.', duration=8)
 
-		# Contextual hint state: the last hotbar item selected, the item
-		# categories already explained, and the end-game note flags.
+		# Hint state: last hotbar item, categories explained, end-game note flags.
 		self._last_selected_item = None
 		self._selection_hints_shown = set()
 		self._heart_hint_shown = False
@@ -467,8 +448,7 @@ class Level:
 		player.hitbox.center = player.rect.center
 		player.target_grid = None
 		player.target_object = None
-		# A teleport crosses several chunks at once; finish the ring now so props
-		# and colliders are there on the next draw. Villages load first.
+		# A teleport crosses chunks at once; flush the ring now, villages first.
 		if self.scene == 'overworld':
 			try:
 				if self.village_gen is not None:
@@ -493,8 +473,7 @@ class Level:
 		x = self.player.rect.centerx // TILE_SIZE
 		y = self.player.rect.centery // TILE_SIZE
 		cy = rect.centery + 3
-		# each reading gets its own half of the panel, so four digits
-		# plus the sign never collide or spill past the border
+		# each reading gets half the panel so digits never collide or spill
 		self._blit_coords_text(f'X: {x}', (rect.left + rect.width // 4, cy))
 		self._blit_coords_text(f'Y: {y}', (rect.left + rect.width * 3 // 4, cy))
 
@@ -528,16 +507,14 @@ class Level:
 			if obj.name == 'Bed':
 				Interaction((obj.x,obj.y), (obj.width,obj.height), self.interaction_sprites, obj.name)
 
-		# procedural world generator (scattered cave entrances land in
-		# interaction_sprites via sector sampling during chunk gen)
+		# world generator; cave entrances land in interaction_sprites
 		self.world_gen = WorldGenerator(self.all_sprites, self.collision_sprites, self.tree_sprites, self.rock_sprites, self.bush_sprites, self.flower_sprites, self.player_add, interaction_sprites = self.interaction_sprites, seed = self.world_seed)
 		self.world_gen.player = self.player
 		self.all_sprites.world_gen = self.world_gen
 		self.all_sprites.isometric_mode = self.isometric_mode
 		self.soil_layer.world_gen = self.world_gen
 
-		# Villages stream around the player; the world generator consults them
-		# for reserved tiles and forced land, so set the reference first.
+		# Villages stream around the player; set the reference before chunk gen.
 		self.village_gen = VillageGenerator(
 			self.all_sprites, self.collision_sprites,
 			self.interaction_sprites, self.world_gen, self.time_manager,
@@ -547,8 +524,7 @@ class Level:
 		# Ensure player spawns on dry land
 		self._safe_spawn()
 
-		# Build the opening chunk ring in one go (the player starts inside
-		# it); runtime streaming is time-sliced one step per frame.
+		# Build the opening chunk ring at once; streaming is one step per frame.
 		self.world_gen.flush_chunks(self.player.pos, self.isometric_mode)
 
 	def inventory_is_full(self, item=None, count=1):
@@ -561,8 +537,7 @@ class Level:
 		return not inv.can_add(item, count)
 
 	def player_add(self,item):
-		# Loot lands in the hotbar first (Player.add_loot): an item already in
-		# the bag stacks there, and a full hotbar spills into the bag.
+		# Loot lands in the hotbar first (Player.add_loot); overflow hits the bag.
 		if self.player.add_loot(item, 1) == 0:
 			self.success.play()
 			return True
@@ -596,7 +571,7 @@ class Level:
 	def is_planted_tile(self, gx, gy):
 		return (gx, gy) in self.planted_tiles
 
-	# ── bridges ─────────────────────────────────────────────────────
+	# -- bridges -----------------------------------------------------
 	def _bridge_tiles(self, scene=None):
 		"""The walkable-tile set for a scene (defaults to the active one)."""
 		scene = self.scene if scene is None else scene
@@ -674,8 +649,7 @@ class Level:
 		self.cave_bridge_sprites.empty()
 		self._cave_bridged_tiles.clear()
 		if refund:
-			# Give the planks back when the player leaves; leftovers are
-			# dropped at the return spot in the overworld.
+			# Refund the planks; leftovers drop at the overworld return spot.
 			self._give_item('bridge', len(bridges))
 
 	def serialize_bridges(self):
@@ -788,8 +762,7 @@ class Level:
 		record['tree'] = tree
 
 	def _forget_planted_tree(self, record):
-		# The planted tree was chopped: drop its save record and free the
-		# tile. The sapling was already dropped by Tree.check_death.
+		# Chopped planted tree: drop its record; Tree.check_death dropped the sapling.
 		if record in self.planted_trees:
 			self.planted_trees.remove(record)
 		gx = int(record['x']) // TILE_SIZE
@@ -898,9 +871,7 @@ class Level:
 		if surf is not None:
 			wx = gx * TILE_SIZE + TILE_SIZE // 2
 			wy = gy * TILE_SIZE + TILE_SIZE // 2
-			# Rect stays CENTRED on the pad tile so the depth-sort line is the tile
-			# centre; foot_pad drops the art onto the south half. z is one notch
-			# below 'main', so the player always draws in front.
+			# Rect centred on the pad tile for depth sort; z below 'main' keeps the player in front.
 			platform = Generic(
 				pos = (wx - surf.get_width() // 2, wy - surf.get_height() // 2),
 				surf = surf,
@@ -908,8 +879,7 @@ class Level:
 				z = LAYERS['rain floor'])
 			# TILE_SIZE//4 world px deep == TILE_SIZE//16 screen px down
 			platform.foot_pad = visible_bottom_pad(surf) + TILE_SIZE // 16
-			# Blockers: occlusion_bands walls every spot where the lift's ink would
-			# draw over the character. The pad tile stays walkable. Collision only.
+			# occlusion_bands walls lift overdraw; the pad tile stays walkable.
 			for x0, y0, w, h in occlusion_bands(surf, platform.foot_pad):
 				blocker = Generic(
 					pos = (wx + x0, wy + y0),
@@ -917,8 +887,7 @@ class Level:
 					groups = [self.cave_collision],
 					z = 0)
 				blocker.hitbox = pygame.Rect(wx + x0, wy + y0, w, h)
-		# Trigger: a full 3x3 tile block around the lift — ENTER shows
-		# while the player stands anywhere within one tile of the exit.
+		# Trigger: 3x3 tiles around the lift so ENTER shows within one tile of it.
 		Interaction((gx * TILE_SIZE - TILE_SIZE, gy * TILE_SIZE - TILE_SIZE),
 		            (TILE_SIZE * 3, TILE_SIZE * 3),
 		            self.cave_interaction, 'CaveExit')
@@ -968,8 +937,7 @@ class Level:
 		exactly where they are (frozen), so returning restores everything."""
 		player = self.player
 		if scene == 'cave':
-			# Every cave visit is a fresh run: mined props are cleared and the layout
-			# rerolled. Decks from a previous visit are gone too.
+			# Every cave visit is a fresh run: props reroll and old decks clear.
 			self._clear_cave_bridges()
 			self.cave_gen.reset_props()
 			if restore_pos is not None:
@@ -990,8 +958,7 @@ class Level:
 				self.cave_sprites.add(player)
 			player.collision_sprites = self.cave_collision
 			player.interaction = self.cave_interaction
-			# rock_sprites = streamed ores/rocks (pickaxe); tree_sprites =
-			# breakable decor (axe cuts crates/shelves, punch picks up pots).
+			# rock_sprites: ores (pickaxe); tree_sprites: breakable decor (axe/punch).
 			player.rock_sprites = self.cave_prop_sprites
 			player.tree_sprites = self.cave_decor_sprites
 			player.bush_sprites = self.cave_stub_sprites
@@ -1086,8 +1053,7 @@ class Level:
 			self.instruction_panel.clear_hint()
 			return
 
-		# spritecollide() scans every trigger in the chunk ring; the hint bar
-		# does not need 60 Hz, so refresh it at most ~16x/s.
+		# The hint bar does not need 60 Hz: refresh at most ~16x/s.
 		now = pygame.time.get_ticks()
 		sig = (self.pause_active, self.shop_active, self.crafting_active,
 		       self.inventory_active, self.villager_active, self.quest_active,
@@ -1112,8 +1078,7 @@ class Level:
 			hint = ('Inventory: LEFT-CLICK picks a stack, RIGHT-CLICK splits, '
 			        'SHIFT+CLICK quick-moves, 1-9 sets a hotbar slot.')
 		elif self.quest_active:
-			# The delivery prompt is meaningless once the heart is
-			# placed - the board has nothing left to ask for.
+			# Once the heart is placed the board has nothing left to ask for.
 			if not getattr(self.player, 'heart_placed', False):
 				hint = 'Quest board: deliver the listed items to complete quests.'
 		elif self.scene == 'cave':
@@ -1217,8 +1182,7 @@ class Level:
 		item = slot[0] if slot else None
 		if item == self._last_selected_item:
 			return
-		# A new game's opening toast owns the bar for its first seconds: leave
-		# the selection unrecorded so the item hint fires once it has faded.
+		# Leave the selection unrecorded while the opening toast owns the bar.
 		if self.instruction_panel.opening_active:
 			return
 		self._last_selected_item = item
@@ -1359,8 +1323,7 @@ class Level:
 
 	def try_sleep(self):
 		h = self.time_manager.hour
-		# Villagers sleep 8PM-6AM, so the player can only sleep in that
-		# window; the F5 DEMO switch lifts the gate so any hour can be tested.
+		# Sleep allowed 8PM-6AM only; the F5 DEMO switch lifts the gate.
 		sleep_ok = (h >= 20 or h < 6) or self.debug_demo
 		if sleep_ok:
 			self.player.direction = pygame.math.Vector2()
@@ -1398,8 +1361,7 @@ class Level:
 		if isinstance(stored, int):
 			return max(0, min(stored, len(TUTORIAL_STEPS)))
 
-		# End-game proof beats item evidence: credits and the placed heart are
-		# reachable long after the basics, so an old save still counts.
+		# End-game proof beats item evidence: an old save with credits/heart counts.
 		pd = save_data.get('player') or {}
 		if pd.get('credits_seen') or pd.get('heart_placed'):
 			return len(TUTORIAL_STEPS)
@@ -1493,8 +1455,7 @@ class Level:
 			self.tutorial_step += 1
 			return
 
-		# Seed acquisition is its own instruction: until the player has bought
-		# one, keep prompting them to find the village, not to plant.
+		# Until a seed is owned, prompt to find the village, not to plant.
 		has_seed = (inv.count('tomato_seed') > 0 or inv.count('wheat_seed') > 0)
 		if step_id == 'planting' and not has_seed:
 			msg = ('Find the village and buy seeds from the farmer '
@@ -1516,8 +1477,7 @@ class Level:
 		self.crafting_active = False
 		self.villager_active = False
 		self.pause_active = False
-		# Saving inside the cave ends that visit: collect the decks before
-		# the save so the planks are kept in the stored inventory.
+		# Collect cave decks before saving so the planks reach the stored inventory.
 		if self.scene == 'cave':
 			self._clear_cave_bridges(refund=True)
 		if not save_game(self):
@@ -1551,8 +1511,7 @@ class Level:
 		self.village_gen.set_heart_placed(self.player.heart_placed)
 		if self.player.heart_placed and not self.player.credits_seen:
 			self.schedule_credits()
-		# the stock_trial_quest_items() fill lives in DEMO mode only (see
-		# set_debug_demo): a normal game does not get the auto-stocked kit
+		# The DEMO-only auto-stocked kit lives in set_debug_demo, not here.
 		self.player.selected_tool = pd.get('selected_tool', 'hoe')
 		selected_seed = pd.get('selected_seed')
 		self.player.selected_seed = LEGACY_SEED_ALIASES.get(
@@ -1570,8 +1529,7 @@ class Level:
 		soil.create_soil_tiles()
 		soil.create_hit_rects()
 
-		# Rebuild the garden overlays (tilled/watered tiles) for the overworld
-		# generator - the caches are session state, the save stores the soil grid.
+		# Rebuild garden overlays; the save stores the soil grid, not the caches.
 		ow = getattr(self, 'overworld_world_gen', None)
 		if ow is not None:
 			for g_row, row in enumerate(soil.grid):
@@ -1633,13 +1591,11 @@ class Level:
 			data.get('farmland_timestamps'),
 			self.time_manager.total_minutes)
 
-		# The save carries seconds LEFT on each potion; older saves carry an
-		# absolute expiry, converted by the same call.
+		# Saves carry seconds LEFT per potion; older ones an absolute expiry.
 		self.player.restore_potion_effects(pd.get('potion_effects', {}))
 		self.player.update_potion_effects()
 
-		# Tree persistence: felled natural trees + planted-tree records, applied
-		# to the overworld generators even when the save was made in the cave.
+		# Apply felled-tree and planted-tree records to the overworld generators.
 		ow = getattr(self, 'overworld_world_gen', None)
 		if ow is not None:
 			ow.apply_removed_trees(data.get('removed_trees', []))
@@ -1660,8 +1616,7 @@ class Level:
 		# plants
 		self.soil_layer.update_plants()
 
-		# Reset the procedural world FIRST: it wipes the soil-water overlay
-		# cache, so the re-watering below must run after it.
+		# Reset the world FIRST: it wipes the soil-water cache re-watering needs.
 		if hasattr(self, 'world_gen'):
 			self.world_gen.reset()
 
@@ -1697,8 +1652,7 @@ class Level:
 
 		try:
 			save_game(self)
-		except Exception as exc:  # auto-save must never crash the loop, but a
-			# silent failure here would hide lost progress — surface it.
+		except Exception as exc:  # auto-save must never crash the loop
 			print(f"[Level] auto-save failed: {exc!r}")
 
 	def harvest_crop_at(self, target_pos):
@@ -1707,8 +1661,7 @@ class Level:
 			return False
 		crop = plant.plant_type
 		seed = CROP_SEEDS.get(crop)
-		# A full bag must not swallow the crop: roll the yield, check the
-		# room, then pull the plant. Selling/eating/planting still work.
+		# Full bag must not swallow the crop: check room before pulling the plant.
 		amount = randint(HARVEST_YIELD_MIN, HARVEST_YIELD_MAX)
 		if self.inventory_is_full(crop, amount) or (
 				seed and self.inventory_is_full(seed, 1)):
@@ -1735,8 +1688,7 @@ class Level:
 		if dt > 0:
 			self._last_fps = 1.0 / dt
 
-		# drawing logic - custom_draw's ground pass already paints the black
-		# backdrop, so a second full-screen fill here was duplicated work.
+		# custom_draw's ground pass paints the backdrop; no extra fill here.
 		self.all_sprites.custom_draw(self.player, self.debug_mode, getattr(self, '_last_fps', 0), self.time_manager, self.raining, hide_player=self.camera_mode, debug_controls=self.debug_controls)
 		if self.scene == 'cave':
 			self._display_cave_darkness()
@@ -1748,14 +1700,12 @@ class Level:
 				return
 			if any(e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE
 			       for e in events):
-				# The Esc that closed the credits must not also open the
-				# pause menu on the next frame while it is still held.
+				# The Esc that closed the credits must not also open the pause menu.
 				self._pause_consumed = True
 				self._pause_key_time = pygame.time.get_ticks()
 			return
 
-		# Camera mode skips all UI so the screenshot matches the clean view.
-		# The shot is taken right after the world draw, before any UI.
+		# Camera mode shot: right after the world draw, before any UI.
 		if self.camera_mode:
 			if self._camera_shot_pending:
 				self._camera_shot_pending = False
@@ -1831,8 +1781,7 @@ class Level:
 					self.player.hotbar_index + direction) % 9
 				self.player._update_hotbar_selection()
 
-		# F3 toggles camera mode (photo mode): hides UI/player/selector,
-		# shows only the game world, and saves a clean screenshot on entry
+		# F3 camera mode: hides UI/player/selector, saves a clean screenshot.
 		if keys[pygame.K_F3]:
 			now2 = pygame.time.get_ticks()
 			if now2 - self._camera_key_time > 300:
@@ -1854,20 +1803,17 @@ class Level:
 		elif self.quest_active:
 			self.quest_menu.update(events)
 		else:
-			# Time stands still inside the cave (no day rollover / reset
-			# can fire while the player is underground).
+			# Time stands still in the cave (no day rollover underground).
 			if not self.player.sleep and self.scene == 'overworld':
 				self.time_manager.update(dt)
 
 			self.all_sprites.update(dt)
-			# Villages stream BEFORE the chunk ring, so a village in range forces
-			# its land + reserved tiles before its chunks regenerate.
+			# Villages stream before the chunk ring so reserved land exists first.
 			if self.scene == 'overworld':
 				self.village_gen.update(self.player.pos)
 			self.world_gen.update(self.player.pos, self.isometric_mode)
 
-			# Overworld-only systems: farming, weather and sky tint are
-			# meaningless in the cave (their sprites sit in the frozen groups).
+			# Overworld-only: farming, weather and sky tint are meaningless in the cave.
 			if self.scene == 'overworld':
 				self.soil_layer.update_farmland(
 					self.time_manager.total_minutes)
@@ -1876,8 +1822,7 @@ class Level:
 				if self.raining:
 					self.rain.update()
 
-				# permanent snowfall in the snowy biome (prune always runs so
-				# leftover flakes keep falling cleanly when leaving the biome)
+				# permanent snowfall in the snowy biome (prune always runs)
 				if self.world_gen:
 					pgx = self.player.rect.centerx // TILE_SIZE
 					pgy = self.player.rect.centery // TILE_SIZE
@@ -1892,8 +1837,7 @@ class Level:
 			if self.player.sleep:
 				self.transition.play()
 
-		# Instruction panel (tutorial / hints / errors) is updated and drawn
-		# last so it always sits on top of the world, HUD, and open menus.
+		# Instruction panel draws last, on top of world, HUD and menus.
 		if not self.camera_mode:
 			if not (self.inventory_active or self.crafting_active
 				    or self.shop_active or self.villager_active
@@ -1905,8 +1849,7 @@ class Level:
 			self.instruction_panel.update(dt)
 			self.instruction_panel.draw()
 
-		# F5 info box: Rain / Season are combo lists, Time / Player grid are
-		# fixed-punctuation text boxes. Drawn last, above the HUD.
+		# F5 info box: Rain/Season combos, Time/Player text boxes, above the HUD.
 		self._update_debug_controls(events)
 
 	def _update_debug_controls(self, events):
@@ -1991,9 +1934,7 @@ class CameraGroup(pygame.sprite.Group):
 		self._crop_icons = load_overlay_icons(('wheat', 'tomato'))
 		self._crop_icon_scaled = {}
 
-		# Ground art is fully opaque or fully transparent. Per-pixel-alpha blits
-		# are ~3x slower, so the terrain pass swaps each surface for a colorkey
-		# copy once.
+		# Per-pixel-alpha blits are ~3x slower; colorkey each ground surface once.
 		self._keyed_surf_cache = {}
 		
 		# Screen dimensions
@@ -2005,8 +1946,7 @@ class CameraGroup(pygame.sprite.Group):
 		self.cam_x = 0
 		self.cam_y = 0
 		
-		# Box camera: dead zone is the inner rectangle where player can move freely
-		# Camera only scrolls when player reaches the edge of this box
+		# Box camera dead zone: the camera scrolls only when the player exits it.
 		box_w = sw // 3
 		box_h = sh // 3
 		self.dead_zone = pygame.Rect(
@@ -2025,8 +1965,7 @@ class CameraGroup(pygame.sprite.Group):
 	def update_camera(self, player):
 		"""Update camera to follow player with box dead zone"""
 		if self.isometric_mode:
-			# Player world position to screen-space isometric position (128px
-			# tiles) +64 x, so the feet land on the CENTRE of the tile diamond.
+			# World pos to iso screen space; +64 x lands feet on the tile centre.
 			px = player.rect.centerx / 128.0
 			py = player.rect.centery / 128.0
 			screen_x = (px - py) * 64 + 64
@@ -2051,11 +1990,9 @@ class CameraGroup(pygame.sprite.Group):
 		elif rel_y > self.dead_zone.bottom:
 			self.cam_y = screen_y - self.dead_zone.bottom
 		
-		# No world-bounds clamp: the terrain is infinite and chunk-generated, so
-		# a fixed rect would freeze the camera (legacy bug).
+		# No world-bounds clamp: infinite terrain; a fixed rect froze the camera.
 		
-		# Quantize the camera ONCE per frame: every painter must share the SAME
-		# integer offset, or the world shakes while scrolling.
+		# Quantize the camera once per frame so all painters share one offset.
 		self.cam_x = int(self.cam_x)
 		self.cam_y = int(self.cam_y)
 
@@ -2199,9 +2136,7 @@ class CameraGroup(pygame.sprite.Group):
 		if self.world_gen:
 			self.world_gen.draw_ground(self.display_surface, self.offset, self.isometric_mode)
 
-		# Unified painter's pass: ground pieces and sprites share one depth key.
-		# Key = (depth, rank, -level, z): depth is x+y in pixels, ties draw
-		# ground (rank 0..2) then sprites (rank 3), z breaks the rest.
+		# Painter's key (depth, rank, -level, z): depth = x+y px, rank 0..2 ground, 3 sprites.
 		draw_list = []
 
 		if self.isometric_mode and self.world_gen:
@@ -2214,9 +2149,7 @@ class CameraGroup(pygame.sprite.Group):
 					(True, self._ground_surface(gsurf),
 					 int(gdx) + garea.x, int(gdy) + garea.y, garea)))
 
-			# Animated tile selector: inserted at the target tile's depth with rank
-			# 2.5 (above ground overlays, below sprites) so it never covers the
-			# player.
+			# Tile selector: target tile depth, rank 2.5 (above overlays, below sprites).
 			if not hide_player and hasattr(player, 'target_grid') and player.target_grid:
 				sel_surf, sel_rect = self._selector_surface(player.target_grid)
 				if sel_surf is not None:
@@ -2234,8 +2167,7 @@ class CameraGroup(pygame.sprite.Group):
 				continue
 			if hide_player and sprite is player:
 				continue
-			# Bridges are ground, not props: insert them into the terrain pass at
-			# their own tile's depth so they render flush with their neighbours.
+			# Bridges are ground: terrain pass at their tile depth so they sit flush.
 			if self.isometric_mode and getattr(
 					sprite, 'render_as_ground', False):
 				gx = sprite.rect.centerx // ISO_TILE_WIDTH
@@ -2255,14 +2187,12 @@ class CameraGroup(pygame.sprite.Group):
 			if self.isometric_mode:
 				sx = sprite.rect.centerx / 128.0
 				sy = sprite.rect.centery / 128.0
-				# +64 x offset: entity at tile center must draw its feet at the
-				# tile diamond CENTER (tile_x + 64), not the left vertex (tile_x)
+				# +64 x: feet land on the tile diamond centre, not the left vertex.
 				iso_x = (sx - sy) * 64 + 64
 				iso_y = (sx + sy) * 32
 				mode = getattr(sprite, 'iso_anchor', 'bottom')
 				if mode == 'pixel':
-					# Pin an explicit art pixel (the base diamond centre) to the tile diamond
-					# centre - for cave crates/shelves whose canvas is not centred.
+					# Pin the art's base diamond centre to the tile (uncentred crates).
 					ax, ay = sprite.anchor_px
 					draw_x = round(iso_x - self.cam_x - ax)
 					draw_y = round(iso_y - self.cam_y - ay)
@@ -2273,23 +2203,19 @@ class CameraGroup(pygame.sprite.Group):
 				else:
 					draw_x = round(iso_x - self.cam_x - iw // 2)
 					draw_y = round(iso_y - self.cam_y - ih)
-					# Lift by transparent sole padding so the VISIBLE art bottom sits on the
-					# tile diamond centre (player 24, rock 5, bed 6, others 0). Render-only.
+					# Lift by sole padding so the visible art bottom sits on the tile centre.
 					draw_y += getattr(sprite, 'foot_pad', 0)
-				# Off-screen props are skipped before the sort: the chunk ring keeps
-				# thousands of sprites alive and only a hundred are ever on screen.
+				# Skip off-screen props before the sort; the chunk ring holds thousands.
 				if (draw_x >= sw or draw_y >= sh
 						or draw_x + iw <= 0 or draw_y + ih <= 0):
 					continue
-				# Floor the depth at this sprite's own tile centre, so an anchor
-				# reading slightly behind it cannot let that tile draw over it.
+				# Floor depth at the sprite's own tile centre so that tile cannot overdraw.
 				own_tile = ((sprite.rect.centerx // ISO_TILE_WIDTH
 					+ sprite.rect.centery // ISO_TILE_WIDTH)
 					* ISO_TILE_WIDTH + ISO_TILE_WIDTH)
 				depth = max(sprite.rect.centerx + sprite.rect.centery,
 					own_tile)
-				# SPRITE_LIFT: stay above flat overlays (OVERLAY_LIFT) on
-				# the sprite's tile — see settings.py.
+				# SPRITE_LIFT: stay above flat overlays (OVERLAY_LIFT); see settings.py.
 				depth += SPRITE_LIFT
 				sort_key = (depth, 3.0, -lvl, sprite.z)
 			else:
@@ -2303,8 +2229,7 @@ class CameraGroup(pygame.sprite.Group):
 
 		draw_list.sort(key=_first)
 
-		# Draw ground pieces and sprites back-to-front. Consecutive ground pieces
-		# are batched into one blits() call.
+		# Draw back-to-front, batching consecutive ground pieces into blits().
 		batch = []
 		for _, payload in draw_list:
 			is_ground, obj, draw_x, draw_y, src_area = payload
@@ -2321,12 +2246,11 @@ class CameraGroup(pygame.sprite.Group):
 		# Mature-crop notifications float above the crop art.
 		self._draw_crop_notifies()
 
-		# DEBUG OVERLAY — toggle with F5
+		# DEBUG OVERLAY - toggle with F5
 		if self.debug_mode and self.isometric_mode and not hide_player:
 			hw = ISO_TILE_WIDTH // 2
 			hh = ISO_TILE_HEIGHT // 2
-			# The interface font everywhere except the credits screen; a 4pt size gap
-			# marks big lines, since the pixel font has no bold face.
+			# Interface font; the 4pt gap marks big lines (no bold face).
 			font = ui_font(18)
 			font_big = ui_font(22)
 
@@ -2384,8 +2308,7 @@ class CameraGroup(pygame.sprite.Group):
 					cell_str = 'OOB'
 					block_str = 'OOB'
 
-			# Minecraft F3-style debug panel (bottom-left). Rain / Season are combo
-			# boxes (the list drops UPWARD), Time / Player grid are text boxes.
+			# F3-style debug panel (bottom-left): Rain/Season combos, Time/Player boxes.
 			sw, sh = self.display_surface.get_size()
 			ctl = debug_controls
 			tm_dbg = self._debug_time_manager
@@ -2422,8 +2345,7 @@ class CameraGroup(pygame.sprite.Group):
 			# values the widgets show (a focused box replaces its own)
 			values = {
 				'grid': f"({pgx}, {pgy})",
-				# the Time row reads as a 12-hour clock with its
-				# AM/PM suffix, exactly like the box does when focused
+				# Time row reads as a 12-hour clock, like the focused box.
 				'time': (ctl.time_text(tm_dbg.hour, tm_dbg.minute)
 				         if (tm_dbg and ctl) else "--:-- --"),
 				'rain': str(bool(self._debug_raining)),
@@ -2448,8 +2370,7 @@ class CameraGroup(pygame.sprite.Group):
 			panel_h = len(lines) * line_h + 16
 			panel_x = 4
 			panel_y = sh - panel_h - 4
-			# (no slide: the combo option list opens UPWARD above its
-			# row, so it never overflows the screen bottom)
+			# (no slide: the combo list opens UPWARD, never off the bottom)
 			bg = pygame.Surface((panel_w, panel_h), pygame.SRCALPHA)
 			bg.fill((0, 0, 0, 160))
 			self.display_surface.blit(bg, (panel_x, panel_y))

@@ -45,8 +45,7 @@ class VillagerMenu:
 			self.close_hovered = None
 			self.close_raw_size = (0, 0)
 
-		# Currency icon shown next to every coin amount (matches the HUD's
-		# Currency.png so the menu and the top-left bar agree).
+		# Currency icon next to every coin amount (matches the HUD's Currency.png).
 		try:
 			self.currency_icon = pygame.transform.smoothscale(
 				pygame.image.load(
@@ -74,8 +73,7 @@ class VillagerMenu:
 		self.timer = Timer(50)
 		self._clip_rect = pygame.Rect(0, 0, 0, 0)
 
-		# Baking reference: the title glyphs fill (109,36)-(526,125) with a
-		# two-tone underline at (108,136,420,22) / (113,141,410,11).
+		# Baking reference: glyphs (109,36)-(526,125); underline (108,136,420,22) / (113,141,410,11).
 		self._src_w, self._src_h = 635, 940
 		self._glyph_x0, self._glyph_y0 = 109, 36
 		self._glyph_x1, self._glyph_y1 = 526, 125
@@ -542,8 +540,7 @@ class VillagerMenu:
 			price_x = text_x
 			price_y = entry_y + int(42 * scale)
 			if mode in ('sell', 'buy'):
-				# "Buy for [coin] 4" - label, coin, amount; the icon sits BETWEEN
-				# them, never after the price.
+				# "Buy for [coin] 4": label, coin, amount; the icon sits between, never after.
 				label = 'Sell for' if mode == 'sell' else 'Buy for'
 				label_surf = self.font.render(label, False, color)
 				amount_surf = self.font.render(str(price), False, color)
@@ -558,8 +555,7 @@ class VillagerMenu:
 					price_x += ico.get_width() + int(4 * scale)
 				self.display_surface.blit(amount_surf, (price_x, price_y))
 			else:
-				# barter / refine rows are item costs, optionally with a
-				# coin fee shown as a currency icon (no 'coins' word)
+				# barter / refine rows are item costs, optionally plus a coin fee icon.
 				price_text = ' + '.join(
 					f'{amount} {item_name(cost)}'
 					for cost, amount in item)

@@ -23,8 +23,7 @@ class FarmPatch(pygame.sprite.Sprite):
 		self.level = 0
 
 class WaterTile(pygame.sprite.Sprite):
-	# Legacy watered-soil sprite, kept only for the non-iso debug view —
-	# the iso game draws water overlays through the farm_patch pipeline.
+	# Legacy watered-soil sprite, only for the non-iso debug view (iso uses farm_patch).
 	def __init__(self, pos, surf, groups):
 		super().__init__(groups)
 		self.image = surf
@@ -54,13 +53,10 @@ class Plant(pygame.sprite.Sprite):
 		self.grow_speed = GROW_SPEED[plant_type]
 		self.harvestable = False
 
-		# Transparent rows under each frame's visible art (tomato sprouts float
-		# up to 26px otherwise). The renderer lifts by foot_pad so the VISIBLE art
-		# bottom lands on the tile diamond center.
+		# Transparent sole rows; lifted by foot_pad so the visible bottom hits the tile center.
 		self._pads = [visible_bottom_pad(f) for f in self.frames]
 		self.foot_pad = 0
-		# 'center' anchor: image CENTER sits on the tile diamond center
-		# instead of image bottom. Wheat uses this; tomato uses bottom.
+		# 'center' anchor: image center on the tile diamond center (wheat); tomato uses bottom.
 		self.iso_anchor = 'center' if plant_type == 'wheat' else 'bottom'
 		self.y_anchor_offset = -16 if plant_type == 'wheat' else 0
 
@@ -80,8 +76,7 @@ class Plant(pygame.sprite.Sprite):
 				# Image CENTER on tile diamond center (wheat, etc.)
 				self.rect = self.image.get_rect(center = (tile_cx, tile_cy))
 			else:
-				# Image BOTTOM on tile diamond center, lifted by
-				# transparent sole padding (tomato, etc.)
+				# Image BOTTOM on tile diamond center, lifted by sole padding (tomato, etc.).
 				self.rect = self.image.get_rect(center = (tile_cx, tile_cy))
 				self.foot_pad = self._pads[idx]
 		else:

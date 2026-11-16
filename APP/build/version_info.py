@@ -7,8 +7,8 @@ VSVersionInfo(
   ffi=FixedFileInfo(
     # filevers and prodvers should be always a tuple with four items: (1, 2, 3, 4)
     # Set not needed items to zero 0.
-    filevers=(2, 6, 0, 0),
-    prodvers=(2, 6, 0, 0),
+    filevers=(3, 0, 0, 0),
+    prodvers=(3, 0, 0, 0),
     # Contains a bitmask that specifies the valid bits 'flags'r
     mask=0x3f,
     # Contains a bitmask that specifies the Boolean attributes of the file.
@@ -32,12 +32,12 @@ VSVersionInfo(
         '040904b0',
         [StringStruct('CompanyName', 'Pydew Valley'),
         StringStruct('FileDescription', 'Pydew Valley'),
-        StringStruct('FileVersion', '2.6.0.0'),
+        StringStruct('FileVersion', '3.0.0.0'),
         StringStruct('InternalName', 'PydewValley'),
         StringStruct('LegalCopyright', 'Game code and original art by the Pydew Valley team. Third-party assets are credited in THIRD_PARTY_NOTICES.txt.'),
         StringStruct('OriginalFilename', 'PydewValley.exe'),
         StringStruct('ProductName', 'Pydew Valley'),
-        StringStruct('ProductVersion', '2.6.0.0')])
+        StringStruct('ProductVersion', '3.0.0.0')])
       ]), 
     VarFileInfo([VarStruct('Translation', [1033, 1200])])
   ]

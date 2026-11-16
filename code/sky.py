@@ -92,8 +92,7 @@ class Sky:
 			base_color[1] = int(base_color[1] * tint[1])
 			base_color[2] = int(base_color[2] * tint[2])
 
-		# A white grade is an identity multiply: skipping it leaves the
-		# framebuffer untouched and saves a full-screen blit each frame.
+		# White is an identity multiply: skip it to save a full-screen blit each frame.
 		if tuple(base_color) == (255, 255, 255):
 			return
 
@@ -140,8 +139,7 @@ def _camera_spawn_pos(all_sprites):
 		sy = randint(-100, sh + 100)
 		scr_x = sx + cam_x
 		scr_y = sy + cam_y
-		# Inverse of custom_draw's iso mapping:
-		#   scr_x = (px - py) * 64 + 64,  scr_y = (px + py) * 32
+		# Inverse of custom_draw's iso mapping: scr_x = (px - py) * 64 + 64, scr_y = (px + py) * 32
 		u = (scr_x - 64) / 64.0
 		v = scr_y / 32.0
 		px = (u + v) / 2.0
@@ -227,8 +225,7 @@ class Snow:
 		cam = self.all_sprites
 		sw = getattr(cam, 'screen_w', self.display_surface.get_width())
 		sh = getattr(cam, 'screen_h', self.display_surface.get_height())
-		# kill flakes that aged out or left the padded view (authoritative
-		# even if the wall-clock lifetime and dt ever disagree)
+		# kill flakes that aged out or left the padded view (authoritative over dt drift)
 		kept = []
 		for f in self._flakes:
 			if not f.alive():
@@ -247,8 +244,7 @@ class Snow:
 			return
 		self._spawn_timer = 0.0
 		is_iso = getattr(cam, 'isometric_mode', True)
-		# World motion projecting to a gentle leftward drift + slow fall:
-		#   screen_vx = (vx - vy) / 2,  screen_vy = (vx + vy) / 4
+		# World motion to screen: screen_vx = (vx - vy) / 2, screen_vy = (vx + vy) / 4.
 		direction = (randint(60, 90) / 100.0, randint(90, 115) / 100.0)
 		speed = randint(180, 260)
 		if is_iso:

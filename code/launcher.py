@@ -15,8 +15,7 @@ def _user_dir():
 		from settings import ensure_user_data_dir
 		return ensure_user_data_dir()
 	except Exception:
-		# settings itself failed to import - fall back to the same place
-		# it would have picked, so the crash log still has a home.
+		# settings import failed - fall back to the same default dir so the crash log has a home.
 		base = os.environ.get('APPDATA') or os.path.expanduser('~')
 		directory = os.path.join(base, 'PydewValley')
 		try:

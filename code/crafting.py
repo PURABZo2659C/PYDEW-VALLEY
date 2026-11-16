@@ -57,8 +57,7 @@ class CraftingMenu:
 	def _refresh_recipes(self):
 		unlocked = heart_recipe_unlocked(
 			getattr(self.player, 'completed_quests', ()))
-		# The emblem is a one-off: once crafted (or placed in the world)
-		# hide it from the crafting list so it cannot be made twice.
+		# The emblem is a one-off: hide it once crafted or placed so it cannot be made twice.
 		heart_crafted = self.player.inventory.count(HEART_RECIPE) > 0
 		heart_done = (heart_crafted
 		              or getattr(self.player, 'heart_placed', False))
@@ -97,8 +96,7 @@ class CraftingMenu:
 		for item, amount in materials.items():
 			self._consume_item(item, amount)
 		result = recipe_name
-		# Crafted output is fresh loot: it goes to the hotbar first and
-		# only spills into the bag (Player.add_loot).
+		# Crafted output is fresh loot: hotbar first, spills into the bag (Player.add_loot).
 		remaining = self.player.add_loot(result, result_qty)
 		if remaining > 0:
 			self.level_ref = getattr(self.player, 'level_ref', None)
