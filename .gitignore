@@ -1,8 +1,0 @@
-.idea
-.opencode
-__pycache__/
-*.pyc
-APP/dist/
-APP/build/__pycache__/
-APP/build/PydewValley/
-.gitignore
