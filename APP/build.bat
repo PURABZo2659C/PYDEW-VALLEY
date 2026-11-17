@@ -2,18 +2,24 @@
 REM ---------------------------------------------------------------------
 REM Build PYDEW VALLEY.
 REM
-REM   dist\PydewValley.exe                 the single file build
-REM   dist\Pydew Valley [v*] Windows.zip   THE deliverable - unzip and play
-REM   dist\PydewValley\                    the folder build (Aseprite layout)
+REM   dist\Pydew Valley [v*] Windows.zip  THE Windows deliverable
+REM   dist\PydewValley\                   the folder build (Aseprite layout)
+REM   dist\Pydew-Valley-v*-macos.zip      downloaded from the release
+REM   dist\Pydew-Valley-v*-linux.zip      downloaded from the release
+REM
+REM PyInstaller cannot cross-compile. build.bat builds Windows locally and
+REM pulls the macOS/Linux ZIPs for this version from the GitHub release
+REM built by the Build and Release workflow.
 REM
 REM The build tooling lives in this APP folder; the game source
 REM (code\, graphics\, audio\, font\, data\) is one level up.
 REM
-REM Usage:  build.bat            the exe and the ZIP
+REM Usage:  build.bat            exe + ZIP + the other two OS ZIPs
 REM         build.bat exe        only the single-file executable
-REM         build.bat zip        only the ZIP
+REM         build.bat zip        only the Windows ZIP
 REM         build.bat folder     only the folder build (instant start)
-REM         build.bat all        everything
+REM         build.bat all        Windows only (used by CI)
+REM         build.bat fetch      re-download the macOS/Linux ZIPs
 REM ---------------------------------------------------------------------
 setlocal enabledelayedexpansion
 
@@ -63,7 +69,8 @@ if "%TARGET%"=="all" goto build_all
 if "%TARGET%"=="exe" goto build_exe
 if "%TARGET%"=="zip" goto build_zip
 if "%TARGET%"=="folder" goto build_folder
-echo ERROR: unknown target "%TARGET%" (use: default, all, exe, zip, folder)
+if "%TARGET%"=="fetch" goto fetch_only
+echo ERROR: unknown target "%TARGET%" (use: default, all, exe, zip, folder, fetch)
 exit /b 1
 
 :build_all
@@ -81,6 +88,7 @@ if errorlevel 1 exit /b 1
 if "%TARGET%"=="exe" goto done
 call :make_zip
 if errorlevel 1 exit /b 1
+if "%TARGET%"=="default" call :fetch_other_os
 goto done
 
 :build_folder
@@ -95,6 +103,10 @@ if not exist "%APPDIR%\dist\PydewValley.exe" (
 )
 call :make_zip
 if errorlevel 1 exit /b 1
+goto done
+
+:fetch_only
+call :fetch_other_os --force
 goto done
 
 REM ---- the actual build steps ------------------------------------------
@@ -139,6 +151,18 @@ if errorlevel 1 (
 )
 exit /b 0
 
+REM ---- pull the macOS/Linux ZIPs from the GitHub release ---------------
+:fetch_other_os
+echo.
+echo == Fetching the macOS and Linux ZIPs ==
+python "%APPDIR%\build\fetch_other_os.py" %~1
+if errorlevel 1 (
+    echo WARNING: the macOS/Linux ZIPs are not in dist yet.
+    echo          Push a v* tag or run the Build and Release workflow,
+    echo          then run: build.bat fetch
+)
+exit /b 0
+
 REM ---- clear the external PyInstaller work folder ----------------------
 REM Each build leaves a work folder behind and the next one cannot
 REM clear it while the file indexer still holds a handle, so it is
@@ -165,5 +189,5 @@ goto clean_work_loop
 echo.
 echo == Done ==
 if exist "%APPDIR%\dist\PydewValley.exe" echo    dist\PydewValley.exe
-for %%F in ("%APPDIR%\dist\Pydew Valley *.zip") do echo    dist\%%~nxF
+for %%F in ("%APPDIR%\dist\*.zip") do echo    dist\%%~nxF
 endlocal

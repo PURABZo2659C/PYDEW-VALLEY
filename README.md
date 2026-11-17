@@ -99,21 +99,23 @@ Run these commands in **Command Prompt** from the repository root:
 
 ```
 cd APP
-build.bat              REM executable and ZIP
+build.bat              REM exe + Windows ZIP + macOS/Linux ZIPs
 build.bat exe          REM executable only
-build.bat zip          REM ZIP only
+build.bat zip          REM Windows ZIP only
 build.bat folder       REM folder build only
-build.bat all          REM all outputs
+build.bat all          REM every Windows output (used by CI)
+build.bat fetch        REM macOS/Linux ZIPs only
 ```
 
 The Windows package is written to
-`APP\dist\Pydew Valley [v<version>] Windows.zip`.
+`APP\dist\Pydew Valley [v<version>] Windows.zip`. The macOS and Linux
+ZIPs are downloaded from the GitHub release for the same version, because
+PyInstaller cannot cross-compile.
 
 ### Build macOS and Linux
 
 On the target OS, install the build dependencies above, then run these
-commands from the repository root. On Linux, also install SDL2
-development files (for Ubuntu: `sudo apt-get install libsdl2-dev`).
+commands from the repository root.
 
 ```sh
 cd APP
@@ -130,7 +132,7 @@ On macOS this creates `APP\dist\PydewValley.app`; on Linux it creates
 cd APP
 VER=$(cat build/VERSION.txt)
 cd dist
-zip -r "Pydew-Valley-v${VER}-macos.zip" PydewValley.app
+ditto -c -k --sequesterRsrc --keepParent "PydewValley.app" "Pydew-Valley-v${VER}-macos.zip"
 ```
 
 For Linux, use:
@@ -147,7 +149,9 @@ are stored under the system temporary directory instead of
 `APP\build\`.
 
 The automated release workflow performs these steps and publishes all
-three platform ZIPs together.
+three platform ZIPs together. `build.bat` with no arguments builds
+Windows locally and copies the matching macOS/Linux ZIPs from that
+release into `APP\dist\`; `build.bat fetch` does only the download.
 
 The version number comes from `APP\build\VERSION.txt`. That one file is
 the single source of truth: the exe's file properties, the ZIP name and

@@ -1,6 +1,7 @@
 from os import walk
 import os
 import math
+import sys
 import pygame
 from settings import asset_path, ISO_TILE_HEIGHT, TILE_SIZE
 
@@ -110,6 +111,26 @@ def load_sound(path):
 	except Exception as exc:  # no mixer / bad file: stay silent, but say why
 		log_once('[Support] %s failed' % os.path.basename(path), exc)
 		return SILENT_SOUND
+
+
+def open_url(url):
+	"""Open a link in the system browser.
+
+	PyInstaller puts its bundled libraries on the library path; helpers like
+	gio/xdg-open then load them and crash ("undefined symbol: g_dir_unref"),
+	so the browser is launched with a clean environment.
+	"""
+	import webbrowser
+	if not sys.platform.startswith('linux'):
+		return webbrowser.open(url)
+	saved = {}
+	for key in ('LD_LIBRARY_PATH', 'LD_PRELOAD', 'PYTHONHOME', 'PYTHONPATH'):
+		if key in os.environ:
+			saved[key] = os.environ.pop(key)
+	try:
+		return webbrowser.open(url)
+	finally:
+		os.environ.update(saved)
 
 
 def click_sound():

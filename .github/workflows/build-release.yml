@@ -35,6 +35,8 @@ jobs:
             throw "Windows ZIP was not created: $source"
           }
           Copy-Item -LiteralPath $source -Destination "dist\Pydew-Valley-v$ver-windows.zip"
+          $test = Start-Process -FilePath "dist\PydewValley.exe" -ArgumentList "--selftest" -Wait -PassThru
+          if ($test.ExitCode -ne 0) { throw "Smoke test failed (exit $($test.ExitCode))" }
       - name: Upload Windows package
         uses: actions/upload-artifact@v6
         with:
@@ -63,7 +65,23 @@ jobs:
           python -m PyInstaller --clean --noconfirm --workpath "$RUNNER_TEMP/pydew-valley-pyinstaller" PydewValley.spec
           VER=$(cat build/VERSION.txt)
           test -d "dist/PydewValley.app"
-          (cd dist && zip -r "Pydew-Valley-v${VER}-macos.zip" "PydewValley.app")
+          (cd dist && ditto -c -k --sequesterRsrc --keepParent "PydewValley.app" "Pydew-Valley-v${VER}-macos.zip")
+      - name: Smoke test
+        working-directory: APP
+        run: ./dist/PydewValley.app/Contents/MacOS/PydewValley --selftest
+      - name: Compatibility report
+        working-directory: APP
+        run: |
+          BIN="dist/PydewValley.app/Contents/MacOS/PydewValley"
+          file "$BIN"
+          echo "--- architecture ---"
+          lipo -info "$BIN"
+          echo "--- minimum macOS ---"
+          otool -l "$BIN" | grep -A4 LC_BUILD_VERSION || true
+          echo "--- non-system libraries ---"
+          otool -L "$BIN" | grep -Ev '@|/usr/lib|/System' || true
+          echo "--- signature ---"
+          codesign --verify --deep --strict --verbose=2 "dist/PydewValley.app"
       - name: Upload macOS package
         uses: actions/upload-artifact@v6
         with:

@@ -88,6 +88,18 @@ def init_audio():
 		pass
 	if pygame.mixer.get_init():
 		return True
+	# WSLg has PulseAudio, but a bare WSL shell does not export its address.
+	server = '/mnt/wslg/PulseServer'
+	if (sys.platform.startswith('linux') and not os.environ.get('PULSE_SERVER')
+			and os.path.exists(server)):
+		os.environ['PULSE_SERVER'] = 'unix:' + server
+		try:
+			pygame.mixer.init()
+		except pygame.error:
+			pass
+		if pygame.mixer.get_init():
+			return True
+	print('[Audio] no sound device, continuing silently')
 	os.environ['SDL_AUDIODRIVER'] = 'dummy'
 	try:
 		pygame.mixer.init()

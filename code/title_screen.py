@@ -1,8 +1,10 @@
-﻿import pygame, sys, os, math, random, webbrowser
+﻿import pygame, sys, os, math, random
+from pathlib import Path
 import numpy as np
 from pygame.constants import K_RETURN
 
 from settings import asset_path, help_doc_path, ui_font, ui_scale
+from support import open_url
 
 
 def _art_scale(base):
@@ -249,8 +251,8 @@ class TitleScreen:
                              os.path.basename(self.help_path)])
             return
         try:
-            uri = 'file:///' + os.path.abspath(self.help_path).replace('\\', '/')
-            webbrowser.open(uri)
+            uri = Path(self.help_path).resolve().as_uri()
+            open_url(uri)
         except Exception as exc:  # no browser available: say so, don't crash
             self.show_popup(['Could not open help!', str(exc)[:60]])
 

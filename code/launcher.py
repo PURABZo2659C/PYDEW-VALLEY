@@ -6,6 +6,7 @@ entry plus a message box.
 
 import os
 import sys
+import tempfile
 import traceback
 
 
@@ -65,17 +66,28 @@ def _selftest():
 	"""
 	os.environ.setdefault('SDL_VIDEODRIVER', 'dummy')
 	import pygame
+	import save_system
 	from settings import init_audio
-	init_audio()
-	pygame.init()
-	print('selftest: mixer %r, driver %s'
-	      % (pygame.mixer.get_init(), os.environ.get('SDL_AUDIODRIVER', 'default')))
-	pygame.display.set_mode((1280, 720))
-	from title_screen import TitleScreen
-	from level import Level
-	TitleScreen().draw(1.0 / 60.0)
-	Level(None)
-	pygame.quit()
+	# The test world saves on creation, so keep it away from the player's save.
+	test_save = os.path.join(tempfile.gettempdir(), 'pydew-selftest-save.json')
+	save_system.SAVE_PATH = test_save
+	try:
+		init_audio()
+		pygame.init()
+		print('selftest: mixer %r, driver %s'
+		      % (pygame.mixer.get_init(), os.environ.get('SDL_AUDIODRIVER', 'default')))
+		pygame.display.set_mode((1280, 720))
+		from title_screen import TitleScreen
+		from level import Level
+		TitleScreen().draw(1.0 / 60.0)
+		Level(None)
+		pygame.quit()
+	finally:
+		for path in (test_save, test_save + '.bak'):
+			try:
+				os.remove(path)
+			except OSError:
+				pass
 
 
 def _report_crash(directory):

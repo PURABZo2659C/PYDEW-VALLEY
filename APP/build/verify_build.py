@@ -241,7 +241,9 @@ def check_zip(path):
 def main():
     folder = os.path.join(DIST, FOLDER_NAME)
     onefile = os.path.join(DIST, EXE_NAME)
-    zips = sorted(f for f in os.listdir(DIST) if f.endswith('.zip')) \
+    # dist also holds the macOS/Linux ZIPs; this check is for Windows.
+    zips = sorted(f for f in os.listdir(DIST)
+                  if f.lower().endswith('.zip') and 'windows' in f.lower()) \
         if os.path.isdir(DIST) else []
 
     print('=' * 62)

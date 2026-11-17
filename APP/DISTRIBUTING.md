@@ -10,7 +10,9 @@ also builds macOS and Linux ZIPs; this file covers the Windows one.
 
 | File | What it is |
 |---|---|
-| `dist\Pydew Valley [v*] Windows.zip` | **The deliverable.** One file, ~111 MB. A friend unzips it and plays - no installer, no admin rights. |
+| `dist\Pydew Valley [v*] Windows.zip` | **The Windows deliverable.** One file, ~111 MB. A friend unzips it and plays - no installer, no admin rights. |
+| `dist\Pydew-Valley-v*-macos.zip` | The macOS build, downloaded by `build.bat` from the GitHub release. |
+| `dist\Pydew-Valley-v*-linux.zip` | The Linux build, downloaded by `build.bat` from the GitHub release. |
 | `dist\PydewValley.exe` | The single-file build on its own, ~111 MB. Same game, no ZIP. |
 | `dist\PydewValley\` | The folder build: `PydewValley.exe` + a `data\` folder. Instant start, but the small launcher is the one Smart App Control dislikes. |
 
@@ -18,14 +20,19 @@ The version number comes from `build\VERSION.txt` - that one file is the
 single source of truth. The exe's file properties, the ZIP name and the
 credits screen all read it.
 
+PyInstaller cannot cross-compile, so `build.bat` only builds Windows
+locally. The macOS and Linux ZIPs are built by the Build and Release
+workflow and copied into `dist\` for the same version.
+
 Rebuild with:
 
 ```
-build.bat              # the exe and the ZIP
+build.bat              # exe + Windows ZIP + the other two OS ZIPs
 build.bat exe          # only the single-file executable
-build.bat zip          # only the ZIP
+build.bat zip          # only the Windows ZIP
 build.bat folder       # only the folder build
-build.bat all          # everything
+build.bat all          # everything Windows (used by CI)
+build.bat fetch        # macOS/Linux ZIPs only (downloads again)
 ```
 
 ---
