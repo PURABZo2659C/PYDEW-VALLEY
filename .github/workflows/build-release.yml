@@ -68,7 +68,12 @@ jobs:
           (cd dist && ditto -c -k --sequesterRsrc --keepParent "PydewValley.app" "Pydew-Valley-v${VER}-macos.zip")
       - name: Smoke test
         working-directory: APP
-        run: ./dist/PydewValley.app/Contents/MacOS/PydewValley --selftest
+        run: |
+          ./dist/PydewValley.app/Contents/MacOS/PydewValley --selftest
+          if [ -e "dist/PydewValley.app/Contents/MacOS/PYDEW VALLEY DOCUMENTATION.html" ]; then
+            echo "Smoke test modified the signed app bundle by copying the help page beside its executable."
+            exit 1
+          fi
       - name: Compatibility report
         working-directory: APP
         run: |

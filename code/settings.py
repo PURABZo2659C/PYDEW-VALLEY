@@ -99,7 +99,10 @@ def init_audio():
 			pass
 		if pygame.mixer.get_init():
 			return True
-	print('[Audio] no sound device, continuing silently')
+	if os.path.exists('/mnt/wslg'):
+		print('[Audio] no sound device - in WSL run: sudo apt install libpulse0')
+	else:
+		print('[Audio] no sound device, continuing silently')
 	os.environ['SDL_AUDIODRIVER'] = 'dummy'
 	try:
 		pygame.mixer.init()
@@ -127,12 +130,14 @@ _HELP_VERSION = re.compile(r'(Pydew Valley \[v)[0-9][0-9.]*(\])')
 
 
 def help_doc_path():
-	"""Path to the in-game help page, with VERSION.txt's version stamped in.
-	A copy next to the executable is preferred; the bundled one is copied
-	out, since a browser cannot open a onefile temp folder reliably.
+	"""Path to the in-game help page.
+	Packaged builds copy and version-stamp the page beside the executable,
+	except macOS app bundles, whose signed contents must not be modified.
 	"""
 	bundled = asset_path('PYDEW VALLEY DOCUMENTATION.html')
 	if not FROZEN:
+		return bundled
+	if sys.platform == 'darwin':
 		return bundled
 	beside = user_data_path('PYDEW VALLEY DOCUMENTATION.html')
 	try:

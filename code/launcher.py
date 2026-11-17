@@ -81,6 +81,12 @@ def _selftest():
 		from level import Level
 		TitleScreen().draw(1.0 / 60.0)
 		Level(None)
+		if '--open-help' in sys.argv:
+			from pathlib import Path
+			from settings import help_doc_path
+			from support import open_url
+			print('selftest: opening help', open_url(
+				Path(help_doc_path()).resolve().as_uri()))
 		pygame.quit()
 	finally:
 		for path in (test_save, test_save + '.bak'):

@@ -81,6 +81,15 @@ a = Analysis(
     optimize=0,
 )
 
+# Never bundle the system GLib stack on Linux. Browser helpers such as
+# gio load the system libgobject, which then picks up PyInstaller's older
+# bundled libglib and dies with "undefined symbol: g_dir_unref".
+if sys.platform.startswith('linux'):
+    SYSTEM_LIBS = ('libglib-2.0.so', 'libgthread-2.0.so', 'libgobject-2.0.so',
+                   'libgio-2.0.so', 'libgmodule-2.0.so')
+    a.binaries = [entry for entry in a.binaries
+                  if not os.path.basename(entry[0]).startswith(SYSTEM_LIBS)]
+
 pyz = PYZ(a.pure)
 
 if ONEDIR:

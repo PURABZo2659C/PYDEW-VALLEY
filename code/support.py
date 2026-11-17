@@ -113,16 +113,41 @@ def load_sound(path):
 		return SILENT_SOUND
 
 
+def _wsl_windows_path(path):
+	"""Ask wslpath for the Windows form of a Linux path."""
+	import subprocess
+	try:
+		return subprocess.check_output(
+			['wslpath', '-w', path], text=True,
+			stderr=subprocess.DEVNULL).strip()
+	except (OSError, subprocess.CalledProcessError):
+		return None
+
+
 def open_url(url):
 	"""Open a link in the system browser.
 
 	PyInstaller puts its bundled libraries on the library path; helpers like
 	gio/xdg-open then load them and crash ("undefined symbol: g_dir_unref"),
-	so the browser is launched with a clean environment.
+	so the browser is launched with a clean environment. WSL usually has no
+	Linux browser at all, so there the page goes to the Windows one.
 	"""
 	import webbrowser
 	if not sys.platform.startswith('linux'):
 		return webbrowser.open(url)
+	if os.environ.get('WSL_DISTRO_NAME') or os.path.exists('/mnt/wslg'):
+		if url.startswith('file://'):
+			from urllib.parse import unquote
+			win_path = _wsl_windows_path(unquote(url[7:]))
+			if win_path:
+				try:
+					import subprocess
+					subprocess.Popen(
+						['cmd.exe', '/c', 'start', '', win_path],
+						stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+					return True
+				except OSError:
+					pass
 	saved = {}
 	for key in ('LD_LIBRARY_PATH', 'LD_PRELOAD', 'PYTHONHOME', 'PYTHONPATH'):
 		if key in os.environ:
