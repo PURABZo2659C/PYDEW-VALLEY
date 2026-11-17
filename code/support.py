@@ -84,6 +84,34 @@ def log_once(key, exc):
 	print(f'{key}: {exc!r}')
 
 
+class _SilentSound:
+	"""Stand-in for a Sound when there is no audio device."""
+
+	def play(self, *args, **kwargs):
+		pass
+
+	def stop(self):
+		pass
+
+	def fadeout(self, *args, **kwargs):
+		pass
+
+	def set_volume(self, *args, **kwargs):
+		pass
+
+
+SILENT_SOUND = _SilentSound()
+
+
+def load_sound(path):
+	"""Load a Sound, or a silent stand-in when the mixer is unavailable."""
+	try:
+		return pygame.mixer.Sound(path)
+	except Exception as exc:  # no mixer / bad file: stay silent, but say why
+		log_once('[Support] %s failed' % os.path.basename(path), exc)
+		return SILENT_SOUND
+
+
 def click_sound():
 	"""The shared UI click sound, loaded on first use.
 	Returns the Sound (so volume settings can be applied to the very sound

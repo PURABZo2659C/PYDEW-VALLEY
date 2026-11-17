@@ -98,7 +98,7 @@ class Player(pygame.sprite.Sprite):
 		self.level_ref = level
 
 		# sound
-		self.watering = pygame.mixer.Sound(asset_path('audio', 'water.mp3'))
+		self.watering = load_sound(asset_path('audio', 'water.mp3'))
 		self.watering.set_volume(0.2)
 
 		# bed surf for placing

@@ -59,6 +59,25 @@ def _message_box(title, text):
 		pass
 
 
+def _selftest():
+	"""Headless smoke test: builds the title screen and a level with no sound
+	card - the condition that crashed the Linux build on WSL.
+	"""
+	os.environ.setdefault('SDL_VIDEODRIVER', 'dummy')
+	import pygame
+	from settings import init_audio
+	init_audio()
+	pygame.init()
+	print('selftest: mixer %r, driver %s'
+	      % (pygame.mixer.get_init(), os.environ.get('SDL_AUDIODRIVER', 'default')))
+	pygame.display.set_mode((1280, 720))
+	from title_screen import TitleScreen
+	from level import Level
+	TitleScreen().draw(1.0 / 60.0)
+	Level(None)
+	pygame.quit()
+
+
 def _report_crash(directory):
 	detail = traceback.format_exc()
 	try:
@@ -78,6 +97,9 @@ def _report_crash(directory):
 
 
 def main():
+	if '--selftest' in sys.argv:
+		_selftest()
+		return
 	directory = _user_dir()
 	handle = _redirect_output(directory)
 	try:

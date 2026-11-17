@@ -282,9 +282,9 @@ class Level:
 
 		music_vol, sfx_vol = self._load_volumes()
 		# music
-		self.success = pygame.mixer.Sound(asset_path('audio', 'success.wav'))
+		self.success = load_sound(asset_path('audio', 'success.wav'))
 		self.success.set_volume(sfx_vol * 0.3)
-		self.music = pygame.mixer.Sound(asset_path('audio', 'music.mp3'))
+		self.music = load_sound(asset_path('audio', 'music.mp3'))
 		self.music.set_volume(music_vol)
 		self.music.play(loops = -1)
 

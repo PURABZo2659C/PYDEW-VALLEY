@@ -3,7 +3,7 @@ REM ---------------------------------------------------------------------
 REM Build PYDEW VALLEY.
 REM
 REM   dist\PydewValley.exe                 the single file build
-REM   dist\Pydew Valley [v2.6] Windows.zip  THE deliverable - unzip and play
+REM   dist\Pydew Valley [v*] Windows.zip   THE deliverable - unzip and play
 REM   dist\PydewValley\                    the folder build (Aseprite layout)
 REM
 REM The build tooling lives in this APP folder; the game source

@@ -5,6 +5,7 @@ from random import randint, choice, random
 from timer import Timer
 from support import (
 	visible_bottom_pad, play_click, play_error, iso_base_anchor, load_overlay_icons,
+	load_sound as _load_sound_file,
 )
 
 # Shared decoded sounds: decoding per placement was a profiled hot spot.
@@ -13,7 +14,7 @@ _sound_cache = {}
 def load_sound(name):
 	snd = _sound_cache.get(name)
 	if snd is None:
-		snd = pygame.mixer.Sound(asset_path('audio', name))
+		snd = _load_sound_file(asset_path('audio', name))
 		_sound_cache[name] = snd
 	return snd
 

@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 from pygame.math import Vector2
 
@@ -75,35 +76,64 @@ def ensure_user_data_dir():
 	return directory
 
 
+def init_audio():
+	"""Start the mixer, falling back to SDL's dummy driver when the machine
+	has no sound device (WSL, headless Linux, remote sessions). Sounds still
+	load and play - they are just silent.
+	"""
+	import pygame
+	try:
+		pygame.mixer.init()
+	except pygame.error:
+		pass
+	if pygame.mixer.get_init():
+		return True
+	os.environ['SDL_AUDIODRIVER'] = 'dummy'
+	try:
+		pygame.mixer.init()
+	except pygame.error:
+		return False
+	return pygame.mixer.get_init() is not None
+
+
 # -- The game always runs full screen --
 # No settings file or windowed mode: opens on the desktop at its resolution.
 def app_version():
 	"""The version of this build, from the bundled VERSION.txt."""
+	path = asset_path('VERSION.txt')
+	if not os.path.exists(path) and not FROZEN:
+		# Running from source: the version lives in the build tooling.
+		path = os.path.join(BASE_DIR, 'APP', 'build', 'VERSION.txt')
 	try:
-		with open(asset_path('VERSION.txt'), 'r', encoding='utf-8') as handle:
+		with open(path, 'r', encoding='utf-8') as handle:
 			return handle.read().strip() or 'unknown'
 	except OSError:
 		return 'dev'
 
 
+_HELP_VERSION = re.compile(r'(Pydew Valley \[v)[0-9][0-9.]*(\])')
+
+
 def help_doc_path():
-	"""Path to the in-game help page.
+	"""Path to the in-game help page, with VERSION.txt's version stamped in.
 	A copy next to the executable is preferred; the bundled one is copied
 	out, since a browser cannot open a onefile temp folder reliably.
 	"""
 	bundled = asset_path('PYDEW VALLEY DOCUMENTATION.html')
-	beside = user_data_path('PYDEW VALLEY DOCUMENTATION.html')
-	if os.path.exists(beside):
-		return beside
 	if not FROZEN:
 		return bundled
+	beside = user_data_path('PYDEW VALLEY DOCUMENTATION.html')
 	try:
+		with open(bundled, 'r', encoding='utf-8') as handle:
+			html = handle.read()
+		html = _HELP_VERSION.sub(
+			lambda match: match.group(1) + app_version() + match.group(2), html)
 		ensure_user_data_dir()
-		import shutil
-		shutil.copy2(bundled, beside)
+		with open(beside, 'w', encoding='utf-8') as handle:
+			handle.write(html)
+		return beside
 	except OSError:
-		pass
-	return beside if os.path.exists(beside) else bundled
+		return beside if os.path.exists(beside) else bundled
 
 # Always full screen: no canvas to hardcode, everything reads the live display surface.
 TILE_SIZE = 128

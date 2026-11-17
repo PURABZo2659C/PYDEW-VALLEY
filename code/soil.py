@@ -136,10 +136,10 @@ class SoilLayer:
 		self.create_hit_rects()
 
 		# sounds
-		self.hoe_sound = pygame.mixer.Sound(asset_path('audio', 'hoe.wav'))
+		self.hoe_sound = load_sound(asset_path('audio', 'hoe.wav'))
 		self.hoe_sound.set_volume(0.1)
 
-		self.plant_sound = pygame.mixer.Sound(asset_path('audio', 'plant.wav')) 
+		self.plant_sound = load_sound(asset_path('audio', 'plant.wav')) 
 		self.plant_sound.set_volume(0.2)
 
 	def _load_soil_surfs(self):

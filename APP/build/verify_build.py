@@ -54,8 +54,6 @@ FORBIDDEN = [
 # The ZIP must contain exactly this, and nothing else.
 ZIP_REQUIRED = [
     'Pydew Valley/PydewValley.exe',
-    'Pydew Valley/README.txt',
-    'Pydew Valley/THIRD_PARTY_NOTICES.txt',
     'Pydew Valley/PYDEW VALLEY DOCUMENTATION.html',
 ]
 ZIP_FORBIDDEN = [

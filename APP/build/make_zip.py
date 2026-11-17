@@ -6,7 +6,7 @@ portable - everything it writes (the save, the settings, the logs) goes
 into the folder next to the executable, so deleting that folder removes
 the game and all its data.
 
-    Pydew Valley [v2.6] Windows.zip
+    Pydew Valley [v*] Windows.zip
     `-- Pydew Valley/
          |-- PydewValley.exe
          |-- PYDEW VALLEY Documentation.html

@@ -156,10 +156,10 @@ version.
 
 GitHub Actions builds Windows, macOS and Linux ZIPs for each release.
 Push a `v*` tag or run **Build and Release** from the Actions tab with a
-release tag such as `v2.6`. Wait for all platform jobs to finish; the
-workflow then creates or updates one GitHub Release with all three ZIPs
-attached. The version comes from `APP\build\VERSION.txt`; use a
-corresponding tag when publishing a release.
+release tag matching `APP\build\VERSION.txt`. Wait for all platform jobs
+to finish; the workflow then creates or updates one GitHub Release with
+all three ZIPs attached. The version comes from `APP\build\VERSION.txt`;
+use a corresponding tag when publishing a release.
 
 `APP\DISTRIBUTING.md` has additional Windows distribution notes,
 including Smart App Control and code signing.

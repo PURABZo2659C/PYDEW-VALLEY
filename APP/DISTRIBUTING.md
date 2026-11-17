@@ -3,14 +3,14 @@
 The build tooling lives in this `APP` folder. The game source
 (`code\`, `graphics\`, `audio\`, `font\`, `data\`) is one level up.
 
-**Windows only.** There is no browser build - the game ships as a
-Windows executable and a ZIP.
+**Windows packaging.** There is no browser build. The release workflow
+also builds macOS and Linux ZIPs; this file covers the Windows one.
 
 ## What you have
 
 | File | What it is |
 |---|---|
-| `dist\Pydew Valley [v2.6] Windows.zip` | **The deliverable.** One file, ~111 MB. A friend unzips it and plays - no installer, no admin rights. |
+| `dist\Pydew Valley [v*] Windows.zip` | **The deliverable.** One file, ~111 MB. A friend unzips it and plays - no installer, no admin rights. |
 | `dist\PydewValley.exe` | The single-file build on its own, ~111 MB. Same game, no ZIP. |
 | `dist\PydewValley\` | The folder build: `PydewValley.exe` + a `data\` folder. Instant start, but the small launcher is the one Smart App Control dislikes. |
 

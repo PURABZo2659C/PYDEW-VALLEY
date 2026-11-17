@@ -6,6 +6,7 @@ from save_system import load_save, delete_save
 
 class Game:
 	def __init__(self):
+		init_audio()
 		pygame.init()
 		# SCALED | FULLSCREEN stretches to the desktop without switching display modes.
 		sw, sh = pygame.display.get_desktop_sizes()[0]
