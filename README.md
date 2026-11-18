@@ -15,7 +15,8 @@ page. Each release includes:
 | ZIP file | Platform | How to start |
 |---|---|---|
 | `Pydew-Valley-v3.0-windows.zip` | 64-bit Windows | Extract the ZIP, open the `Pydew Valley` folder and run `PydewValley.exe`. |
-| `Pydew-Valley-v3.0-macos.zip` | macOS | Extract the ZIP and open `PydewValley.app`. |
+| `Pydew-Valley-v3.0-macos-arm64.zip` | Apple Silicon macOS | Extract the ZIP and open `PydewValley.app`. |
+| `Pydew-Valley-v3.0-macos-x86_64.zip` | Intel macOS | Extract the ZIP and open `PydewValley.app`. On Apple Silicon it runs through Rosetta. |
 | `Pydew-Valley-v3.0-linux.zip` | 64-bit Linux | Extract the ZIP, then run `./PydewValley` from a terminal in the extracted folder. |
 
 There is no installer. Extract the download to a folder you can write to.
@@ -38,9 +39,9 @@ to move your settings too, also copy `keybindings.json` and
 `volume.json`. When updating, back up these files before replacing the
 old game files.
 
-The Windows ZIP also includes `README.txt`, the HTML help page and
-`THIRD_PARTY_NOTICES.txt`. The macOS and Linux packages contain their
-respective PyInstaller app/executable bundles.
+The Windows ZIP contains just the executable and the HTML help page. The
+macOS and Linux packages contain their respective PyInstaller
+app/executable bundles.
 
 ### Platform notes
 
@@ -48,7 +49,9 @@ respective PyInstaller app/executable bundles.
   download. Only run software you trust.
 - **macOS:** If Gatekeeper blocks the app because it is from an
   unidentified developer, use macOS **Privacy & Security** settings to
-  review and allow it only if you trust this download.
+  review and allow it only if you trust this download. The `arm64` ZIP is
+  native on Apple Silicon; the `x86_64` ZIP is native on Intel and runs
+  through Rosetta on Apple Silicon.
 - **Linux:** Run the executable from its extracted folder so it can
   access its bundled files and write its save data.
 
@@ -99,18 +102,17 @@ Run these commands in **Command Prompt** from the repository root:
 
 ```
 cd APP
-build.bat              REM exe + Windows ZIP + macOS/Linux ZIPs
+build.bat              REM exe + Windows ZIP
 build.bat exe          REM executable only
 build.bat zip          REM Windows ZIP only
 build.bat folder       REM folder build only
-build.bat all          REM every Windows output (used by CI)
-build.bat fetch        REM macOS/Linux ZIPs only
+build.bat all          REM exe + Windows ZIP (used by CI)
 ```
 
 The Windows package is written to
-`APP\dist\Pydew Valley [v<version>] Windows.zip`. The macOS and Linux
-ZIPs are downloaded from the GitHub release for the same version, because
-PyInstaller cannot cross-compile.
+`APP\dist\Pydew Valley [v<version>] Windows.zip`. PyInstaller cannot
+cross-compile, so the macOS and Linux packages are built by the release
+workflow.
 
 ### Build macOS and Linux
 
@@ -126,13 +128,14 @@ python -m PyInstaller --clean --noconfirm --workpath "${TMPDIR:-/tmp}/pydew-vall
 ```
 
 On macOS this creates `APP\dist\PydewValley.app`; on Linux it creates
-`APP\dist\PydewValley`. Create the macOS release ZIP with:
+`APP\dist\PydewValley`. Create the macOS release ZIP with (use `arm64`
+on Apple Silicon or `x86_64` on Intel):
 
 ```sh
 cd APP
 VER=$(cat build/VERSION.txt)
 cd dist
-ditto -c -k --sequesterRsrc --keepParent "PydewValley.app" "Pydew-Valley-v${VER}-macos.zip"
+ditto -c -k --sequesterRsrc --keepParent "PydewValley.app" "Pydew-Valley-v${VER}-macos-arm64.zip"
 ```
 
 For Linux, use:
@@ -148,22 +151,22 @@ The PyInstaller work files, including its HTML cross-reference report,
 are stored under the system temporary directory instead of
 `APP\build\`.
 
-The automated release workflow performs these steps and publishes all
-three platform ZIPs together. `build.bat` with no arguments builds
-Windows locally and copies the matching macOS/Linux ZIPs from that
-release into `APP\dist\`; `build.bat fetch` does only the download.
+The automated release workflow performs these steps and publishes the
+Windows, macOS (Apple Silicon and Intel) and Linux ZIPs together.
+`build.bat` builds only the Windows outputs.
 
 The version number comes from `APP\build\VERSION.txt`. That one file is
 the single source of truth: the exe's file properties, the ZIP name and
 the credits screen all read it. Bump it and rebuild to publish a new
 version.
 
-GitHub Actions builds Windows, macOS and Linux ZIPs for each release.
-Push a `v*` tag or run **Build and Release** from the Actions tab with a
-release tag matching `APP\build\VERSION.txt`. Wait for all platform jobs
-to finish; the workflow then creates or updates one GitHub Release with
-all three ZIPs attached. The version comes from `APP\build\VERSION.txt`;
-use a corresponding tag when publishing a release.
+GitHub Actions builds the Windows, macOS (arm64 and x86_64) and Linux
+ZIPs for each release. Push a `v*` tag or run **Build and Release** from
+the Actions tab with a release tag matching `APP\build\VERSION.txt`.
+Wait for the platform jobs to finish; the workflow then creates or
+updates one GitHub Release with every ZIP attached. The version comes
+from `APP\build\VERSION.txt`; use a corresponding tag when publishing a
+release.
 
 `APP\DISTRIBUTING.md` has additional Windows distribution notes,
 including Smart App Control and code signing.

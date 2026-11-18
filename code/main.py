@@ -1,4 +1,12 @@
-import pygame, sys
+import os
+import sys
+
+# Windows would otherwise render at the DPI-scaled desktop size and upscale
+# the frame, blurring the fonts and narrowing the field of view.
+if sys.platform == 'win32':
+	os.environ.setdefault('SDL_WINDOWS_DPI_AWARENESS', 'permonitorv2')
+
+import pygame
 from settings import *
 from level import Level
 from title_screen import TitleScreen
@@ -14,6 +22,9 @@ class Game:
 			(sw, sh), pygame.SCALED | pygame.FULLSCREEN)
 		# Scale the interface to match: fonts grow with the fit-to-screen menus.
 		set_ui_scale(self.screen.get_height() / float(UI_REFERENCE_HEIGHT))
+		ww, wh = pygame.display.get_window_size()
+		print('[Display] desktop %dx%d, window %dx%d, ui scale %.2f'
+		      % (sw, sh, ww, wh, ui_scale()), flush=True)
 		pygame.display.set_caption('PYDEW VALLEY')
 		self.clock = pygame.time.Clock()
 
