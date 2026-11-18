@@ -15,7 +15,7 @@ page. Each release includes:
 | ZIP file | Platform | How to start |
 |---|---|---|
 | `Pydew-Valley-v3.0-windows.zip` | 64-bit Windows | Extract the ZIP, open the `Pydew Valley` folder and run `PydewValley.exe`. |
-| `Pydew-Valley-v3.0-macos-x86_64.zip` | macOS (Intel, works on Apple Silicon via Rosetta) | Extract the ZIP and open `PydewValley.app`. |
+| `Pydew-Valley-v3.0-macos-x86_64.zip` | macOS, Intel and Apple Silicon | Extract the ZIP, move `PydewValley.app` to a folder you can write to, then open it. See [macOS install](#macos-install-intel-and-apple-silicon). |
 | `Pydew-Valley-v3.0-linux.zip` | 64-bit Linux | Extract the ZIP, then run `./PydewValley` from a terminal in the extracted folder. |
 
 There is no installer. Extract the download to a folder you can write to.
@@ -28,6 +28,47 @@ The game opens full screen and stretches to your display resolution. The
 in-game help page is available from the **HELP** button on the title
 screen.
 
+### macOS install (Intel and Apple Silicon)
+
+The macOS download is one **x86_64** app. It runs natively on Intel Macs
+and through **Rosetta 2** on every Apple Silicon Mac (M1, M2, M3, M4 and
+later). Rosetta is Apple's own translator and is installed once; after
+that the game starts like any other app.
+
+1. Download `Pydew-Valley-v3.0-macos-x86_64.zip` and double-click it.
+   Finder unpacks `PydewValley.app`.
+2. Move `PydewValley.app` to a folder your account owns, for example
+   `~/Games/PydewValley/`. Do not play it from inside the ZIP, and do not
+   leave it on a read-only disk image.
+3. First launch: **double-click** `PydewValley.app`.
+   - On Apple Silicon, macOS asks to install Rosetta. Click **Install**,
+     enter your password and wait about a minute.
+   - If that prompt never appears, open **Terminal** and run:
+     `softwareupdate --install-rosetta --agree-to-license`
+4. macOS then reports that the app is from an unidentified developer,
+   because it is not notarized. Approve it once:
+   - **Control-click** (or right-click) `PydewValley.app`, choose
+     **Open**, then **Open** in the dialog.
+   - Or open **System Settings -> Privacy & Security**, scroll to the
+     security message, click **Open Anyway** and confirm.
+5. The game opens full screen. Every later launch is a normal
+   double-click.
+
+If macOS says the app "is damaged and can't be opened", the download is
+still quarantined. With the app already moved to its final folder, run:
+
+```sh
+xattr -dr com.apple.quarantine ~/Games/PydewValley/PydewValley.app
+```
+
+**Saves on macOS.** The game writes `save.json`, `keybindings.json` and
+`volume.json` inside `PydewValley.app/Contents/MacOS/`, next to the game
+binary, so the app must stay in a folder you can write to. Before
+replacing the app with a newer version, copy those files out of
+`Contents/MacOS/` and move them into the new app's `Contents/MacOS/`
+folder. Keeping the old `.app` until the save has been checked is a cheap
+backup.
+
 ### Saves and settings
 
 The game stores `save.json`, `keybindings.json`, `volume.json`,
@@ -36,7 +77,9 @@ Keep the extracted game in a folder where your account has write
 permission. To back up progress, close the game and copy `save.json`;
 to move your settings too, also copy `keybindings.json` and
 `volume.json`. When updating, back up these files before replacing the
-old game files.
+old game files. On macOS, "next to the executable" means inside
+`PydewValley.app/Contents/MacOS/` - see
+[macOS install](#macos-install-intel-and-apple-silicon).
 
 The Windows ZIP contains just the executable and the HTML help page. The
 macOS and Linux packages contain their respective PyInstaller
@@ -46,11 +89,10 @@ app/executable bundles.
 
 - **Windows:** Windows may show a security warning for an unsigned
   download. Only run software you trust.
-- **macOS:** If Gatekeeper blocks the app because it is from an
-  unidentified developer, use macOS **Privacy & Security** settings to
-  review and allow it only if you trust this download. The macOS build is
-  x86_64: native on Intel Macs, and on Apple Silicon macOS offers to
-  install Rosetta 2 the first time you open it.
+- **macOS:** The build is x86_64 and not notarized, so macOS needs two
+  approvals the first time: install Rosetta on Apple Silicon, then allow
+  the app. Both are covered in
+  [macOS install](#macos-install-intel-and-apple-silicon).
 - **Linux:** Run the executable from its extracted folder so it can
   access its bundled files and write its save data.
 
