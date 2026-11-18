@@ -45,62 +45,10 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-  build-macos-arm64:
-    # GitHub's arm64 macOS pool is capacity-limited. If this job is cancelled
-    # before it gets a runner, the Intel build and the release still go ahead.
-    runs-on: macos-15
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v6
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
-      - name: Install dependencies
-        run: pip install --upgrade pip pygame numpy pytmx opencv-python pyinstaller pillow
-      - name: Build macOS ZIP
-        working-directory: APP
-        run: |
-          set -euo pipefail
-          python build/make_version_info.py
-          python build/make_icon.py
-          python build/fix_line_endings.py
-          python -m PyInstaller --clean --noconfirm --workpath "$RUNNER_TEMP/pydew-valley-pyinstaller" PydewValley.spec
-          VER=$(cat build/VERSION.txt)
-          test -d "dist/PydewValley.app"
-          (cd dist && ditto -c -k --sequesterRsrc --keepParent "PydewValley.app" "Pydew-Valley-v${VER}-macos-arm64.zip")
-      - name: Smoke test
-        working-directory: APP
-        run: |
-          ./dist/PydewValley.app/Contents/MacOS/PydewValley --selftest
-          if [ -e "dist/PydewValley.app/Contents/MacOS/PYDEW VALLEY DOCUMENTATION.html" ]; then
-            echo "Smoke test modified the signed app bundle by copying the help page beside its executable."
-            exit 1
-          fi
-      - name: Compatibility report
-        working-directory: APP
-        run: |
-          BIN="dist/PydewValley.app/Contents/MacOS/PydewValley"
-          file "$BIN"
-          echo "--- architecture ---"
-          lipo -info "$BIN"
-          echo "--- minimum macOS ---"
-          otool -l "$BIN" | grep -A4 LC_BUILD_VERSION || true
-          echo "--- non-system libraries ---"
-          otool -L "$BIN" | grep -Ev '@|/usr/lib|/System' || true
-          echo "--- signature ---"
-          codesign --verify --deep --strict --verbose=2 "dist/PydewValley.app"
-      - name: Upload macOS arm64 package
-        uses: actions/upload-artifact@v6
-        with:
-          name: macos-arm64-package
-          path: APP/dist/Pydew-Valley-v*-macos-arm64.zip
-          if-no-files-found: error
-          retention-days: 1
-
-  build-macos-intel:
-    # The Intel pool is not affected by the arm64 capacity crunch and is the
-    # guaranteed macOS artifact for every release.
+  build-macos:
+    # Intel pool. Reliable and always available; runs natively on Intel Macs
+    # and through Rosetta 2 on Apple Silicon. GitHub's arm64 pool is
+    # capacity-limited and left jobs queued, so it is not used.
     runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v6
@@ -142,10 +90,10 @@ jobs:
           otool -L "$BIN" | grep -Ev '@|/usr/lib|/System' || true
           echo "--- signature ---"
           codesign --verify --deep --strict --verbose=2 "dist/PydewValley.app"
-      - name: Upload macOS Intel package
+      - name: Upload macOS package
         uses: actions/upload-artifact@v6
         with:
-          name: macos-intel-package
+          name: macos-package
           path: APP/dist/Pydew-Valley-v*-macos-x86_64.zip
           if-no-files-found: error
           retention-days: 1
@@ -186,14 +134,12 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build-windows
-      - build-macos-arm64
-      - build-macos-intel
+      - build-macos
       - build-linux
-    # The arm64 runner may be cancelled by capacity limits, so it is optional.
     if: >-
       always() &&
       needs.build-windows.result == 'success' &&
-      needs.build-macos-intel.result == 'success' &&
+      needs.build-macos.result == 'success' &&
       needs.build-linux.result == 'success'
     steps:
       - uses: actions/checkout@v6
@@ -217,16 +163,10 @@ jobs:
         with:
           name: windows-package
           path: release-assets
-      - name: Download macOS arm64 package
-        if: needs.build-macos-arm64.result == 'success'
+      - name: Download macOS package
         uses: actions/download-artifact@v7
         with:
-          name: macos-arm64-package
-          path: release-assets
-      - name: Download macOS Intel package
-        uses: actions/download-artifact@v7
-        with:
-          name: macos-intel-package
+          name: macos-package
           path: release-assets
       - name: Download Linux package
         uses: actions/download-artifact@v7

@@ -15,8 +15,7 @@ page. Each release includes:
 | ZIP file | Platform | How to start |
 |---|---|---|
 | `Pydew-Valley-v3.0-windows.zip` | 64-bit Windows | Extract the ZIP, open the `Pydew Valley` folder and run `PydewValley.exe`. |
-| `Pydew-Valley-v3.0-macos-arm64.zip` | Apple Silicon macOS | Extract the ZIP and open `PydewValley.app`. |
-| `Pydew-Valley-v3.0-macos-x86_64.zip` | Intel macOS | Extract the ZIP and open `PydewValley.app`. On Apple Silicon it runs through Rosetta. |
+| `Pydew-Valley-v3.0-macos-x86_64.zip` | macOS (Intel, works on Apple Silicon via Rosetta) | Extract the ZIP and open `PydewValley.app`. |
 | `Pydew-Valley-v3.0-linux.zip` | 64-bit Linux | Extract the ZIP, then run `./PydewValley` from a terminal in the extracted folder. |
 
 There is no installer. Extract the download to a folder you can write to.
@@ -49,9 +48,9 @@ app/executable bundles.
   download. Only run software you trust.
 - **macOS:** If Gatekeeper blocks the app because it is from an
   unidentified developer, use macOS **Privacy & Security** settings to
-  review and allow it only if you trust this download. The `arm64` ZIP is
-  native on Apple Silicon; the `x86_64` ZIP is native on Intel and runs
-  through Rosetta on Apple Silicon.
+  review and allow it only if you trust this download. The macOS build is
+  x86_64: native on Intel Macs, and on Apple Silicon macOS offers to
+  install Rosetta 2 the first time you open it.
 - **Linux:** Run the executable from its extracted folder so it can
   access its bundled files and write its save data.
 
@@ -128,14 +127,13 @@ python -m PyInstaller --clean --noconfirm --workpath "${TMPDIR:-/tmp}/pydew-vall
 ```
 
 On macOS this creates `APP\dist\PydewValley.app`; on Linux it creates
-`APP\dist\PydewValley`. Create the macOS release ZIP with (use `arm64`
-on Apple Silicon or `x86_64` on Intel):
+`APP\dist\PydewValley`. Create the macOS release ZIP with:
 
 ```sh
 cd APP
 VER=$(cat build/VERSION.txt)
 cd dist
-ditto -c -k --sequesterRsrc --keepParent "PydewValley.app" "Pydew-Valley-v${VER}-macos-arm64.zip"
+ditto -c -k --sequesterRsrc --keepParent "PydewValley.app" "Pydew-Valley-v${VER}-macos-x86_64.zip"
 ```
 
 For Linux, use:
@@ -152,7 +150,7 @@ are stored under the system temporary directory instead of
 `APP\build\`.
 
 The automated release workflow performs these steps and publishes the
-Windows, macOS (Apple Silicon and Intel) and Linux ZIPs together.
+Windows, macOS and Linux ZIPs together.
 `build.bat` builds only the Windows outputs.
 
 The version number comes from `APP\build\VERSION.txt`. That one file is
@@ -160,8 +158,7 @@ the single source of truth: the exe's file properties, the ZIP name and
 the credits screen all read it. Bump it and rebuild to publish a new
 version.
 
-GitHub Actions builds the Windows, macOS (arm64 and x86_64) and Linux
-ZIPs for each release. Push a `v*` tag or run **Build and Release** from
+GitHub Actions builds the Windows, macOS and Linux ZIPs for each release. Push a `v*` tag or run **Build and Release** from
 the Actions tab with a release tag matching `APP\build\VERSION.txt`.
 Wait for the platform jobs to finish; the workflow then creates or
 updates one GitHub Release with every ZIP attached. The version comes

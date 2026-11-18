@@ -19,8 +19,8 @@ single source of truth. The exe's file properties, the ZIP name and the
 credits screen all read it.
 
 PyInstaller cannot cross-compile, so `build.bat` only builds Windows
-locally. The macOS (arm64 and x86_64) and Linux ZIPs are built by the
-Build and Release workflow.
+locally. The macOS (x86_64, runs on Apple Silicon via Rosetta) and Linux
+ZIPs are built by the Build and Release workflow.
 
 Rebuild with:
 
