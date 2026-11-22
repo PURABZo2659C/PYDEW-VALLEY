@@ -8,6 +8,7 @@ from sprites import (Tree, WildFlower, Generic, Water, WaterCollider, Rock,
                      Bush, GroundTile, Interaction)
 from support import import_folder, visible_bottom_pad, clean_sprite_background, log_once
 from collision import (structure_footprint, structure_blockers,
+                       structure_outline_blockers, structure_front_tiles,
                        occluded_stand_tiles)
 from random import Random, choice
 
@@ -376,12 +377,24 @@ class WorldGenerator:
         # Authored doorway collision mask (Cave_collision.png): the source of truth.
         self.entrance_collision_surf = self._load_entrance_collision_surf(
             'Cave_collision.png')
-        foot_surf = (self.entrance_collision_surf
-                     if self.entrance_collision_surf is not None
-                     else self.entrance_surf)
-        # Doorway ground footprint via support.ground_footprint_tiles, warmed here once.
-        self._entrance_foot = self._entrance_footprint_for(
-            foot_surf, self.entrance_surf)
+        # Shared invisible surface for collision-only sprites (villages use one too).
+        self._invisible = pygame.Surface((8, 8), pygame.SRCALPHA)
+        # Outline blockers trace the authored mask exactly like village buildings:
+        # thin 8px ground rows, projected once and reused by every doorway, with
+        # the doorstep carved out so the entrance stays walkable.
+        self._entrance_outline = []
+        if self.entrance_collision_surf is not None:
+            pad = (visible_bottom_pad(self.entrance_collision_surf)
+                   + TILE_SIZE // 16)
+            self._entrance_outline = structure_outline_blockers(
+                self.entrance_collision_surf, pad, 0, 0,
+                step=STRUCTURE_COLLISION_STEP,
+                hole=pygame.Rect(-TILE_SIZE // 2, -TILE_SIZE // 2,
+                                 TILE_SIZE, TILE_SIZE))
+        # Missing-mask fallback only: whole-tile footprint + art occlusion.
+        self._entrance_foot = (None if self._entrance_outline
+                               else self._entrance_footprint_for(
+                                   self.entrance_surf, self.entrance_surf))
 
         # Farm patch tile (lazy-loaded)
         self._farm_patch_iso = None
@@ -481,10 +494,10 @@ class WorldGenerator:
             return None
 
     def _entrance_footprint_for(self, surf, art=None):
-        """Mask footprint of the doorway UNION the tiles where the drawn art would
-        paint over a standing player (collision.occluded_stand_tiles). The
-        authored mask is the source of truth for the rock's base but it is
-        shorter than the art, so the art-based pass closes that gap.
+        """Fallback for a missing collision mask: whole-tile footprint of
+        the doorway UNION the tiles where the drawn art would paint over a
+        standing player (collision.occluded_stand_tiles). The normal path
+        uses the authored mask's outline instead.
         """
         foot = set()
         if surf is not None:
@@ -1372,6 +1385,14 @@ class WorldGenerator:
                 z=LAYERS['rain floor'])
             # TILE_SIZE//4 world px deep == TILE_SIZE//16 screen px down
             spr.foot_pad = visible_bottom_pad(surf) + TILE_SIZE // 16
+            # Anchor is the door tile; front_tiles are the walkable apron
+            # tiles where the player should draw in front of the cave art.
+            gtx, gty = gx, gy
+            spr.front_tiles = {
+                (gtx + dx, gty + dy)
+                for dx, dy in structure_front_tiles(
+                    surf, spr.foot_pad, door=(0, 0),
+                    radius=STRUCTURE_FRONT_RADIUS)}
             sprites.append(spr)
             # Trigger covers the doorway's whole front apron; ENTER prompts only in front.
             trig = Interaction((wx - 320, wy - 192), (640, 448),
@@ -1380,14 +1401,22 @@ class WorldGenerator:
             self._add_entrance_blockers(sprites, wx, wy)
 
     def _add_entrance_blockers(self, sprites, wx, wy):
-        """        Wall off the ground a player standing there would be painted over by
-        the cave doorway art.
+        """Wall off the rock's base with blockers traced from the authored
+        collision mask (graphics/world/Collisions/Cave_collision.png) - the
+        same 8px outline the village buildings use. The doorstep is carved
+        out, so the front apron and the entrance stay walkable.
 
-        Same rule as the river bank: the structure's own depth key covers the
-        back side, and the coverage test keeps a roof edge that only clips the
-        air from turning open ground into a wall. The doorway's front apron
-        stays walkable.
+        A missing mask falls back to the old whole-tile footprint plus the
+        art-occlusion tiles (see _entrance_footprint_for).
         """
+        if self._entrance_outline:
+            for rel in self._entrance_outline:
+                block = rel.move(wx, wy)
+                blocker = Generic(pos=block.topleft, surf=self._invisible,
+                                  groups=[self.collision_sprites], z=0)
+                blocker.hitbox = block
+                sprites.append(blocker)
+            return
         foot = self._entrance_foot
         has_surf = (self.entrance_collision_surf is not None
                     or self.entrance_surf is not None)

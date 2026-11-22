@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 from pygame.constants import K_RETURN
 
-from settings import asset_path, help_doc_path, ui_font, ui_scale
+from settings import asset_path, help_doc_path, ui_font, ui_scale, MENU_BUTTON_SPACING
 from support import open_url
 
 
@@ -70,8 +70,8 @@ class FloatingParticle:
 
 
 class TitleScreen:
-    BTN_START_Y = 450
-    BTN_SPACING = 124
+    BTN_START_Y = 472
+    BTN_SPACING = MENU_BUTTON_SPACING
 
     def __init__(self):
         self.display_surface = pygame.display.get_surface()
@@ -259,6 +259,11 @@ class TitleScreen:
     def get_size(self):
         return self.display_surface.get_size()
 
+    def _menu_geometry(self):
+        """Menu button centres, scaled to the display."""
+        scale = ui_scale()
+        return int(self.BTN_START_Y * scale), int(self.BTN_SPACING * scale)
+
     def input(self):
         sw, sh = self.get_size()
         events = pygame.event.get()
@@ -317,16 +322,17 @@ class TitleScreen:
                         else:
                             self.open_help()
                         return None
+                start_y, spacing = self._menu_geometry()
                 for i, option in enumerate(self.options):
                     if self.button_images:
                         btn_img = self.button_images['normal']
-                        btn_rect = btn_img.get_rect(center=(sw / 2, self.BTN_START_Y + i * self.BTN_SPACING))
+                        btn_rect = btn_img.get_rect(center=(sw / 2, start_y + i * spacing))
                         if btn_rect.collidepoint(event.pos):
                             play_click()
                             return self.handle_choice(option)
                     else:
                         text_surf = self.option_font.render(option, False, 'White')
-                        text_rect = text_surf.get_rect(center=(sw / 2, self.BTN_START_Y + i * self.BTN_SPACING))
+                        text_rect = text_surf.get_rect(center=(sw / 2, start_y + i * spacing))
                         if text_rect.collidepoint(event.pos):
                             play_click()
                             return self.handle_choice(option)
@@ -334,15 +340,16 @@ class TitleScreen:
                 self.corner_hover = next(
                     (name for name, rect in corner.items()
                      if rect.collidepoint(event.pos)), None)
+                start_y, spacing = self._menu_geometry()
                 for i, option in enumerate(self.options):
                     if self.button_images:
                         btn_img = self.button_images['normal']
-                        btn_rect = btn_img.get_rect(center=(sw / 2, self.BTN_START_Y + i * self.BTN_SPACING))
+                        btn_rect = btn_img.get_rect(center=(sw / 2, start_y + i * spacing))
                         if btn_rect.collidepoint(event.pos):
                             self.selected = i
                     else:
                         text_surf = self.option_font.render(option, False, 'White')
-                        text_rect = text_surf.get_rect(center=(sw / 2, self.BTN_START_Y + i * self.BTN_SPACING))
+                        text_rect = text_surf.get_rect(center=(sw / 2, start_y + i * spacing))
                         if text_rect.collidepoint(event.pos):
                             self.selected = i
         return None
@@ -382,16 +389,16 @@ class TitleScreen:
 
     def draw_title(self, surface, sw, sh):
         if self.logo:
-            # scale logo wide to fill most of the screen width
+            # Scale the logo to the display: it fills the space above the menu.
             max_w = int(sw * 0.95)
-            max_h = 320
+            max_h = int(sh * 0.45)
             lw, lh = self.logo.get_size()
             scale = min(max_w / lw, max_h / lh)
             if scale != 1.0:
                 logo = pygame.transform.smoothscale(self.logo, (int(lw * scale), int(lh * scale)))
             else:
                 logo = self.logo
-            logo_rect = logo.get_rect(center=(sw / 2, 180))
+            logo_rect = logo.get_rect(center=(sw / 2, int(sh * 0.23)))
             surface.blit(logo, logo_rect)
         else:
             title_text = self.font.render('PYDEW VALLEY', False, '#FFFFFF')
@@ -403,12 +410,13 @@ class TitleScreen:
             self.draw_popup(surface, sw, sh)
             return
 
+        start_y, spacing = self._menu_geometry()
         for i, option in enumerate(self.options):
             hover = i == self.selected
 
             if self.button_images:
                 btn_img = self.button_images['selected'] if hover else self.button_images['normal']
-                btn_rect = btn_img.get_rect(center=(sw / 2, self.BTN_START_Y + i * self.BTN_SPACING))
+                btn_rect = btn_img.get_rect(center=(sw / 2, start_y + i * spacing))
                 surface.blit(btn_img, btn_rect)
                 text_surf = self.option_font.render(option, False, '#5C3A1E')
                 text_rect = text_surf.get_rect(center=btn_rect.center)
@@ -416,7 +424,7 @@ class TitleScreen:
             else:
                 color = '#FFD700' if hover else '#FFFFFF'
                 text_surf = self.option_font.render(option, False, color)
-                text_rect = text_surf.get_rect(center=(sw / 2, self.BTN_START_Y + i * self.BTN_SPACING))
+                text_rect = text_surf.get_rect(center=(sw / 2, start_y + i * spacing))
                 bg_rect = text_rect.inflate(60, 24)
                 bg_color = (58, 90, 32) if hover else (0, 0, 0)
                 pygame.draw.rect(surface, bg_color, bg_rect, 0, 10)

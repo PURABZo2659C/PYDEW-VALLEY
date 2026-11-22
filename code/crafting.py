@@ -124,7 +124,7 @@ class CraftingMenu:
 		if self.scroll_offset < 0:
 			self.scroll_offset = 0
 
-	def input(self):
+	def input(self, events=None):
 		self._refresh_recipes()
 		self.timer.update()
 		mx, my = pygame.mouse.get_pos()
@@ -134,14 +134,17 @@ class CraftingMenu:
 				self.hover_index = i
 				break
 
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				pygame.quit()
-				exit()
+		if events is None:
+			events = pygame.event.get()
+		for event in events:
 			if event.type == pygame.KEYDOWN:
-				if input_manager.is_key_for_action(event.key, 'pause'):
+				if (event.key == pygame.K_ESCAPE
+				    or input_manager.is_key_for_action(event.key, 'pause')
+				    or input_manager.is_key_for_action(
+					    event.key, 'open_crafting')):
 					play_click()
 					self.toggle_crafting()
+					return
 				elif self.timer.active:
 					pass
 				elif event.key == pygame.K_UP or input_manager.is_key_for_action(event.key, 'move_up'):
@@ -383,6 +386,6 @@ class CraftingMenu:
 			self.close_rect = close_img.get_rect(topright=(menu_rect.right - int(3 * scale) - 20, menu_rect.top + 20))
 			self.display_surface.blit(close_img, self.close_rect)
 
-	def update(self):
+	def update(self, events=None):
 		self.draw()
-		self.input()
+		self.input(events)

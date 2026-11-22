@@ -29,6 +29,60 @@ SEED_ICON_ALIASES = {
 	'tomato': 'tomato_seed',
 }
 
+
+def horizontal_slice_bounds(surface):
+	"""Split a sprite into left cap, flat middle, and right cap.
+
+	The middle columns are identical to the centre column, so they are
+	the only part safe to widen; stretching the caps would squash the
+	corners and border. Returns (left, middle, right) column counts.
+	"""
+	width, height = surface.get_size()
+	mid = width // 2
+
+	def column(x):
+		return [surface.get_at((x, y)) for y in range(height)]
+
+	centre = column(mid)
+	left = mid
+	while left > 0 and column(left - 1) == centre:
+		left -= 1
+	right = mid
+	while right + 1 < width and column(right + 1) == centre:
+		right += 1
+	return left, right - left + 1, width - right - 1
+
+
+def stretch_horizontal(surface, size, slices):
+	"""Widen a rounded sprite without distorting it (a horizontal 9-slice).
+
+	The end caps are drawn at their normal proportions and only the flat
+	middle stretches, so the border and corners look identical at every
+	width - the sprite simply gets longer. `slices` comes from
+	horizontal_slice_bounds().
+	"""
+	width, height = size
+	src_w, src_h = surface.get_size()
+	left_src, mid_src, right_src = slices
+	# Caps follow the height, keeping their proportions.
+	factor = height / src_h
+	cap_l = max(1, round(left_src * factor))
+	cap_r = max(1, round(right_src * factor))
+	mid_w = max(1, width - cap_l - cap_r)
+	out = pygame.Surface((width, height), pygame.SRCALPHA)
+	if left_src:
+		out.blit(pygame.transform.scale(
+			surface.subsurface((0, 0, left_src, src_h)),
+			(cap_l, height)), (0, 0))
+	out.blit(pygame.transform.scale(
+		surface.subsurface((left_src, 0, mid_src, src_h)),
+		(mid_w, height)), (cap_l, 0))
+	if right_src:
+		out.blit(pygame.transform.scale(
+			surface.subsurface((left_src + mid_src, 0, right_src, src_h)),
+			(cap_r, height)), (cap_l + mid_w, 0))
+	return out
+
 def load_overlay_icons(items, folder=None, aliases=None):
 	"""Resolve item icons from graphics/overlay recursively.
 	Matching is case-insensitive and names can be aliased. Items with no

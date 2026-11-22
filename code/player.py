@@ -66,6 +66,7 @@ class Player(pygame.sprite.Sprite):
 		self._use_tool_was_pressed = False
 		self._use_item_was_pressed = False
 		self._inventory_was_pressed = False
+		self._crafting_was_pressed = False
 		self.potion_effects = {}
 		self.money = 200
 		self.energy = 100.0
@@ -1257,8 +1258,12 @@ class Player(pygame.sprite.Sprite):
 					self.hotbar_index = i
 					self._update_hotbar_selection()
 
-			if input_manager.is_action_pressed_keys(keys, 'open_crafting') and not self.timers['tool use'].active:
+			crafting_pressed = input_manager.is_action_pressed_keys(
+				keys, 'open_crafting')
+			if (crafting_pressed and not self._crafting_was_pressed
+			    and not self.timers['tool use'].active):
 				self.toggle_crafting()
+			self._crafting_was_pressed = crafting_pressed
 
 			inventory_pressed = input_manager.is_action_pressed_keys(
 				keys, 'open_inventory')

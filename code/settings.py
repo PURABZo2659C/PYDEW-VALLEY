@@ -38,6 +38,21 @@ def ui_scale():
 	return _ui_scale
 
 
+# The in-game HUD sits a little larger than the menus. Fixed-pixel HUD
+# pieces (hotbar, hearts, panels) multiply by this; font and icon sizes
+# already follow the display, so they use hud_scale() below.
+HUD_SCALE = 1.25
+
+
+def hud_scale():
+	"""Display scale for HUD fonts and icons (already display-relative)."""
+	return ui_scale() * HUD_SCALE
+
+
+# Centre-to-centre spacing of the stacked menu buttons (title and pause).
+MENU_BUTTON_SPACING = 124
+
+
 def ui_font(size, bold=False):
 	"""The interface font, at a Mojangles-equivalent size.
 	Monocraft is monospaced and wider, so the size is scaled to keep the
@@ -154,6 +169,11 @@ def help_doc_path():
 
 # Always full screen: no canvas to hardcode, everything reads the live display surface.
 TILE_SIZE = 128
+
+# Structure collision masks are projected onto the ground and quantised to
+# this pixel grid: small enough to trace the authored outline, coarse enough
+# to keep the collision group compact (one blocker sprite per run).
+STRUCTURE_COLLISION_STEP = 8
 
 # The game always runs full screen; there is no settings file.
 def ini_bool(key, default=True):
@@ -555,6 +575,9 @@ LAKE_THRESHOLD = 0.60
 OVERLAY_LIFT = 64
 # Added to sprite depth keys; must clear OVERLAY_LIFT so sprites beat same-tile patches.
 SPRITE_LIFT = 320
+# Tiles around a doorway where the player draws in front of the structure's art.
+# Render-only; collision is unchanged. Far behind the building keeps normal occlusion.
+STRUCTURE_FRONT_RADIUS = 3
 
 # Player stats
 

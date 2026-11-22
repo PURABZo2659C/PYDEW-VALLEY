@@ -226,42 +226,50 @@ class Level:
 		self.pause_menu = PauseMenu(self.display_surface, self.toggle_pause, self)
 		self.pause_active = False
 		self._pause_consumed = False
-		self.menu_btn_font = ui_font(28)
+		self.menu_btn_font = ui_font(28 * HUD_SCALE)
 		self.menu_btn_cooldown = 300
 		self.menu_btn_last = 0
 		self.menu_btn_hover = False
 		self.quit_to_menu = False
 		self.menu_btn_img = self._load_menu_button()
 
-		self.coords_font = ui_font(28)
+		hud = HUD_SCALE
+		self.coords_font = ui_font(28 * HUD_SCALE)
 		self.coords_top = 0
-		# Widen the ART (never the font) until two signed 4-digit readings fit.
-		coords_half_w = self.coords_font.size('X: -9999')[0]
-		coords_w = max(165, coords_half_w * 2 + 32)
-		coords_h = 63
+		# The panel follows the current readings (see _coords_layout);
+		# this is only the initial size before the first frame is drawn.
+		self.coords_panel_raw = None
 		self.coords_panel_img = None
+		self._coords_panel_cache = None
+		self._coords_slices = None
+		base_w = int(165 * hud)
+		base_h = int(63 * hud)
 		try:
-			coords_raw = pygame.image.load(asset_path('graphics', 'UI', 'panel.png')).convert_alpha()
-			coords_w = max(coords_raw.get_width() * 3, coords_half_w * 2 + 32)
-			coords_h = coords_raw.get_height() * 3
-			self.coords_panel_img = pygame.transform.scale(
-				coords_raw, (coords_w, coords_h))
+			self.coords_panel_raw = pygame.image.load(
+				asset_path('graphics', 'UI', 'panel.png')).convert_alpha()
+			self._coords_slices = horizontal_slice_bounds(self.coords_panel_raw)
+			base_w = max(base_w, int(self.coords_panel_raw.get_width() * 3 * hud))
+			base_h = int(self.coords_panel_raw.get_height() * 3 * hud)
+			self._stretch_coords_panel((base_w, base_h))
 		except (pygame.error, FileNotFoundError) as exc:  # optional panel; say why
 			print(f"[Level] UI/panel.png load failed, drawing plain coords panel: {exc!r}")
 		# remembered for the no-art fallback in _draw_coordinates
-		self.coords_panel_size = (coords_w, coords_h)
+		self.coords_base_size = (base_w, base_h)
+		self.coords_panel_size = (base_w, base_h)
 		self.coords_panel_rect = pygame.Rect(
-			self.display_surface.get_width() - coords_w, self.coords_top, coords_w, coords_h)
+			self.display_surface.get_width() - base_w, self.coords_top, base_w, base_h)
 		if self.menu_btn_img:
 			self.menu_button_rect = self.menu_btn_img.get_rect(
-				midright=(self.coords_panel_rect.left - 8, self.coords_panel_rect.centery))
+				midright=(self.coords_panel_rect.left - int(8 * hud),
+				          self.coords_panel_rect.centery))
 		else:
-			self.menu_button_rect = pygame.Rect(0, 0, 95, 40)
+			self.menu_button_rect = pygame.Rect(0, 0, int(95 * hud), int(40 * hud))
 			self.menu_button_rect.midright = (
-				self.coords_panel_rect.left - 8, self.coords_panel_rect.centery)
-		self.overlay.potion_top = self.coords_top + coords_h
+				self.coords_panel_rect.left - int(8 * hud),
+				self.coords_panel_rect.centery)
+		self.overlay.potion_top = self.coords_top + base_h
 		# potion timer cards share this column and the panel's width
-		self.overlay.potion_card_width = coords_w
+		self.overlay.potion_card_width = base_w
 
 		self.block_font = ui_font(36)
 
@@ -325,9 +333,13 @@ class Level:
 			w, h = img.get_size()
 			normal = img.subsurface((0, 0, w // 2, h))
 			hovered = img.subsurface((w // 2, 0, w // 2, h))
-			scale = 2
-			self.menu_btn_normal = pygame.transform.scale(normal, (normal.get_width() * scale, normal.get_height() * scale))
-			self.menu_btn_hovered = pygame.transform.scale(hovered, (hovered.get_width() * scale, hovered.get_height() * scale))
+			scale = 2 * HUD_SCALE
+			self.menu_btn_normal = pygame.transform.scale(
+				normal, (int(normal.get_width() * scale),
+				         int(normal.get_height() * scale)))
+			self.menu_btn_hovered = pygame.transform.scale(
+				hovered, (int(hovered.get_width() * scale),
+				          int(hovered.get_height() * scale)))
 			return self.menu_btn_normal
 		except (pygame.error, FileNotFoundError):
 			return None
@@ -458,24 +470,60 @@ class Level:
 				print(f"[Level] teleport chunk flush failed: {exc!r}")
 		return True
 
+	def _stretch_coords_panel(self, size):
+		"""Widen the panel at a fixed height without distorting it.
+
+		Uses the shared horizontal 9-slice: both end caps keep their
+		normal size and only the flat middle stretches, so the art looks
+		the same however long the readings get.
+		"""
+		if self.coords_panel_img is not None and self._coords_panel_cache == size:
+			return self.coords_panel_img
+		self.coords_panel_img = stretch_horizontal(
+			self.coords_panel_raw, size, self._coords_slices)
+		self._coords_panel_cache = size
+		return self.coords_panel_img
+
+	def _coords_layout(self, x_text, y_text):
+		"""Panel size and text centres for the current readings: the art
+		grows with the text, with a fixed margin so the digits stay clear
+		of the rounded ends."""
+		x_w = self.coords_font.size(x_text)[0]
+		y_w = self.coords_font.size(y_text)[0]
+		pad = int(24 * HUD_SCALE)
+		gap = int(20 * HUD_SCALE)
+		base_w, base_h = getattr(self, 'coords_base_size', (165, 63))
+		width = max(base_w, pad * 2 + x_w + y_w + gap)
+		# Centre the pair; the fixed margins are the minimum on each side.
+		content = x_w + gap + y_w
+		start = (width - content) // 2
+		return width, base_h, start + x_w // 2, start + x_w + gap + y_w // 2
+
 	def _draw_coordinates(self):
 		sw, sh = self.display_surface.get_size()
-		if self.coords_panel_img:
-			rect = self.coords_panel_img.get_rect(topright=(sw, self.coords_top))
+		x = self.player.rect.centerx // TILE_SIZE
+		y = self.player.rect.centery // TILE_SIZE
+		x_text, y_text = f'X: {x}', f'Y: {y}'
+		panel_w, panel_h, x_cx, y_cx = self._coords_layout(x_text, y_text)
+
+		if self.coords_panel_raw:
+			self._stretch_coords_panel((panel_w, panel_h))
+			rect = self.coords_panel_img.get_rect(
+				topright=(sw, self.coords_top))
 			self.display_surface.blit(self.coords_panel_img, rect)
 		else:
-			fw, fh = getattr(self, 'coords_panel_size', (165, 63))
-			rect = pygame.Rect(sw - fw, self.coords_top, fw, fh)
+			rect = pygame.Rect(sw - panel_w, self.coords_top,
+			                   panel_w, panel_h)
 			pygame.draw.rect(self.display_surface, (231, 207, 162), rect, 0, 8)
 			pygame.draw.rect(self.display_surface, (168, 119, 73), rect, 3, 8)
 		self.coords_panel_rect = rect
+		self.coords_panel_size = (panel_w, panel_h)
+		# potion cards share the coords column, so keep them aligned
+		self.overlay.potion_card_width = panel_w
 
-		x = self.player.rect.centerx // TILE_SIZE
-		y = self.player.rect.centery // TILE_SIZE
-		cy = rect.centery + 3
-		# each reading gets half the panel so digits never collide or spill
-		self._blit_coords_text(f'X: {x}', (rect.left + rect.width // 4, cy))
-		self._blit_coords_text(f'Y: {y}', (rect.left + rect.width * 3 // 4, cy))
+		cy = rect.centery + int(3 * HUD_SCALE)
+		self._blit_coords_text(x_text, (rect.left + x_cx, cy))
+		self._blit_coords_text(y_text, (rect.left + y_cx, cy))
 
 	def _blit_coords_text(self, text, center):
 		surf = self.coords_font.render(text, False, (92, 58, 30))
@@ -1720,14 +1768,17 @@ class Level:
 			self._draw_coordinates()
 			if self.menu_btn_img:
 				self.menu_button_rect = self.menu_btn_img.get_rect(
-					midright=(self.coords_panel_rect.left - 8, self.coords_panel_rect.centery))
+					midright=(self.coords_panel_rect.left - int(8 * HUD_SCALE),
+					          self.coords_panel_rect.centery))
 				self.menu_btn_hover = self.menu_button_rect.collidepoint(pygame.mouse.get_pos())
 				btn_img = self.menu_btn_hovered if self.menu_btn_hover else self.menu_btn_normal
 				self.display_surface.blit(btn_img, self.menu_button_rect)
 			else:
-				self.menu_button_rect = pygame.Rect(0, 0, 95, 40)
+				hud = HUD_SCALE
+				self.menu_button_rect = pygame.Rect(0, 0, int(95 * hud), int(40 * hud))
 				self.menu_button_rect.midright = (
-					self.coords_panel_rect.left - 8, self.coords_panel_rect.centery)
+					self.coords_panel_rect.left - int(8 * hud),
+					self.coords_panel_rect.centery)
 				self.menu_btn_hover = self.menu_button_rect.collidepoint(pygame.mouse.get_pos())
 				btn_color = '#6a6a6a' if self.menu_btn_hover else '#4a4a4a'
 				pygame.draw.rect(self.display_surface, btn_color, self.menu_button_rect, 0, 6)
@@ -1743,8 +1794,25 @@ class Level:
 				self.toggle_pause()
 
 		keys = pygame.key.get_pressed()
+		pause_held = (keys[pygame.K_ESCAPE]
+		              or input_manager.is_action_pressed_keys(keys, 'pause'))
+		pause_key_event = any(
+			e.type == pygame.KEYDOWN
+			and (e.key == pygame.K_ESCAPE
+			     or input_manager.is_key_for_action(e.key, 'pause'))
+			for e in events)
+
+		# Esc (or the pause key) also closes the pause menu. Settings
+		# sits on top of it and handles Esc itself first.
+		if (pause_key_event and self.pause_active
+				and not getattr(self.pause_menu, 'settings_active', False)):
+			play_click()
+			self.toggle_pause()
+			self._pause_consumed = True
+			self._pause_key_time = pygame.time.get_ticks()
+
 		if self._pause_consumed:
-			if not input_manager.is_action_pressed_keys(keys, 'pause'):
+			if not pause_held:
 				self._pause_consumed = False
 		elif not self.pause_active and not self.shop_active and not self.crafting_active and not self.inventory_active and not self.villager_active and not self.quest_active and not getattr(self.debug_controls, 'active', False):
 			if input_manager.is_action_pressed_keys(keys, 'pause'):
@@ -1790,14 +1858,17 @@ class Level:
 				if self.camera_mode:
 					self._camera_shot_pending = True
 
+		menus_before = (self.pause_active, self.shop_active,
+		                self.crafting_active, self.inventory_active,
+		                self.villager_active, self.quest_active)
 		if self.pause_active:
 			self.pause_menu.update(events)
 		elif self.shop_active:
-			self.shop_menu.update()
+			self.shop_menu.update(events)
 		elif self.crafting_active:
-			self.crafting_menu.update()
+			self.crafting_menu.update(events)
 		elif self.villager_active:
-			self.villager_menu.update()
+			self.villager_menu.update(events)
 		elif self.inventory_active:
 			self.inventory_menu.update(events)
 		elif self.quest_active:
@@ -1837,6 +1908,17 @@ class Level:
 			if self.player.sleep:
 				self.transition.play()
 
+		# A menu closed by this frame's input must not let the same Esc
+		# press fall through and toggle the pause menu too.
+		menus_after = (self.pause_active, self.shop_active,
+		               self.crafting_active, self.inventory_active,
+		               self.villager_active, self.quest_active)
+		if any(before and not after for before, after in zip(
+				menus_before, menus_after)):
+			if pause_held or pause_key_event:
+				self._pause_consumed = True
+				self._pause_key_time = pygame.time.get_ticks()
+
 		# Instruction panel draws last, on top of world, HUD and menus.
 		if not self.camera_mode:
 			if not (self.inventory_active or self.crafting_active
@@ -1847,6 +1929,13 @@ class Level:
 			self._refresh_hint()
 			self._update_tutorial()
 			self.instruction_panel.update(dt)
+			# Keep the bar clear of the weather panel and top-right buttons.
+			weather = getattr(self.overlay, 'weather_rect', None)
+			hud = HUD_SCALE
+			self.instruction_panel.left_limit = (
+				weather.right + int(8 * hud) if weather else 0)
+			self.instruction_panel.right_limit = (
+				self.menu_button_rect.left - int(8 * hud))
 			self.instruction_panel.draw()
 
 		# F5 info box: Rain/Season combos, Time/Player text boxes, above the HUD.
@@ -2217,6 +2306,22 @@ class CameraGroup(pygame.sprite.Group):
 					own_tile)
 				# SPRITE_LIFT: stay above flat overlays (OVERLAY_LIFT); see settings.py.
 				depth += SPRITE_LIFT
+				# Front-bias: when the player stands on a structure's front
+				# tiles (doorstep / apron), lower the structure's depth so the
+				# player draws in front of the facade. Only tiles within
+				# STRUCTURE_FRONT_RADIUS of the door get this priority, so
+				# walking round the back keeps normal occlusion.
+				if getattr(sprite, 'front_tiles', None):
+					p_tile = (player.rect.centerx // ISO_TILE_WIDTH,
+					          player.rect.centery // ISO_TILE_WIDTH)
+					if p_tile in sprite.front_tiles:
+						p_own = ((player.rect.centerx // ISO_TILE_WIDTH
+							+ player.rect.centery // ISO_TILE_WIDTH)
+							* ISO_TILE_WIDTH + ISO_TILE_WIDTH)
+						p_depth = max(player.rect.centerx + player.rect.centery,
+							p_own) + SPRITE_LIFT
+						if depth >= p_depth:
+							depth = p_depth - 1
 				sort_key = (depth, 3.0, -lvl, sprite.z)
 			else:
 				draw_x = sprite.rect.left - int(self.offset.x)
@@ -2308,7 +2413,7 @@ class CameraGroup(pygame.sprite.Group):
 					cell_str = 'OOB'
 					block_str = 'OOB'
 
-			# F3-style debug panel (bottom-left): Rain/Season combos, Time/Player boxes.
+			# F3-style debug panel (bottom-right): Rain/Season combos, Time/Player boxes.
 			sw, sh = self.display_surface.get_size()
 			ctl = debug_controls
 			tm_dbg = self._debug_time_manager
@@ -2368,7 +2473,7 @@ class CameraGroup(pygame.sprite.Group):
 				panel_w = max(panel_w, w)
 
 			panel_h = len(lines) * line_h + 16
-			panel_x = 4
+			panel_x = sw - panel_w - 4
 			panel_y = sh - panel_h - 4
 			# (no slide: the combo list opens UPWARD, never off the bottom)
 			bg = pygame.Surface((panel_w, panel_h), pygame.SRCALPHA)

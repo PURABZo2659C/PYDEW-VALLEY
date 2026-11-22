@@ -8,10 +8,10 @@ class Overlay:
 		self.display_surface = pygame.display.get_surface()
 		self.player = player
 		self.time_manager = time_manager
-		self.font = ui_font(28)
-		self.font_size = 28
-		self.small_font = ui_font(18)
-		self.tiny_font = ui_font(14)
+		self.font_size = 28 * HUD_SCALE
+		self.font = ui_font(self.font_size)
+		self.small_font = ui_font(18 * HUD_SCALE)
+		self.tiny_font = ui_font(14 * HUD_SCALE)
 
 		all_items = (player.inventory.unique_items() + player.tools
 		             + list(player.seeds) + list(RECIPES.keys())
@@ -20,8 +20,8 @@ class Overlay:
 		self.item_icons = load_overlay_icons(all_items)
 		self.seed_icons = load_overlay_icons(player.seeds)
 
-		self.slot_size = 56
-		self.slot_gap = 8
+		self.slot_size = int(56 * HUD_SCALE)
+		self.slot_gap = int(8 * HUD_SCALE)
 
 		ui_path = asset_path('graphics', 'UI')
 
@@ -56,7 +56,7 @@ class Overlay:
 		except (pygame.error, FileNotFoundError):
 			self.arrow_icons = None
 		try:
-			heart_scale = 1.2
+			heart_scale = 1.2 * HUD_SCALE
 			full_raw = pygame.image.load(os.path.join(ui_path, 'full-hearts.png')).convert_alpha()
 			half_raw = pygame.image.load(os.path.join(ui_path, 'half-hearts.png')).convert_alpha()
 			empty_raw = pygame.image.load(os.path.join(ui_path, 'empty-hearts.png')).convert_alpha()
@@ -90,24 +90,31 @@ class Overlay:
 
 		try:
 			potion_panel = pygame.image.load(os.path.join(ui_path, 'panel.png')).convert_alpha()
+			art_scale = 3 * HUD_SCALE
 			self.potion_panel = pygame.transform.scale(
-				potion_panel, (potion_panel.get_width() * 3, potion_panel.get_height() * 3))
+				potion_panel, (int(potion_panel.get_width() * art_scale),
+				               int(potion_panel.get_height() * art_scale)))
 		except (pygame.error, FileNotFoundError):
 			self.potion_panel = None
 		try:
 			currency_raw = pygame.image.load(
 				os.path.join(ui_path, 'Currency.png')).convert_alpha()
 			self.currency_icon = pygame.transform.scale(
-			currency_raw, (int(32 * ui_scale()), int(32 * ui_scale())))
+			currency_raw, (int(32 * hud_scale()), int(32 * hud_scale())))
 		except (pygame.error, FileNotFoundError):
 			self.currency_icon = None
 		self.potion_top = 63
 		# Set by Level to the coords panel width so timer cards line up; None keeps art size.
 		self.potion_card_width = None
+		self.weather_rect = None
 		self._potion_label_cache = {}
 
 	def get_size(self):
 		return self.display_surface.get_size()
+
+	def _hotbar_scale(self):
+		"""Hotbar art multiplier, grown with the shared HUD scale."""
+		return 1.4 * HUD_SCALE
 
 	def make_tool_icon(self, tool):
 		surf = pygame.Surface((48, 48), pygame.SRCALPHA)
@@ -170,8 +177,9 @@ class Overlay:
 		hearts = 10
 		scaled_w = self.heart_scaled_w
 		scaled_h = self.heart_scaled_h
-		gap = -2
-		total_w = hearts * scaled_w + (hearts - 1) * gap
+		hud = HUD_SCALE
+		gap = -2 * hud
+		total_w = int(hearts * scaled_w + (hearts - 1) * gap)
 
 		int_energy = int(round(energy))
 		if self._hearts_cache_energy != int_energy:
@@ -185,17 +193,19 @@ class Overlay:
 					src = self.heart_half
 				else:
 					src = self.heart_empty
-				slot_x = i * (scaled_w + gap)
+				slot_x = int(i * (scaled_w + gap))
 				src_rect = src.get_rect(center=(slot_x + scaled_w // 2, scaled_h // 2))
 				self._hearts_cache.blit(src, src_rect)
 
-		hb_raw_w = int(438 * 1.4)
-		hb_raw_h = int(83 * 1.4)
-		hb_bottom = sh - 20
-		hb_top = hb_bottom - hb_raw_h
-		hb_left = (sw - hb_raw_w) // 2
-		start_x = hb_left + 27
-		start_y = hb_top + 8
+		hb_scale = self._hotbar_scale()
+		raw_w, raw_h = (self.hotbar_img.get_size() if self.hotbar_img else (438, 84))
+		hb_w = int(raw_w * hb_scale)
+		hb_h = int(raw_h * hb_scale)
+		hb_bottom = sh - int(20 * hud)
+		hb_top = hb_bottom - hb_h
+		hb_left = (sw - hb_w) // 2
+		start_x = hb_left + int(27 * hud)
+		start_y = hb_top + int(8 * hud)
 		self.display_surface.blit(self._hearts_cache, (start_x, start_y))
 
 	def _potion_label(self, text, max_w=None):
@@ -206,7 +216,7 @@ class Overlay:
 		if label is None:
 			width = self.font.size(text)[0]
 			if max_w and width > max_w:
-				size = max(14, int(self.font_size * max_w / width))
+				size = max(14 * HUD_SCALE, int(self.font_size * max_w / width))
 				font = ui_font(size)
 				label = font.render(text, False, (92, 58, 30))
 			else:
@@ -252,17 +262,20 @@ class Overlay:
 				pygame.draw.rect(bg, (168, 119, 73), bg.get_rect(), 2, 8)
 				self.display_surface.blit(bg, card.topleft)
 
-			content_cy = card.centery + 3
+			content_cy = card.centery + int(3 * HUD_SCALE)
 			icon = self.item_icons.get(effect)
 			icon_rect = None
 			if icon:
-				icon = pygame.transform.scale(icon, (int(32 * ui_scale()), int(32 * ui_scale())))
-				icon_rect = icon.get_rect(midright=(art.right - 12, content_cy))
+				icon = pygame.transform.scale(
+					icon, (int(32 * hud_scale()), int(32 * hud_scale())))
+				icon_rect = icon.get_rect(
+					midright=(art.right - int(12 * HUD_SCALE), content_cy))
 				self.display_surface.blit(icon, icon_rect)
 			# timer sits left of the icon, inside the panel art
-			label_right = (icon_rect.left - 10 if icon_rect
-			               else art.right - 14)
-			max_w = max(24, art.width - 12 - 32 - 10 - 8)
+			label_right = (icon_rect.left - int(10 * HUD_SCALE) if icon_rect
+			               else art.right - int(14 * HUD_SCALE))
+			max_w = max(int(24 * HUD_SCALE),
+			            art.width - int(62 * HUD_SCALE))
 			label_surf = self._potion_label(label, max_w)
 			self.display_surface.blit(
 				label_surf,
@@ -274,13 +287,14 @@ class Overlay:
 		n = len(hotbar)
 		sw, sh = self.get_size()
 
-		hb_scale = 1.4
+		hb_scale = self._hotbar_scale()
 
 		if self.hotbar_img:
 			raw_w, raw_h = self.hotbar_img.get_size()
 			scaled_w, scaled_h = int(raw_w * hb_scale), int(raw_h * hb_scale)
 			scaled_hb = pygame.transform.scale(self.hotbar_img, (scaled_w, scaled_h))
-			hb_rect = scaled_hb.get_rect(midbottom=(sw // 2, sh - 20))
+			hb_rect = scaled_hb.get_rect(
+				midbottom=(sw // 2, sh - int(20 * HUD_SCALE)))
 			self.display_surface.blit(scaled_hb, hb_rect)
 
 			num_slots = 9
@@ -292,8 +306,8 @@ class Overlay:
 
 			if self.selector_tl:
 				cw, ch = self.selector_tl.get_size()
-				scale_w = (slot_w + 8) / (cw * 2)
-				scale_h = (slot_h + 8) / (ch * 2)
+				scale_w = (slot_w + int(8 * HUD_SCALE)) / (cw * 2)
+				scale_h = (slot_h + int(8 * HUD_SCALE)) / (ch * 2)
 				scale = min(scale_w, scale_h)
 				self.sel_tl = pygame.transform.scale(self.selector_tl, (int(cw * scale), int(ch * scale)))
 				self.sel_tr = pygame.transform.scale(self.selector_tr, (int(cw * scale), int(ch * scale)))
@@ -302,8 +316,8 @@ class Overlay:
 				sel_cw, sel_ch = self.sel_tl.get_size()
 
 			for i in range(min(n, num_slots)):
-				screen_cx = hb_rect.x + slot_cx0 + i * slot_pitch + 2
-				screen_cy = hb_rect.y + slot_cy + 2
+				screen_cx = hb_rect.x + slot_cx0 + i * slot_pitch + int(2 * HUD_SCALE)
+				screen_cy = hb_rect.y + slot_cy + int(2 * HUD_SCALE)
 				slot = hotbar[i]
 				if slot:
 					item, count = slot
@@ -337,7 +351,7 @@ class Overlay:
 				si = self.player.hotbar_index
 				sel_left = hb_rect.x + slot_cx0 - slot_w / 2 + si * slot_pitch
 				sel_right = sel_left + slot_w
-				sel_top = hb_rect.y + slot_cy - slot_h / 2 + 1
+				sel_top = hb_rect.y + slot_cy - slot_h / 2 + int(1 * HUD_SCALE)
 				sel_bottom = sel_top + slot_h
 
 				self.display_surface.blit(self.sel_tl, (sel_left, sel_top))
@@ -347,7 +361,7 @@ class Overlay:
 		else:
 			total_w = n * self.slot_size + (n - 1) * self.slot_gap
 			start_x = (sw - total_w) // 2
-			bar_y = sh - self.slot_size - 30
+			bar_y = sh - self.slot_size - int(30 * HUD_SCALE)
 
 			for i in range(n):
 				x = start_x + i * (self.slot_size + self.slot_gap)
@@ -405,12 +419,14 @@ class Overlay:
 		if self.time_manager and self.weather_ui_raw:
 			# Scale decorative UI to fit nicely
 			weather_scale = min(sw * 0.15 / self.weather_ui_raw.get_width(), sh * 0.25 / self.weather_ui_raw.get_height())
-			weather_scale = max(weather_scale, 1.0)
+			weather_scale = max(weather_scale, 1.0) * HUD_SCALE
 			ui_w = int(self.weather_ui_raw.get_width() * weather_scale)
 			ui_h = int(self.weather_ui_raw.get_height() * weather_scale)
 			weather_ui = pygame.transform.scale(self.weather_ui_raw, (ui_w, ui_h))
-			ui_rect = weather_ui.get_rect(topleft=(10, 10))
+			ui_rect = weather_ui.get_rect(
+				topleft=(int(10 * HUD_SCALE), int(10 * HUD_SCALE)))
 			self.display_surface.blit(weather_ui, ui_rect)
+			self.weather_rect = ui_rect
 
 			# Weather icon in the top square slot (bigger)
 			if self.weather_icons_raw:
@@ -426,15 +442,17 @@ class Overlay:
 				icon_surf = self.weather_icons_raw.subsurface(
 					(icon_col * icon_size, icon_row * icon_size, icon_size, icon_size))
 				icon_scaled = pygame.transform.scale(
-			icon_surf, (int(112 * ui_scale()), int(112 * ui_scale())))
+			icon_surf, (int(112 * hud_scale()), int(112 * hud_scale())))
 				icon_rect = icon_scaled.get_rect(center=(ui_rect.left + ui_w * 0.28, ui_rect.top + ui_h * 0.31))
 				self.display_surface.blit(icon_scaled, icon_rect)
 
 				if self.arrow_icons:
 					arrow_surf = self.arrow_icons[icon_row]
 					arrow_scaled = pygame.transform.scale(
-			arrow_surf, (int(24 * ui_scale()), int(24 * ui_scale())))
-					arrow_rect = arrow_scaled.get_rect(midleft=(icon_rect.right + 14, icon_rect.centery - 3))
+			arrow_surf, (int(24 * hud_scale()), int(24 * hud_scale())))
+					arrow_rect = arrow_scaled.get_rect(midleft=(
+						icon_rect.right + int(14 * HUD_SCALE),
+						icon_rect.centery - int(3 * HUD_SCALE)))
 					self.display_surface.blit(arrow_scaled, arrow_rect)
 
 		# Weather art: big square on top for the weather icon, lower bar for the coin counter.
@@ -446,47 +464,49 @@ class Overlay:
 				int(ui_w * 0.717),
 				int(ui_h * 0.330))
 		else:
-			money_slot = pygame.Rect(int(10 * ui_scale()), int(170 * ui_scale()),
-									int(150 * ui_scale()), int(40 * ui_scale()))
+			money_slot = pygame.Rect(int(10 * HUD_SCALE), int(170 * HUD_SCALE),
+									int(150 * HUD_SCALE), int(40 * HUD_SCALE))
 
 		# Money left-aligned in the slot; the font shrinks so long numbers never spill.
 		if self.time_manager and self.weather_ui_raw:
+			hud = HUD_SCALE
 			cy = money_slot.centery + max(2, int(ui_h * 0.025))
-			mx = money_slot.left + 14
+			mx = money_slot.left + int(14 * hud)
 			if self.currency_icon:
 				icon = pygame.transform.scale(
-					self.currency_icon, (int(28 * ui_scale()), int(28 * ui_scale())))
+					self.currency_icon, (int(28 * hud_scale()), int(28 * hud_scale())))
 				icon_rect = icon.get_rect(midleft=(mx, cy))
 				self.display_surface.blit(icon, icon_rect)
-				mx = icon_rect.right + 6
+				mx = icon_rect.right + int(6 * hud)
 			money_text = str(self.player.money)
 			money_font = self.font
 			text_w = money_font.size(money_text)[0]
-			avail = money_slot.right - 6 - mx
+			avail = money_slot.right - int(6 * hud) - mx
 			if text_w > avail and text_w > 0:
 				# shrink to fit the bar rather than clip the number
 				scale = max(0.55, avail / text_w)
-				size = max(14, int(money_font.get_height() * scale))
+				size = max(14 * HUD_SCALE, int(money_font.get_height() * scale))
 				money_font = ui_font(size)
 			money_surf = money_font.render(money_text, False, '#5C3A1E')
 			self.display_surface.blit(
 				money_surf, money_surf.get_rect(midleft=(mx, cy)))
 
 		# Time panel below the money bar, slightly narrower so the two never merge.
+		hud = HUD_SCALE
 		time_str = (self.time_manager.get_time_string()
 		            if self.time_manager else '')
 		time_surf = self.font.render(time_str, False, '#5C3A1E')
 		art_w, art_h = (self.potion_panel.get_size()
-		                if self.potion_panel else (165, 63))
-		panel_w = max(time_surf.get_width() + 30, int(art_w * 0.86))
+		                if self.potion_panel else (int(165 * hud), int(63 * hud)))
+		panel_w = max(time_surf.get_width() + int(30 * hud), int(art_w * 0.86))
 		panel_h = max(int(panel_w * art_h / art_w),
-		              time_surf.get_height() + 16)
+		              time_surf.get_height() + int(16 * hud))
 		time_panel_rect = pygame.Rect(0, 0, panel_w, panel_h)
 		time_panel_rect.centerx = money_slot.centerx
-		time_panel_rect.top = money_slot.bottom + 10
+		time_panel_rect.top = money_slot.bottom + int(10 * hud)
 		# keep the clock on screen on short displays
-		if time_panel_rect.bottom > sh - 4:
-			time_panel_rect.bottom = sh - 4
+		if time_panel_rect.bottom > sh - int(4 * hud):
+			time_panel_rect.bottom = sh - int(4 * hud)
 		if self.potion_panel:
 			panel = pygame.transform.scale(
 				self.potion_panel, time_panel_rect.size)

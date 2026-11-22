@@ -287,6 +287,7 @@ class InventoryMenu:
 		for event in events:
 			if event.type == pygame.KEYDOWN:
 				if (input_manager.is_key_for_action(event.key, 'open_inventory')
+				    or event.key == pygame.K_ESCAPE
 				    or input_manager.is_key_for_action(event.key, 'pause')):
 					self._close()
 					continue

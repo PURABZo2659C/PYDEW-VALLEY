@@ -4,7 +4,7 @@ list upward; Time and Player grid are text boxes with fixed punctuation.
 """
 
 import pygame
-from settings import SEASONS, TILE_SIZE, asset_path, ui_font
+from settings import SEASONS, TILE_SIZE, asset_path, ui_font, ui_scale
 
 # palette (matches the F5 info box)
 BOX_BG = (18, 18, 22, 235)
@@ -48,6 +48,9 @@ class DebugControls:
 
 	def __init__(self):
 		self.font = ui_font(18)
+		# Same type size as the title screen's new-game warning, so the
+		# two confirmations feel like the same dialog.
+		self.popup_font = ui_font(28)
 		self.demo_on = False
 		self.open_menu = None
 		self.menu_index = 0
@@ -174,6 +177,32 @@ class DebugControls:
 			surface.blit(surf, (cx, cy))
 			cx += surf.get_width()
 
+	def _demo_confirm_layout(self, sw, sh):
+		"""Compact YES/NO dialog metrics, matching the title screen's
+		new-game warning (same font size and button sizes)."""
+		lines = (
+			'Enable DEMO mode?',
+			'Once turned on, DEMO CANNOT be turned off.',
+			'Confirm to continue.',
+		)
+		scale = ui_scale()
+		line_h = max(self.popup_font.size(line)[1] for line in lines) + 6
+		btn_w, btn_h = int(120 * scale), int(50 * scale)
+		gap = int(36 * scale)
+		pad_x = int(44 * scale)
+		box_w = max(int(560 * scale),
+		            max(self.popup_font.size(line)[0] for line in lines)
+		            + pad_x * 2)
+		box_h = (int(22 * scale) + line_h * len(lines)
+		         + int(18 * scale) + btn_h + int(20 * scale))
+		box = pygame.Rect(0, 0, box_w, box_h)
+		box.center = (sw // 2, sh // 2)
+		btn_y = box.bottom - btn_h - int(20 * scale)
+		yes = pygame.Rect(box.centerx - btn_w - gap // 2, btn_y,
+		                  btn_w, btn_h)
+		no = pygame.Rect(box.centerx + gap // 2, btn_y, btn_w, btn_h)
+		return box, yes, no, lines, line_h
+
 	def draw_demo_confirm(self, surface):
 		"""Modal confirmation for turning DEMO on. DEMO is one-shot and
 		cannot be turned off again, so the player is asked first."""
@@ -183,42 +212,28 @@ class DebugControls:
 			self.demo_confirm_no = None
 			return
 		sw, sh = surface.get_size()
-		box = pygame.Rect(0, 0, int(sw * 0.52), int(sh * 0.20))
-		box.center = (sw // 2, sh // 2)
+		box, yes, no, lines, line_h = self._demo_confirm_layout(sw, sh)
 		self.demo_confirm_rect = box
+		self.demo_confirm_yes = yes
+		self.demo_confirm_no = no
 		# dim the world behind the dialog
 		overlay = pygame.Surface(surface.get_size(), pygame.SRCALPHA)
 		overlay.fill((0, 0, 0, 160))
 		surface.blit(overlay, (0, 0))
-		pygame.draw.rect(surface, (34, 34, 40), box, 0, 10)
-		pygame.draw.rect(surface, (180, 150, 70), box, 2, 10)
-		tfont = self.font
-		lines = (
-			'Enable DEMO mode?',
-			'Once turned on, DEMO CANNOT be turned off.',
-			'Confirm to continue.',
-		)
-		y = box.y + 16
+		pygame.draw.rect(surface, (34, 34, 40), box, 0, 12)
+		pygame.draw.rect(surface, (180, 150, 70), box, 2, 12)
+		y = box.y + int(22 * ui_scale())
 		for line in lines:
-			surf = tfont.render(line, True, (240, 230, 200))
-			surface.blit(surf, (box.centerx - surf.get_width() // 2, y))
-			y += surf.get_height() + 2
-		# YES / NO buttons
-		btn_w, btn_h = 90, 30
-		gap = 28
-		yes = pygame.Rect(box.centerx - btn_w - gap // 2, box.bottom - btn_h - 14,
-		                  btn_w, btn_h)
-		no = pygame.Rect(box.centerx + gap // 2, box.bottom - btn_h - 14,
-		                 btn_w, btn_h)
-		self.demo_confirm_yes = yes
-		self.demo_confirm_no = no
+			surf = self.popup_font.render(line, False, (240, 230, 200))
+			surface.blit(surf, surf.get_rect(
+				center=(box.centerx, y + surf.get_height() // 2)))
+			y += line_h
 		for rect, label, col in ((yes, 'YES', (63, 191, 95)),
 		                          (no, 'NO', (214, 69, 69))):
-			pygame.draw.rect(surface, col, rect, 0, 6)
-			pygame.draw.rect(surface, (12, 12, 14), rect, 1, 6)
-			s = tfont.render(label, True, (20, 20, 20))
-			surface.blit(s, (rect.centerx - s.get_width() // 2,
-			                 rect.centery - s.get_height() // 2))
+			pygame.draw.rect(surface, col, rect, 0, 8)
+			pygame.draw.rect(surface, (12, 12, 14), rect, 2, 8)
+			s = self.popup_font.render(label, False, (20, 20, 20))
+			surface.blit(s, s.get_rect(center=rect.center))
 
 	def _draw_pill(self, surface, rect, on):
 		"""The DEMO switch: a wordless pill — green when ON, red when
@@ -383,18 +398,11 @@ class DebugControls:
 				# Lay out the Yes/No buttons now so the confirm needs no draw.
 				try:
 					sw, sh = pygame.display.get_surface().get_size()
-					box = pygame.Rect(0, 0, int(sw * 0.52),
-					                 int(sh * 0.20))
-					box.center = (sw // 2, sh // 2)
-					btn_w, btn_h = 90, 30
-					gap2 = 28
-					self.demo_confirm_yes = pygame.Rect(
-						box.centerx - btn_w - gap2 // 2,
-						box.bottom - btn_h - 14, btn_w, btn_h)
-					self.demo_confirm_no = pygame.Rect(
-						box.centerx + gap2 // 2,
-						box.bottom - btn_h - 14, btn_w, btn_h)
+					(box, yes, no, _lines,
+					 _line_h) = self._demo_confirm_layout(sw, sh)
 					self.demo_confirm_rect = box
+					self.demo_confirm_yes = yes
+					self.demo_confirm_no = no
 				except Exception:
 					pass
 				return True

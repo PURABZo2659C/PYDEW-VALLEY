@@ -13,7 +13,9 @@ from pygame.math import Vector2
 from settings import *
 from support import (import_folder, visible_bottom_pad,
                      clean_sprite_background, asset_path)
-from collision import structure_footprint, structure_blockers
+from collision import (
+	structure_footprint, structure_outline_blockers, structure_front_tiles,
+)
 from sprites import Generic, Interaction
 from world_generator import white_noise, _det_hash, TILES_PER_CHUNK
 
@@ -396,6 +398,13 @@ class VillageGenerator:
 				sprite.image = art[0]
 				sprite.rect = sprite.image.get_rect(center=center)
 				sprite.foot_pad = art[1]
+				ax = sprite.rect.centerx // TILE_SIZE
+				ay = sprite.rect.centery // TILE_SIZE
+				sprite.front_tiles = {
+					(ax + dx, ay + dy)
+					for dx, dy in structure_front_tiles(
+						art[0], art[1], door=(1, 1),
+						radius=STRUCTURE_FRONT_RADIUS)}
 
 	# ---- WORLD-GENERATOR INTERFACE ----
 
@@ -844,17 +853,27 @@ class VillageGenerator:
 			if not art:
 				continue
 			pos = tile_center(*b['anchor'])
-			sprites.append(Building(pos, art[0], [self.all_sprites],
-			                        foot_pad=art[1],
-			                        building_key=b['key']))
-			# Invisible blockers: one run rect per collision-mask row; the doorstep is excluded.
+			ax, ay = b['anchor']
+			building = Building(pos, art[0], [self.all_sprites],
+			                    foot_pad=art[1],
+			                    building_key=b['key'])
+			building.front_tiles = {
+				(ax + dx, ay + dy)
+				for dx, dy in structure_front_tiles(
+					art[0], art[1], door=(1, 1),
+					radius=STRUCTURE_FRONT_RADIUS)}
+			sprites.append(building)
+			# Invisible blockers that trace the authored collision mask's
+			# outline (graphics/world/Collisions); the doorstep is carved
+			# out so the door stays walkable.
 			wx = int(pos.x)
 			wy = int(pos.y)
 			src = _collision_asset(self._assets, b['key']) or art
-			foot = structure_footprint(src[0], src[1], wx, wy)
-			ax, ay = b['anchor']
-			foot.discard((ax + 1, ay + 1))
-			for block in structure_blockers(foot):
+			door = pygame.Rect((ax + 1) * TILE_SIZE, (ay + 1) * TILE_SIZE,
+			                   TILE_SIZE, TILE_SIZE)
+			for block in structure_outline_blockers(
+					src[0], src[1], wx, wy,
+					step=STRUCTURE_COLLISION_STEP, hole=door):
 				blocker = Generic(block.topleft, self._invisible,
 				                  [self.collision_sprites], z=0)
 				blocker.hitbox = block

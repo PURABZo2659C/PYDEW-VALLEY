@@ -1,5 +1,5 @@
 import pygame
-from settings import asset_path, ui_font, ui_scale
+from settings import asset_path, ui_font, hud_scale, HUD_SCALE
 
 # Colors per message role.
 COLORS = {
@@ -17,7 +17,7 @@ class InstructionPanel:
 
 	def __init__(self, display_surface):
 		self.display_surface = display_surface
-		self.font = ui_font(22)
+		self.font = ui_font(22 * HUD_SCALE)
 		self.line_height = self.font.get_linesize()
 
 		self.bg_raw = None
@@ -31,15 +31,18 @@ class InstructionPanel:
 		self.instruction = None   # sticky tutorial step
 		self.hint = None          # sticky contextual hint
 		self.toast = None         # {'text', 'kind', 'remaining'}
+		# Screen limits set by Level each frame so the bar clears the top HUD.
+		self.left_limit = 0
+		self.right_limit = None
 
 		# geometry / animation: flush against the very top edge (no gap)
-		scale = ui_scale()
-		self.height = int(44 * scale)
+		hud = hud_scale()
+		self.height = int(44 * hud)
 		self.max_width_ratio = 0.52
-		self.pad_x = int(28 * scale)
-		self.pad_y = int(7 * scale)
-		self.min_width = int(220 * scale)
-		self._hidden_y = float(-(self.height + 20))
+		self.pad_x = int(28 * hud)
+		self.pad_y = int(7 * hud)
+		self.min_width = int(220 * hud)
+		self._hidden_y = float(-(self.height + int(20 * hud)))
 		self._shown_y = 0.0
 		self._y = self._hidden_y
 		self._target_y = self._hidden_y
@@ -152,6 +155,10 @@ class InstructionPanel:
 			return
 		sw, sh = self.display_surface.get_size()
 		max_width = int(sw * self.max_width_ratio)
+		if self.right_limit is not None:
+			# Keep the whole bar between the weather panel and the top-right buttons.
+			max_width = min(max_width,
+			                max(self.min_width, self.right_limit - self.left_limit))
 
 		# Size the panel to the text, then draw at the current slide position.
 		lines = self._wrap(text, max_width - self.pad_x * 2)
@@ -170,6 +177,10 @@ class InstructionPanel:
 			bg.fill((232, 207, 166, 240))
 			pygame.draw.rect(bg, (144, 98, 93), bg.get_rect(), 2, 8)
 		rect = bg.get_rect(midtop=(sw // 2, y))
+		if self.right_limit is not None and rect.right > self.right_limit:
+			rect.right = self.right_limit
+		if rect.left < self.left_limit:
+			rect.left = self.left_limit
 		self.display_surface.blit(bg, rect)
 
 		color = COLORS.get(kind, COLORS['instruction'])

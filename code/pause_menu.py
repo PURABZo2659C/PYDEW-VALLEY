@@ -2,7 +2,7 @@ import pygame, sys
 import input_manager
 import json
 from settings import *
-from support import play_click, log_once
+from support import play_click, log_once, horizontal_slice_bounds, stretch_horizontal
 
 
 class SettingsMenu:
@@ -97,6 +97,11 @@ class SettingsMenu:
 			self.btn_normal = None
 			self.btn_hovered = None
 			self.btn_raw_size = (0, 0)
+		# Same 9-slice trick as the coords panel: only the flat middle of
+		# a button may stretch, so the rounded ends never distort.
+		self.btn_slices = (horizontal_slice_bounds(self.btn_normal)
+		                   if self.btn_normal else None)
+		self._btn_sprite_cache = {}
 
 		# drag state
 		self._dragging = None  # 'music' or 'sfx'
@@ -623,20 +628,26 @@ class SettingsMenu:
 
 		btn_pad_x = int(40 * scale)
 		btn_draw_h = row_font_size + int(34 * scale)
-		btn_gap = int(10 * scale)
+		btn_gap = int(20 * scale)
 		btn_start_y = y + int(15 * scale)
+
+		def _button_sprite(img, hovered, size):
+			key = (hovered, size)
+			scaled = self._btn_sprite_cache.get(key)
+			if scaled is None:
+				scaled = stretch_horizontal(img, size, self.btn_slices)
+				self._btn_sprite_cache[key] = scaled
+			return scaled
 
 		def _draw_sprite_button(label, cx, cy):
 			text_surf = btn_font.render(label, False, '#5C3A1E')
-			tw = text_surf.get_width()
-			btn_draw_w = tw + btn_pad_x * 2
+			btn_draw_w = text_surf.get_width() + btn_pad_x * 2
 			rect = pygame.Rect(cx - btn_draw_w // 2, cy, btn_draw_w, btn_draw_h)
 			hovered = rect.collidepoint(local_mouse)
 
 			if self.btn_normal and self.btn_hovered:
 				btn_img = self.btn_hovered if hovered else self.btn_normal
-				btn_img_scaled = pygame.transform.scale(btn_img, (btn_draw_w, btn_draw_h))
-				surf.blit(btn_img_scaled, rect)
+				surf.blit(_button_sprite(btn_img, hovered, rect.size), rect)
 			else:
 				bg = (80, 120, 60) if hovered else (60, 90, 40)
 				pygame.draw.rect(surf, bg, rect, 0, 8)
@@ -647,11 +658,12 @@ class SettingsMenu:
 			surf.blit(text_surf, text_surf.get_rect(center=rect.center))
 			return rect
 
-		# Save and Reset side by side, auto-sized to text
+		# Save and Reset side by side, centred as a pair; both use the
+		# same padding so neither button looks stretched or off-balance.
 		save_surf = btn_font.render('Save', False, '#5C3A1E')
 		reset_surf = btn_font.render('Reset Defaults', False, '#5C3A1E')
-		save_w = save_surf.get_width() + btn_pad_x * 6
-		reset_w = reset_surf.get_width() + btn_pad_x * 6
+		save_w = save_surf.get_width() + btn_pad_x * 2
+		reset_w = reset_surf.get_width() + btn_pad_x * 2
 		total_w = save_w + btn_gap + reset_w
 		save_cx = center_x - total_w // 2 + save_w // 2
 		reset_cx = center_x + total_w // 2 - reset_w // 2
@@ -695,7 +707,7 @@ class PauseMenu:
 			w, h = img.get_size()
 			normal = img.subsurface((0, 0, w // 2, h))
 			selected = img.subsurface((w // 2, 0, w // 2, h))
-			scale = 3
+			scale = max(1, int(round(4 * ui_scale())))
 			normal = pygame.transform.scale(normal, (normal.get_width() * scale, normal.get_height() * scale))
 			selected = pygame.transform.scale(selected, (selected.get_width() * scale, selected.get_height() * scale))
 			return {'normal': normal, 'selected': selected}
@@ -758,7 +770,8 @@ class PauseMenu:
 		self.display_surface.blit(self._cached_overlay, (0, 0))
 
 		title_surf = self.font.render('PAUSED', False, 'White')
-		title_rect = title_surf.get_rect(center=(sw / 2, sh / 2 - 140))
+		title_rect = title_surf.get_rect(
+			center=(sw / 2, sh / 2 - int(165 * ui_scale())))
 		self.display_surface.blit(title_surf, title_rect)
 
 		divider_y = title_rect.bottom + 10
@@ -768,35 +781,42 @@ class PauseMenu:
 		mouse_pos = pygame.mouse.get_pos()
 		self.option_rects = []
 
+		scale = ui_scale()
+		start_y = sh / 2 - int(15 * scale)
+		# Same centre-to-centre gap as the title screen's buttons.
+		spacing = int(MENU_BUTTON_SPACING * scale)
+
 		for i, option in enumerate(self.options):
+			cy = start_y + i * spacing
 			surf = self.small_font.render(option, False, 'White')
-			rect = surf.get_rect(center=(sw / 2, sh / 2 - 40 + i * 70))
-			self.option_rects.append(rect)
+			text_rect = surf.get_rect(center=(sw / 2, cy))
+			if self.button_images:
+				btn_img = self.button_images['normal']
+				btn_rect = btn_img.get_rect(center=(sw / 2, cy))
+			else:
+				btn_rect = text_rect.inflate(30, 10)
+			self.option_rects.append(btn_rect)
 
-			selected = i == self.index
-			hovered = rect.collidepoint(mouse_pos)
-
+			hovered = btn_rect.collidepoint(mouse_pos)
 			if hovered:
 				self.index = i
 
 			if self.button_images:
-				btn_img = self.button_images['selected'] if selected else self.button_images['normal']
-				btn_rect = btn_img.get_rect(center=(sw / 2, sh / 2 - 40 + i * 70))
+				btn_img = self.button_images['selected'] if i == self.index else self.button_images['normal']
 				self.display_surface.blit(btn_img, btn_rect)
 				surf = self.small_font.render(option, False, '#5C3A1E')
 				text_rect = surf.get_rect(center=btn_rect.center)
 				self.display_surface.blit(surf, text_rect)
 			else:
-				bg_rect = rect.inflate(30, 10)
-				if selected or hovered:
+				if i == self.index or hovered:
 					btn_color = (58, 90, 32)
 					border_color = (90, 130, 60)
-					pygame.draw.rect(self.display_surface, btn_color, bg_rect, 0, 8)
-					pygame.draw.rect(self.display_surface, border_color, bg_rect, 3, 8)
+					pygame.draw.rect(self.display_surface, btn_color, btn_rect, 0, 8)
+					pygame.draw.rect(self.display_surface, border_color, btn_rect, 3, 8)
 
-				color = '#FFD700' if selected else 'White'
+				color = '#FFD700' if i == self.index else 'White'
 				surf = self.small_font.render(option, False, color)
-				self.display_surface.blit(surf, rect)
+				self.display_surface.blit(surf, text_rect)
 
 	def update(self, events):
 		self._events = events
